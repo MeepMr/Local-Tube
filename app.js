@@ -24,9 +24,4 @@ app.use('/register', registerRouter);
 app.use('/watch', watchRouter);
 app.use('/download', downloadRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
 module.exports = app;

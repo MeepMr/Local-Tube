@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ytdl = require('../bin/getYouTube-dl');
+const youTubeDl = require('../bin/getYouTube-dl');
 
 router.get('/:vid/:name?/', function(req, res) {
 
@@ -11,7 +11,7 @@ router.get('/:vid/:name?/', function(req, res) {
     /* response attachment for triggering download instead of stream */
     res.attachment(`${name}.mp4`);
 
-    ytdl(vid, res);
+    youTubeDl(vid, res);
 });
 
 module.exports = router;

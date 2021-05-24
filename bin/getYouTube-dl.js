@@ -1,6 +1,10 @@
 const {spawn} = require('child_process');
 
-
+/**
+ *
+ * @param videoId {String}
+ * @param output {NodeJS.WritableStream}
+ */
 let youtubeDl = function (videoId, output) {
 
     const youTubeDl = spawn('youtube-dl', [
