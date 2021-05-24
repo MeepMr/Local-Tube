@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res) {
-  res.send('respond with a resource');
+router.get('/:videoId', function(req, res) {
+
+  let {videoId} = req.params;
+  videoId = decodeURIComponent(videoId);
+
+  res.render('video', {title:videoId, videoId:videoId});
 });
 
 module.exports = router;
