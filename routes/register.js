@@ -11,8 +11,7 @@ router.get('/:videoId/:name?/', function(req, res) {
   videoId = decodeURIComponent(videoId);
   name = name ? decodeURIComponent(name) : videoId;
 
-  //TODO set current date
-  let video = new videoObject(name, videoId, new Date('2012-12-12'));
+  let video = new videoObject(name, videoId, new Date());
 
   if(videoData.addVideo(video)) {
 

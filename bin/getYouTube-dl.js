@@ -19,7 +19,7 @@ let youtubeDl = function (videoId, output) {
         '-'//stdin
     ])
         .on('error',err => console.log(err))
-        .on('exit',code => console.log(`Ytdl exited with code ${code}`));
+        .on('exit',code => console.log(`YouTube-Downloader exited with code ${code}`));
 
     /* Setting output pipe first so that we dont lose any bits */
     youTubeDl.stdout.pipe(output).on('error',err => console.log(err));
