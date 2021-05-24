@@ -11,8 +11,10 @@ let youtubeDl = function (videoId, output) {
         '-o',//output
         '-',//stdout
         'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',//best mp4 extension , else best
+        '--no-part', //write directly into the output-file
         '--recode-video',//recode video
         'mp4',//to mp4 if not mp4
+        '-r', '8.5M', // Cap the download to X MByte/s
         '-a',//input stream
         '-'//stdin
     ])
