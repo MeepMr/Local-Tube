@@ -10,17 +10,17 @@
 
 
 ## Introduction
-On my approach to get rid of as many Google-Services as possible, I decided to host my own youtube.
+On my approach to get rid of as many Google-Services as possible, I decided to host my own YouTube.
 Since no creator would upload videos to my crappy website (understandable), I had to come up with a Solution.
-Meet Loacl-Tube, a locally hosted Node.js Web-Server, that downloads and delivers all Videos available on YouTube.
+Meet Local-Tube, a locally hosted Node.js Web-Server, that downloads and delivers all Videos available on YouTube.
 
 ## What it does
 - If you open `www.yourdomain.com/download/<videoId>/<filename>` in your browser, your browser should start to download the YouTube-Video with the matching id
-- When opening `www.youtdomain.com/register/<videoId>` the webserver will register the video-id in its database and dowload it to the specified path.
-You will then presented with a website containing a link to watch the video, as soon as it is downloaded.
-- By opening `www.yourdomain.com/watch/<videoId>` your browser will play the previously downloaded video. And only the video.
-- You can delete a video from the databese and the file-system by navigating to `www.yourdomain.com/delete/<videoId>`
-- And by navigating to `www.yourdomain.com/delete/all` the webserver will delete all regitered videos from the File-System and then wipe its database
+- When opening `www.youtdomain.com/register/<videoId>` the webserver will register the video-id in its database and download it to the specified path.
+You will then be presented with a website containing a link to watch the video, as soon as it is downloaded.
+- By opening `www.yourdomain.com/watch/<videoId>` your browser will play the previously downloaded video.
+- You can delete a video from the database and the file-system by navigating to `www.yourdomain.com/delete/<videoId>`
+- By navigating to `www.yourdomain.com/delete/all` the webserver will delete all registered videos from the File-System and then wipe its database
 
 ## Prerequisite
 
@@ -33,7 +33,7 @@ You will then presented with a website containing a link to watch the video, as 
 
 ### Dependencies for Local-Tube
 - [Git](https://git-scm.com/)
-- [Node.js and npm](nodejs.org)
+- [Node.js and npm](https://nodejs.org)
 - [Youtube-dl](https://ytdl-org.github.io/youtube-dl/download.html)
 - Run `youtube-dl --version` to check if Youtube-dl is installed correctly.
 - [FFmpeg](https://ffmpeg.zeranoe.com/builds/)

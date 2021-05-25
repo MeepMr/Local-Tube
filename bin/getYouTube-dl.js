@@ -30,7 +30,7 @@ let youtubeDl = function (videoId, output) {
         youTubeDl.stdin.on('error',err => console.log(err));
 
         /* Writing video url to stdin for youtube-dl */
-        youTubeDl.stdin.write(`http://www.youtube.com/watch?v=${videoId}`);
+        youTubeDl.stdin.write(`https://www.youtube.com/watch?v=${videoId}`);
 
         /*Closing the input stream; imp, else it waits */
         youTubeDl.stdin.end();
