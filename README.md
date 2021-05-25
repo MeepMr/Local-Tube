@@ -5,8 +5,8 @@
 - [Introduction](https://github.com/MeepMr/Local-Tube/new/master#introduction)
 - [What it does](https://github.com/MeepMr/Local-Tube/new/master#what-it-doeas)
 - [Prerequisites](https://github.com/MeepMr/Local-Tube/new/master#prerequisite)
-- [Installation](https://github.com/MeepMr/Local-Tube/new/master#installation)
-- [License](https://github.com/MeepMr/Local-Tube/new/master#license) Coming soon to a GitHub near you
+- [Installation](https://github.com/MeepMr/Local-Tube/new/master#installation) Coming soon to a GitHub near you
+- [License](https://github.com/MeepMr/Local-Tube/new/master#license)
 
 
 ## Introduction
