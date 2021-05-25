@@ -2,11 +2,11 @@
 
 ## Table-of-Contents
 
-- [Introduction](https://github.com/MeepMr/Local-Tube/new/master#introduction)
-- [What it does](https://github.com/MeepMr/Local-Tube/new/master#what-it-doeas)
-- [Prerequisites](https://github.com/MeepMr/Local-Tube/new/master#prerequisite)
-- [Installation](https://github.com/MeepMr/Local-Tube/new/master#installation) Coming soon to a GitHub near you
-- [License](https://github.com/MeepMr/Local-Tube/new/master#license)
+- [Introduction](https://github.com/MeepMr/Local-Tube/blob/master/README.md#introduction)
+- [What it does](https://github.com/MeepMr/Local-Tube/blob/master/README.md#what-it-doeas)
+- [Prerequisites](https://github.com/MeepMr/Local-Tube/blob/master/README.md#prerequisite)
+- [Installation](https://github.com/MeepMr/Local-Tube/blob/master/README.md#installation) Coming soon to a GitHub near you
+- [License](https://github.com/MeepMr/Local-Tube/blob/master/README.md#license)
 
 
 ## Introduction
