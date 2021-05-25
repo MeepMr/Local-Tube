@@ -3,7 +3,6 @@ const router = express.Router();
 const youTubeDl = require('../bin/getYouTube-dl');
 const videoData = require('../data/dataManager');
 const videoObject = require('../models/Video');
-const fs = require('fs');
 
 router.get('/:videoId/:name?/', function(req, res) {
 
@@ -15,8 +14,9 @@ router.get('/:videoId/:name?/', function(req, res) {
 
   if(videoData.addVideo(video)) {
 
-    let stream = fs.createWriteStream(`${videoData.videoDirectory}/${videoId}.mp4`);
-    youTubeDl(videoId, stream);
+    youTubeDl(videoId, `${videoData.videoDirectory}/${videoId}`)
+        .then(exitCode => console.log(`YouTube-dl exited with code ${exitCode}`))
+        .catch(errorCode => console.log(`YouTube-dl crashed with error ${errorCode}`));
   }
 
   res.send(`${videoData.domain}/watch/${videoId}`);
