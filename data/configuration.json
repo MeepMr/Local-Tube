@@ -1,0 +1,4 @@
+{
+  "domain": "http://www.yourdomain.com",
+  "videoDirectory" : "/NodeTube/public/videos"
+}

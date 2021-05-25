@@ -2,7 +2,7 @@
  * @type {Array.<videoObject>}
  */
 const videoList = require('./videoData.json');
-const videoDirectory = '/Users/justinklein/Library/Mobile Documents/com~apple~CloudDocs/dev/NodeTube/public/videos';
+const configurationFile = require('./configuration.json');
 
 const fs = require('fs');
 
@@ -59,7 +59,7 @@ let deleteVideo = function (videoId) {
     let index = findVideo(videoId);
     if(index !== -1) {
 
-        fs.unlink(`${videoDirectory}/${videoId}.mp4`, () => {}); //Remove Video from the file-System
+        fs.unlink(`${configurationFile.videoDirectory}/${videoId}.mp4`, () => {}); //Remove Video from the file-System
         videoList.splice(index, 1); //Remove video from index
         updateList();
     }
@@ -76,7 +76,7 @@ let deleteAllVideos = function () {
 
     for(let videoId of videoIds) {
 
-        fs.unlink(`${videoDirectory}/${videoId}.mp4`, () => {}); //Remove Video from the file-System
+        fs.unlink(`${configurationFile.videoDirectory}/${videoId}.mp4`, () => {}); //Remove Video from the file-System
     }
 
     videoList.splice(0, videoList.length);
@@ -88,5 +88,5 @@ module.exports.addVideo = addVideo;
 module.exports.findVideo = findVideo;
 module.exports.deleteVideo = deleteVideo;
 module.exports.deleteAllVideos = deleteAllVideos;
-module.exports.domain = 'http://yt.justin-klein.de';
-module.exports.videoDirectory = videoDirectory;
+module.exports.domain = configurationFile.domain;
+module.exports.videoDirectory = configurationFile.videoDirectory;
