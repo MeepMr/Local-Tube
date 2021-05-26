@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const youTubeDl = require('../bin/getYouTube-dl');
-const videoData = require('../data/dataManager');
+const dataManager = require('../data/dataManager');
 const videoObject = require('../models/Video');
-const fs = require('fs');
 
 router.get('/:videoId/:name?/', function(req, res) {
 
@@ -13,13 +12,14 @@ router.get('/:videoId/:name?/', function(req, res) {
 
   let video = new videoObject(name, videoId, new Date());
 
-  if(videoData.addVideo(video)) {
+  if(dataManager.addVideo(video)) {
 
-    let stream = fs.createWriteStream(`${videoData.videoDirectory}/${videoId}.mp4`);
-    youTubeDl(videoId, stream);
+    youTubeDl(videoId, `${dataManager.videoDirectory}/${videoId}`)
+        .then(exitCode => console.log(`YouTube-dl exited with code ${exitCode}`))
+        .catch(errorCode => console.log(`YouTube-dl crashed with error ${errorCode}`));
   }
 
-  res.send(`${videoData.domain}/watch/${videoId}`);
+  res.send(`${dataManager.domain}/watch/${videoId}`);
 });
 
 module.exports = router;

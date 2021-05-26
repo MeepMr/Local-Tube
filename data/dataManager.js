@@ -90,3 +90,5 @@ module.exports.deleteVideo = deleteVideo;
 module.exports.deleteAllVideos = deleteAllVideos;
 module.exports.domain = configurationFile.domain;
 module.exports.videoDirectory = configurationFile.videoDirectory;
+module.exports.tempDuration = configurationFile.temporaryDuration;
+module.exports.resolution = configurationFile.videoHeight;

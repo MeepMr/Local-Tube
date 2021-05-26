@@ -1,37 +1,41 @@
 const {spawn} = require('child_process');
+const resolution = require('../data/dataManager').resolution;
 
 /**
  *
  * @param videoId {String}
- * @param output {WriteStream}
+ * @param output {String}
+ * @returns {Promise.<String>}
  */
 let youtubeDl = function (videoId, output) {
 
-    const youTubeDl = spawn('youtube-dl', [
-        '-o',//output
-        '-',//stdout
-        'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',//best mp4 extension , else best
-        '--no-part', //write directly into the output-file
-        '--recode-video',//recode video
-        'mp4',//to mp4 if not mp4
-        '-r', '8.5M', // Cap the download to X MByte/s
-        '-a',//input stream
-        '-'//stdin
-    ])
-        .on('error',err => console.log(err))
-        .on('exit',code => console.log(`YouTube-Downloader exited with code ${code}`));
+    return new Promise((resolve, reject) => {
 
-    /* Setting output pipe first so that we dont lose any bits */
-    youTubeDl.stdout.pipe(output).on('error',err => console.log(err));
+        const youTubeDl = spawn('youtube-dl', [
+            '-o',//output
+            output,//stdout
+            '-f',
+            `bestvideo[height<=${resolution}][ext=mp4]+bestaudio/bestvideo[height<=${resolution}]+bestaudio/best[ext=mp4]/best`,//best mp4 extension , else best
+            '--recode-video',//recode video
+            'mp4',//to mp4 if not mp4
+            '-r', '8.5M', // Cap the download to X MByte/s
+            '-a',//input stream
+            '-'//stdin
+        ]);
 
-    /*Catching error on stdin */
-    youTubeDl.stdin.on('error',err => console.log(err));
+        /*Register the Promise*/
+        youTubeDl.on('error',reject);
+        youTubeDl.on('exit',resolve);
 
-    /* Writing video url to stdin for youtube-dl */
-    youTubeDl.stdin.write(`http://www.youtube.com/watch?v=${videoId}`);
+        /*Catching error on stdin */
+        youTubeDl.stdin.on('error',err => console.log(err));
 
-    /*Closing the input stream; imp, else it waits */
-    youTubeDl.stdin.end();
+        /* Writing video url to stdin for youtube-dl */
+        youTubeDl.stdin.write(`https://www.youtube.com/watch?v=${videoId}`);
+
+        /*Closing the input stream; imp, else it waits */
+        youTubeDl.stdin.end();
+    });
 };
 
 module.exports = youtubeDl;
