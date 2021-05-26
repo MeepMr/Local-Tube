@@ -1,5 +1,5 @@
 const {spawn} = require('child_process');
-const resolution = require('../data/dataManager').resolution;
+const formatString = require('../data/dataManager').formatString;
 
 /**
  *
@@ -15,7 +15,7 @@ let youtubeDl = function (videoId, output) {
             '-o',//output
             output,//stdout
             '-f',
-            `bestvideo[height<=${resolution}][ext=mp4]+bestaudio/bestvideo[height<=${resolution}]+bestaudio/best[ext=mp4]/best`,//best mp4 extension , else best
+            formatString,//best mp4 extension , else best
             '--recode-video',//recode video
             'mp4',//to mp4 if not mp4
             '-r', '8.5M', // Cap the download to X MByte/s
