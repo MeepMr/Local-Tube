@@ -13,7 +13,6 @@ let downloading = false;
 let addToQueue = function (video) {
 
     queue.push(video);
-    console.log(queue);
 };
 
 let startDownload = async function () {
@@ -25,13 +24,10 @@ let startDownload = async function () {
 
         while (queue.length > 0) {
 
-            console.log('Current Queue: ');
-            console.log(queue);
-
             let nextVideo = queue.pop();
             let videoId = nextVideo.identifier;
 
-            youTubeDl(videoId, `${dataManager.videoDirectory}/${videoId}`);
+            await youTubeDl(videoId, `${dataManager.videoDirectory}/${videoId}`);
 
             nextVideo.downloaded = true;
         }

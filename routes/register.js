@@ -15,7 +15,7 @@ router.get('/:videoId/:name?/', function (req, res) {
     if (dataManager.addVideo(video)) {
 
         downloadManger.addToQueue(video);
-        downloadManger.startDownload().then();
+        downloadManger.startDownload().catch();
     }
 
     res.send(`${dataManager.domain}/watch/${videoId}`);
