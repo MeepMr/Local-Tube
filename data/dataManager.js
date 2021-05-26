@@ -35,7 +35,7 @@ let getVideo = function (videoId) {
 
 let updateList = function () {
 
-    //fs.writeFile('./data/videoData.json', JSON.stringify(videoList), () => {});
+    fs.writeFile('./data/videoData.json', JSON.stringify(videoList), () => {});
 };
 
 /**
