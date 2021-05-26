@@ -7,9 +7,12 @@ router.get('/:videoId/', function(req, res) {
   let {videoId} = req.params;
   videoId = decodeURIComponent(videoId);
 
-  if(videoData.findVideo(videoId)) {
+  if(videoData.findVideo(videoId) !== -1) {
 
     res.sendFile(`${videoData.videoDirectory}/${videoId}.mp4`);
+  } else {
+
+    res.send('Video is not registered');
   }
 });
 
