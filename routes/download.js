@@ -1,17 +1,36 @@
 const express = require('express');
 const router = express.Router();
 const youTubeDl = require('../bin/getYouTube-dl');
+const dataManager = require('../data/dataManager');
+const fs = require('fs');
 
-router.get('/:vid/:name?/', function(req, res) {
+router.get('/:videoId/:name?/',  async function(req, res) {
 
-    let {vid, name} = req.params;
-    vid = decodeURIComponent(vid);
-    name = name ? decodeURIComponent(name) : vid;
+    let {videoId, name} = req.params;
+    videoId = decodeURIComponent(videoId);
+    name = name ? decodeURIComponent(name) : videoId;
 
     /* response attachment for triggering download instead of stream */
     res.attachment(`${name}.mp4`);
 
-    youTubeDl(vid, res);
+    if(dataManager.findVideo(videoId) !== -1) {
+
+        res.sendFile(`${dataManager.videoDirectory}/${name}.mp4`);
+    } else {
+
+        youTubeDl(videoId, `${dataManager.videoDirectory}/temp/${name}`)
+            .then(() => {
+
+                res.sendFile(`${dataManager.videoDirectory}/temp/${name}.mp4`);
+
+                //Delete the downloaded file after the time specified in the config-File in seconds
+                setTimeout(() => {
+
+                    fs.unlinkSync(`${dataManager.videoDirectory}/temp/${name}.mp4`);
+                    }, dataManager.tempDuration * 1000);
+            })
+            .catch(console.log);
+    }
 });
 
 module.exports = router;
