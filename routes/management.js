@@ -31,4 +31,12 @@ managementRouter.get('/newVideos', function (req, res) {
     res.send(newVideosString);
 });
 
+managementRouter.get('/cleanUp/:interval?', function (req, res) {
+
+    let {interval} = req.params;
+    interval = interval ? decodeURIComponent(interval) : 2;
+
+    res.send(`Deleted ${dataManager.deleteOldVideos(interval)} Videos`);
+});
+
 module.exports.managementRouter = managementRouter;

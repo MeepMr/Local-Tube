@@ -100,8 +100,7 @@ let deleteVideo = function (videoId) {
     let index = findVideo(videoId);
     if (index !== -1) {
 
-        fs.unlink(`${configurationFile.videoDirectory}/${videoId}.mp4`, () => {
-        }); //Remove Video from the file-System
+        fs.unlink(`${configurationFile.videoDirectory}/${videoId}.mp4`, () => { }); //Remove Video from the file-System
         videoList.splice(index, 1); //Remove video from index
         updateLists();
     }
@@ -118,8 +117,7 @@ let deleteAllVideos = function () {
 
     for (let videoId of videoIds) {
 
-        fs.unlink(`${configurationFile.videoDirectory}/${videoId}.mp4`, () => {
-        }); //Remove Video from the file-System
+        fs.unlink(`${configurationFile.videoDirectory}/${videoId}.mp4`, () => { }); //Remove Video from the file-System
     }
 
     videoList.splice(0, videoList.length);
@@ -127,14 +125,60 @@ let deleteAllVideos = function () {
     updateLists();
 };
 
+/**
+ * @param interval {Number} Number of Weeks since download
+ * @returns {Number} Number of old videos
+ */
+let deleteOldVideos = function (interval) {
+
+    let oldVideoIds = findOldVideos(interval);
+
+    for(let videoId of oldVideoIds) {
+
+        deleteVideo(videoId);
+    }
+
+    return oldVideoIds.length;
+};
+
+/**
+ * @param interval {Number}
+ * @returns {Array.<String>}
+ */
+let findOldVideos = function (interval) {
+
+    let foundOldVideoIds = [];
+
+    for(let video of videoList) {
+
+        if(weeksSinceDate(video.date) >= interval) {
+
+            foundOldVideoIds.push(video.identifier);
+        }
+    }
+
+    return foundOldVideoIds;
+};
+
+/**
+ * @param date {Date}
+ * @returns {Number}
+ */
+let weeksSinceDate = function (date) {
+
+    let millisecondsSinceDate = Date.now() - new Date(date);
+    return Math.floor(millisecondsSinceDate / 604800000);
+};
+
 module.exports.addVideo = addVideo;
 module.exports.findVideo = findVideo;
 module.exports.getVideo = getVideo;
 module.exports.getNewVideosList = getNewVideos;
 module.exports.deleteVideo = deleteVideo;
+module.exports.deleteOldVideos = deleteOldVideos;
 module.exports.deleteAllVideos = deleteAllVideos;
 module.exports.domain = configurationFile.domain;
 module.exports.videoDirectory = configurationFile.videoDirectory;
 module.exports.tempDuration = configurationFile.temporaryDuration;
 module.exports.formatString = configurationFile.allowEncoding ? `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${configurationFile.videoHeight}]+bestaudio/best[ext=mp4]/best`
-    : `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`;
+                                                              : `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`;
