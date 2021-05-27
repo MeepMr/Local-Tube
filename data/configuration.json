@@ -1,6 +1,7 @@
 {
   "domain": "http://www.yourdomain.com",
   "videoDirectory" : "/NodeTube/public/videos",
-  "videoHeight" : "1080",
-  "temporaryDuration" : "60"
+  "videoHeight" : 1080,
+  "temporaryDuration" : 60,
+  "allowEncoding" : false
 }

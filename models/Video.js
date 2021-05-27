@@ -1,15 +1,16 @@
 /**
- *
  * @param title {String}
  * @param identifier {String}
  * @param date {Date}
+ * @param downloaded {boolean}
  * @constructor
  */
-function videoObject (title, identifier, date) {
+function videoObject(title, identifier, date, downloaded = false) {
 
     this.title = title;
     this.identifier = identifier;
     this.date = date;
+    this.downloaded = downloaded;
 }
 
 module.exports = videoObject;
