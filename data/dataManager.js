@@ -1,6 +1,9 @@
 /** @type {Array.<videoObject>} */
 const videoList = require('./videoData.json');
 
+/** @type {Array.<videoObject>} */
+const newVideos = require('./newVideos.json');
+
 const configurationFile = require('./configuration.json');
 
 const fs = require('fs');
@@ -14,7 +17,8 @@ let addVideo = function (video) {
     if (findVideo(video.identifier) === -1) {
 
         videoList.push(video);
-        updateList();
+        addNewVideoToList(video);
+        updateLists();
         return true;
     } else {
 
@@ -33,9 +37,38 @@ let getVideo = function (videoId) {
     return videoIndex !== -1 ? videoList[videoIndex] : null;
 };
 
-let updateList = function () {
+/**
+ * @param video {videoObject}
+ */
+let addNewVideoToList = function (video) {
+
+    newVideos.push(video);
+};
+
+/**
+ * @returns {String}
+ */
+let getNewVideos = function () {
+
+    let allVideosString = '';
+
+    for (let video of newVideos) {
+
+        allVideosString += `<p>${configurationFile.domain}/watch/${video.identifier}</p>`;
+    }
+
+    //Empty the list of new Videos
+    newVideos.splice(0, newVideos.length);
+
+    updateLists();
+
+    return allVideosString;
+};
+
+let updateLists = function () {
 
     fs.writeFile('./data/videoData.json', JSON.stringify(videoList), () => {});
+    fs.writeFile('./data/newVideos.json', JSON.stringify(newVideos), () => {});
 };
 
 /**
@@ -70,7 +103,7 @@ let deleteVideo = function (videoId) {
         fs.unlink(`${configurationFile.videoDirectory}/${videoId}.mp4`, () => {
         }); //Remove Video from the file-System
         videoList.splice(index, 1); //Remove video from index
-        updateList();
+        updateLists();
     }
 };
 
@@ -91,12 +124,13 @@ let deleteAllVideos = function () {
 
     videoList.splice(0, videoList.length);
 
-    updateList();
+    updateLists();
 };
 
 module.exports.addVideo = addVideo;
 module.exports.findVideo = findVideo;
 module.exports.getVideo = getVideo;
+module.exports.getNewVideosList = getNewVideos;
 module.exports.deleteVideo = deleteVideo;
 module.exports.deleteAllVideos = deleteAllVideos;
 module.exports.domain = configurationFile.domain;

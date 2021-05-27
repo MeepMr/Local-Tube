@@ -6,7 +6,8 @@ const indexRouter = require('./routes/index');
 const registerRouter = require('./routes/register');
 const watchRouter = require('./routes/watch');
 const downloadRouter = require('./routes/download');
-const deleteRouter = require('./routes/delete');
+const deleteRouter = require('./routes/management').deleteRouter;
+const managementRouter = require('./routes/management').managementRouter;
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.use('/register', registerRouter);
 app.use('/watch', watchRouter);
 app.use('/download', downloadRouter);
 app.use('/delete', deleteRouter);
+app.use('/man', managementRouter);
 
 module.exports = app;
