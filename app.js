@@ -9,7 +9,11 @@ const downloadRouter = require('./routes/download');
 const deleteRouter = require('./routes/management').deleteRouter;
 const managementRouter = require('./routes/management').managementRouter;
 
+const dataManager = require('./data/dataManager');
 const app = express();
+
+//Restore Download-Queue after restart
+dataManager.restoreProgress();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

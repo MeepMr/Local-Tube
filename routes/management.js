@@ -39,4 +39,10 @@ managementRouter.get('/cleanUp/:interval?', function (req, res) {
     res.send(`Deleted ${dataManager.deleteOldVideos(interval)} Videos`);
 });
 
+managementRouter.get('/exit', function (req, res) {
+
+    res.send('Shut down server');
+    dataManager.cleanUpAndExit();
+});
+
 module.exports.managementRouter = managementRouter;

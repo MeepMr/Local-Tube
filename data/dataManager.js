@@ -6,6 +6,7 @@ const newVideos = require('./newVideos.json');
 
 const configurationFile = require('./configuration.json');
 const fs = require('fs');
+const downloadManager = require("../bin/downloadManager");
 
 /**
  * @param video {videoObject}
@@ -190,13 +191,39 @@ let weeksSinceDate = function (date) {
     return Math.floor(millisecondsSinceDate / 604800000);
 };
 
+let cleanUpAndExit = function () {
+
+    fs.writeFileSync('./data/videoData.json', JSON.stringify(videoList));
+    fs.writeFileSync('./data/newVideos.json', JSON.stringify(newVideos));
+    process.exit(0);
+};
+
+let restoreProgress = function () {
+
+     for(let video of videoList) {
+
+         if(!video.downloaded) {
+
+             downloadManager.addToQueue(video);
+         }
+     }
+
+     downloadManager.startDownload().catch();
+};
+
 module.exports.addVideo = addVideo;
+
 module.exports.findVideo = findVideo;
 module.exports.getVideo = getVideo;
 module.exports.getNewVideosList = getNewVideos;
+
 module.exports.deleteVideo = deleteVideo;
 module.exports.deleteOldVideos = deleteOldVideos;
 module.exports.deleteAllVideos = deleteAllVideos;
+
+module.exports.cleanUpAndExit = cleanUpAndExit;
+module.exports.restoreProgress = restoreProgress;
+
 module.exports.domain = configurationFile.domain;
 module.exports.videoDirectory = configurationFile.videoDirectory;
 module.exports.tempDuration = configurationFile.temporaryDuration;
