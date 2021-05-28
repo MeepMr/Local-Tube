@@ -225,6 +225,7 @@ module.exports.cleanUpAndExit = cleanUpAndExit;
 module.exports.restoreProgress = restoreProgress;
 
 module.exports.domain = configurationFile.domain;
+module.exports.port = configurationFile.port;
 module.exports.videoDirectory = configurationFile.videoDirectory;
 module.exports.tempDuration = configurationFile.temporaryDuration;
 module.exports.formatString = configurationFile.allowEncoding ? `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${configurationFile.videoHeight}]+bestaudio/best[ext=mp4]/best`
