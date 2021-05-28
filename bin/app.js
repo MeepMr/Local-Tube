@@ -20,7 +20,7 @@ process.on('SIGTERM', dataManager.cleanUpAndExit);
 dataManager.restoreProgress();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
 app.use(express.json());
