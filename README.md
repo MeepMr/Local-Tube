@@ -41,7 +41,28 @@ You will then be presented with a website containing a link to watch the video, 
 - Proceed only if above 2 packages are installed correctly and versions are displayed in terminal.
 
 ## Installation
-Coming soon (tm)
+- Clone the Repository into a Folder on your server
+```
+git clone https://github.com/MeepMr/Local-Tube.git /<direction-to>/<your-folder>
+```
+- edit the Configuration-File in /<your-folder>/data/configuration.json
+    - The `domain` is used to generate links to your Local-Tube server
+    - The `port` is where the Server listens for requests. You should configure port-forwarding
+    in your Router to the server on the specified port
+    - In the specified `videoDirectory` the Server will store all downloaded Videos.
+    Please make sure, the user starting the Server has read- and write-permissions
+    - The `videoHeight` describes the maximum amount of vertical Pixel the downloaded Video
+    is allowed to have
+    - The `temporaryDuration` indicates a temporarily downloaded Video will remain on the
+    File-System before it is being deleted
+    - By toggling the `allowEncoding` option, you can enable the Server to encode the downloaded Videos.
+    Then higher-quality Video- and Audio-files can be downloaded. ***CAUTION: THIS IS VERY RESOURCE-INTENSIVE***
+- make sure the server starts by executing
+```
+ node /<your-folder>/bin/server.js
+ ```
+
+**Further Instructions Coming soon (tm)**
 
 ## License
 
