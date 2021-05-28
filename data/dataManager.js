@@ -5,7 +5,6 @@ const videoList = require('./videoData.json');
 const newVideos = require('./newVideos.json');
 
 const configurationFile = require('./configuration.json');
-
 const fs = require('fs');
 
 /**
@@ -16,9 +15,8 @@ let addVideo = function (video) {
 
     if (findVideo(video.identifier) === -1) {
 
-        videoList.push(video);
-        addNewVideoToList(video);
-        updateLists();
+        addVideoToList(video, videoList);
+        addVideoToList(video, newVideos);
         return true;
     } else {
 
@@ -38,14 +36,6 @@ let getVideo = function (videoId) {
 };
 
 /**
- * @param video {videoObject}
- */
-let addNewVideoToList = function (video) {
-
-    newVideos.push(video);
-};
-
-/**
  * @returns {String}
  */
 let getNewVideos = function () {
@@ -57,11 +47,7 @@ let getNewVideos = function () {
         allVideosString += `<p>${configurationFile.domain}/watch/${video.identifier}</p>`;
     }
 
-    //Empty the list of new Videos
-    newVideos.splice(0, newVideos.length);
-
-    updateLists();
-
+    emptyList(newVideos);
     return allVideosString;
 };
 
@@ -69,6 +55,35 @@ let updateLists = function () {
 
     fs.writeFile('./data/videoData.json', JSON.stringify(videoList), () => {});
     fs.writeFile('./data/newVideos.json', JSON.stringify(newVideos), () => {});
+};
+
+/**
+ * @param video {videoObject}
+ * @param list {Array.<videoObject>}
+ */
+let addVideoToList = function (video, list) {
+
+    list.push(video);
+    updateLists();
+};
+
+/**
+ * @param index {Number}
+ * @param list {Array.<videoObject>}
+ */
+let removeVideoFromList = function (index, list) {
+
+    list.splice(index, 1);
+    updateLists();
+};
+
+/**
+ * @param list {Array.<videoObject>}
+ */
+let emptyList = function (list) {
+
+    list.splice(0, list.length);
+    updateLists();
 };
 
 /**
@@ -100,9 +115,8 @@ let deleteVideo = function (videoId) {
     let index = findVideo(videoId);
     if (index !== -1) {
 
-        fs.unlink(`${configurationFile.videoDirectory}/${videoId}.mp4`, () => { }); //Remove Video from the file-System
-        videoList.splice(index, 1); //Remove video from index
-        updateLists();
+        deleteVideoFromFs(`${configurationFile.videoDirectory}/${videoId}.mp4`);
+        removeVideoFromList(index, videoList);
     }
 };
 
@@ -117,12 +131,18 @@ let deleteAllVideos = function () {
 
     for (let videoId of videoIds) {
 
-        fs.unlink(`${configurationFile.videoDirectory}/${videoId}.mp4`, () => { }); //Remove Video from the file-System
+        deleteVideoFromFs(`${configurationFile.videoDirectory}/${videoId}.mp4`);
     }
 
-    videoList.splice(0, videoList.length);
+    emptyList(videoList);
+};
 
-    updateLists();
+/**
+ * @param path {String}
+ */
+let deleteVideoFromFs = function (path) {
+
+    fs.unlink(path, () => { });
 };
 
 /**
