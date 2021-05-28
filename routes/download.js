@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const youTubeDl = require('../bin/getYouTube-dl');
-const dataManager = require('../data/dataManager');
+
+const youTubeDl = require('../bin/downloadManager').youTubeDl;
+const dataManager = require('../bin/dataManager');
 const fs = require('fs');
 
 router.get('/:videoId/:name?/', async function (req, res) {

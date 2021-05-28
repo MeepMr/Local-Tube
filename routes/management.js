@@ -1,5 +1,5 @@
 const express = require('express');
-const dataManager = require('../data/dataManager');
+const dataManager = require('../bin/dataManager');
 
 const deleteRouter = express.Router();
 

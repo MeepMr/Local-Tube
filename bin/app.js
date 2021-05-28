@@ -2,14 +2,14 @@ const express = require('express');
 const path = require('path');
 
 //Import routers
-const indexRouter = require('./routes/index');
-const registerRouter = require('./routes/register');
-const watchRouter = require('./routes/watch');
-const downloadRouter = require('./routes/download');
-const deleteRouter = require('./routes/management').deleteRouter;
-const managementRouter = require('./routes/management').managementRouter;
+const indexRouter = require('../routes');
+const registerRouter = require('../routes/register');
+const watchRouter = require('../routes/watch');
+const downloadRouter = require('../routes/download');
+const deleteRouter = require('../routes/management').deleteRouter;
+const managementRouter = require('../routes/management').managementRouter;
 
-const dataManager = require('./data/dataManager');
+const dataManager = require('./dataManager');
 const app = express();
 
 //Exit and Restart-Management

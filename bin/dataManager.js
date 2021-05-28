@@ -1,12 +1,12 @@
 /** @type {Array.<videoObject>} */
-const videoList = require('./videoData.json');
+const videoList = require('../data/videoData.json');
 
 /** @type {Array.<videoObject>} */
-const newVideos = require('./newVideos.json');
+const newVideos = require('../data/newVideos.json');
 
-const configurationFile = require('./configuration.json');
+const configurationFile = require('../data/configuration.json');
 const fs = require('fs');
-const downloadManager = require("../bin/downloadManager");
+const downloadManager = require("./downloadManager");
 
 /**
  * @param video {videoObject}
