@@ -12,7 +12,11 @@ const managementRouter = require('./routes/management').managementRouter;
 const dataManager = require('./data/dataManager');
 const app = express();
 
-//Restore Download-Queue after restart
+//Exit and Restart-Management
+process.on('exit', dataManager.cleanUpAndExit);
+process.on('uncaughtException', dataManager.cleanUpAndExit);
+process.on('SIGINT', dataManager.cleanUpAndExit);
+process.on('SIGTERM', dataManager.cleanUpAndExit);
 dataManager.restoreProgress();
 
 // view engine setup
