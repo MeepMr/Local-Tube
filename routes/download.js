@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const youTubeDl = require('../bin/getYouTube-dl');
-const dataManager = require('../data/dataManager');
+
+const youTubeDl = require('../bin/downloadManager').youTubeDl;
+const dataManager = require('../bin/dataManager');
 const fs = require('fs');
 
 router.get('/:videoId/:name?/', async function (req, res) {
@@ -18,7 +19,7 @@ router.get('/:videoId/:name?/', async function (req, res) {
         res.sendFile(`${dataManager.videoDirectory}/${name}.mp4`);
     } else {
 
-        youTubeDl(videoId, `${dataManager.videoDirectory}/temp/${name}`);
+        await youTubeDl(videoId, `${dataManager.videoDirectory}/temp/${name}`);
 
         res.sendFile(`${dataManager.videoDirectory}/temp/${name}.mp4`);
 

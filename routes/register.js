@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const downloadManger = require('../bin/downloadManager');
-const dataManager = require('../data/dataManager');
+const dataManager = require('../bin/dataManager');
 const videoObject = require('../models/Video');
 
 router.get('/:videoId/:name?/', function (req, res) {

@@ -1,5 +1,5 @@
-const youTubeDl = require('../bin/getYouTube-dl');
-const dataManager = require('../data/dataManager');
+const exec = require('child_process').exec;
+const dataManager = require('./dataManager');
 
 /** @type {videoObject[]} */
 let queue = [];
@@ -15,27 +15,50 @@ let addToQueue = function (video) {
     queue.push(video);
 };
 
-let startDownload = async function () {
+let tryDownload = async function () {
 
     if (!downloading) {
 
-        downloading = true;
-        console.log('Download Called');
-
-        while (queue.length > 0) {
-
-            let nextVideo = queue.pop();
-            let videoId = nextVideo.identifier;
-
-            await youTubeDl(videoId, `${dataManager.videoDirectory}/${videoId}`);
-
-            nextVideo.downloaded = true;
-        }
-
-        console.log('Finished');
-        downloading = false;
+        await startDownload();
     }
 };
 
-module.exports.startDownload = startDownload;
+let startDownload = async function () {
+
+    downloading = true;
+
+    while (queue.length > 0) {
+
+        let nextVideo = queue.pop();
+        await downloadVideo(nextVideo);
+        nextVideo.downloaded = true;
+    }
+
+    downloading = false;
+};
+
+/**
+ * @param video {videoObject}
+ */
+let downloadVideo = async function (video) {
+
+    let videoId = video.identifier;
+    await youTubeDl(videoId, `${dataManager.videoDirectory}/${videoId}`);
+};
+
+/**
+ * @param videoId {String}
+ * @param output {String}
+ */
+let youTubeDl = async function (videoId, output) {
+
+    return new Promise( function (resolve, reject) {
+
+        exec(`youtube-dl 'https://www.youtube.com/watch?v=${videoId}' -f '${dataManager.formatString}' -o '${output}'`,
+            (error, buffer) => error ? reject(error) : resolve(buffer));
+    });
+};
+
+module.exports.startDownload = tryDownload;
 module.exports.addToQueue = addToQueue;
+module.exports.youTubeDl = youTubeDl;
