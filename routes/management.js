@@ -1,5 +1,6 @@
 const express = require('express');
 const dataManager = require('../bin/dataManager');
+const downloadManager = require('../bin/downloadManager');
 
 const deleteRouter = express.Router();
 
@@ -43,6 +44,12 @@ managementRouter.get('/exit', function (req, res) {
 
     res.send('Shut down server');
     dataManager.cleanUpAndExit();
+});
+
+managementRouter.get('/saveExit', function (req, res) {
+
+    downloadManager.saveShutdown = true;
+    res.send(`Waiting for ${downloadManager.queue.length} downloads to complete and then shut down`);
 });
 
 module.exports.managementRouter = managementRouter;

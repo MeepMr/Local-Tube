@@ -4,8 +4,11 @@ const dataManager = require('./dataManager');
 /** @type {videoObject[]} */
 let queue = [];
 
-/** @type {boolean} */
+/** @type {Boolean} */
 let downloading = false;
+
+/** @type {Boolean} */
+let saveShutdown = false;
 
 /**
  * @param video {videoObject}
@@ -35,6 +38,11 @@ let startDownload = async function () {
         dataManager.saveState();
     }
 
+    if(saveShutdown) {
+
+        dataManager.cleanUpAndExit();
+    }
+
     downloading = false;
 };
 
@@ -59,6 +67,9 @@ let youTubeDl = async function (videoId, output) {
             (error, buffer) => error ? reject(error) : resolve(buffer));
     });
 };
+
+module.exports.queue = queue;
+module.exports.saveShutdown = saveShutdown;
 
 module.exports.startDownload = tryDownload;
 module.exports.addToQueue = addToQueue;
