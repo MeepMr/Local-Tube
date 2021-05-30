@@ -1,5 +1,5 @@
 const spawn = require('child_process').spawn;
-
+const meepUtils = require('../bin/meep-utils');
 const dataManager = require('./dataManager');
 
 /** @type {Boolean} disable Downloads for development reasons*/
@@ -27,6 +27,12 @@ let tryDownload = async function () {
     if (!downloading && enableDownloads) {
 
         await startDownload();
+    } else if(!enableDownloads) {
+
+        //Simulate a download of 30 Seconds
+        console.log('Download Started');
+        await meepUtils.delay(30*1000);
+        console.log('Download Completed');
     }
 };
 
