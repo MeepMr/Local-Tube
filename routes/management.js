@@ -30,12 +30,13 @@ managementRouter.get('/newVideos', function (req, res) {
     res.send(newVideosString);
 });
 
-managementRouter.get('/cleanUp/:interval?', function (req, res) {
+managementRouter.get('/cleanUp/:interval?/:days?', function (req, res) {
 
-    let {interval} = req.params;
+    let {interval, days} = req.params;
+    days = days ? decodeURIComponent(days) : 0;
     interval = interval ? decodeURIComponent(interval) : 2;
 
-    res.send(`Deleted ${deleteOldVideos(interval)} Videos`);
+    res.send(`Deleted ${deleteOldVideos(interval, days)} Videos`);
 });
 
 managementRouter.get('/exit', function (req, res) {

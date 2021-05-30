@@ -1,6 +1,6 @@
 import fs from 'fs';
 import {addToQueue, tryDownload} from "./downloadManager.js";
-import {weeksSinceDate} from './meep-utils.js';
+import {daysSinceDate, weeksSinceDate} from './meep-utils.js';
 
 /** @type {Array.<videoObject>} */
 const videoList = JSON.parse(fs.readFileSync('./data/videoData.json').toString());
@@ -8,7 +8,10 @@ const videoList = JSON.parse(fs.readFileSync('./data/videoData.json').toString()
 /** @type {Array.<videoObject>} */
 const newVideos = JSON.parse(fs.readFileSync('./data/newVideos.json').toString());
 
+/** @type {{videoHeight:Number, temporaryDuration:Number, allowEncoding:Boolean, downloadTimeout:Number, bitrate:String}}*/
 const configurationFile = JSON.parse(fs.readFileSync('./data/configuration.json').toString());
+
+/** @type {{domain:String, port:String, videoDirectory:String}} */
 const serverConfiguration = JSON.parse(fs.readFileSync('./data/serverConfiguration.json').toString());
 const formatString = configurationFile.allowEncoding ? `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${configurationFile.videoHeight}]+bestaudio/best[ext=mp4]/best`
                                                      : `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`;
@@ -170,11 +173,12 @@ let deleteVideoFromFs = function (path) {
 
 /**
  * @param interval {Number} Number of Weeks since download
+ * @param days {Number} Number of Days
  * @returns {Number} Number of old videos
  */
-let deleteOldVideos = function (interval) {
+let deleteOldVideos = function (interval, days) {
 
-    let oldVideoIds = findOldVideos(interval);
+    let oldVideoIds = findOldVideos(interval, days);
 
     for(let videoId of oldVideoIds) {
 
@@ -186,15 +190,16 @@ let deleteOldVideos = function (interval) {
 
 /**
  * @param interval {Number}
+ * @param days {Number}
  * @returns {Array.<String>}
  */
-let findOldVideos = function (interval) {
+let findOldVideos = function (interval, days) {
 
     let foundOldVideoIds = [];
 
     for(let video of videoList) {
 
-        if(weeksSinceDate(video.date) >= interval) {
+        if(weeksSinceDate(video.date) >= interval && daysSinceDate(video.date) % 7 >= days) {
 
             foundOldVideoIds.push(video.identifier);
         }
