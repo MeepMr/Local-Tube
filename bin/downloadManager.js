@@ -32,6 +32,7 @@ let startDownload = async function () {
         let nextVideo = queue.pop();
         await downloadVideo(nextVideo);
         nextVideo.downloaded = true;
+        dataManager.saveState();
     }
 
     downloading = false;
@@ -61,4 +62,5 @@ let youTubeDl = async function (videoId, output) {
 
 module.exports.startDownload = tryDownload;
 module.exports.addToQueue = addToQueue;
+
 module.exports.youTubeDl = youTubeDl;

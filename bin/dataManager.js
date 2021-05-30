@@ -222,6 +222,7 @@ module.exports.deleteOldVideos = deleteOldVideos;
 module.exports.deleteAllVideos = deleteAllVideos;
 
 module.exports.cleanUpAndExit = cleanUpAndExit;
+module.exports.saveState = updateLists;
 module.exports.restoreProgress = restoreProgress;
 
 module.exports.domain = configurationFile.domain;
