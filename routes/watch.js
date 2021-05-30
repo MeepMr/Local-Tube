@@ -1,20 +1,20 @@
-const express = require('express');
-const router = express.Router();
-const videoData = require('../bin/dataManager');
+import express from 'express';
+const watchRouter = express.Router();
+import {getVideo, serverConfiguration} from '../bin/dataManager.js';
 
-router.get('/:videoId/', function (req, res) {
+watchRouter.get('/:videoId/', function (req, res) {
 
     let {videoId} = req.params;
     videoId = decodeURIComponent(videoId);
 
-    let video = videoData.getVideo(videoId);
+    let video = getVideo(videoId);
 
     if (video === null) {
 
         res.send('Video is not registered');
     } else if (video.downloaded) {
 
-        res.sendFile(`${videoData.videoDirectory}/${videoId}.mp4`);
+        res.sendFile(`${serverConfiguration.videoDirectory}/${videoId}.mp4`);
     } else {
 
         if(video.failed > 0) {
@@ -27,4 +27,4 @@ router.get('/:videoId/', function (req, res) {
     }
 });
 
-module.exports = router;
+export {watchRouter}

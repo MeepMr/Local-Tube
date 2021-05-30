@@ -3,14 +3,14 @@
 /**
  * Module dependencies.
  */
-const app = require('./app');
-const http = require('http');
-const dataManager = require('./dataManager');
+import app from './app.js';
+import http from 'http';
+import {serverConfiguration} from './dataManager.js';
 
 /**
  * Get port from environment and store in Express.
  */
-app.set('port', dataManager.port);
+app.set('port', serverConfiguration.port);
 
 /**
  * Create HTTP server.
@@ -21,9 +21,8 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(dataManager.port);
+server.listen(serverConfiguration.port);
 server.on('listening', onListening);
-
 
 /**
  * Event listener for HTTP server "listening" event.
@@ -31,5 +30,5 @@ server.on('listening', onListening);
 
 function onListening() {
 
-    console.log(`Listening to ${dataManager.domain}:${dataManager.port}`);
+    console.log(`Listening to ${serverConfiguration.domain}:${serverConfiguration.port}`);
 }

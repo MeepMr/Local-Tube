@@ -1,6 +1,6 @@
-const exec = require('child_process').exec;
-const meepUtils = require('../bin/meep-utils');
-const dataManager = require('./dataManager');
+import {exec} from 'child_process';
+import {delay} from './meep-utils.js';
+import {cleanUpAndExit, configurationFile, formatString, saveLists, serverConfiguration} from './dataManager.js';
 
 /** @type {Boolean} disable Downloads for development reasons*/
 const enableDownloads = true;
@@ -31,7 +31,7 @@ let tryDownload = async function () {
 
         //Simulate a download of 30 Seconds
         console.log('Download Started');
-        await meepUtils.delay(30*1000);
+        await delay(30*1000);
         console.log('Download Completed');
     }
 };
@@ -51,12 +51,12 @@ let startDownload = async function () {
             nextVideo.failed++;
             queue.push(nextVideo);
         }
-        dataManager.saveState();
+        saveLists();
     }
 
     if(saveShutdown) {
 
-        dataManager.cleanUpAndExit();
+        cleanUpAndExit();
     }
 
     downloading = false;
@@ -71,8 +71,8 @@ let downloadVideo = async function (video) {
     let videoId = video.identifier;
     try {
 
-        await Promise.race([youTubeDl(videoId, `${dataManager.videoDirectory}/${videoId}`),
-                                    meepUtils.delay(dataManager.downloadTimeout*60*1000, true, 'Download timed out')]);
+        await Promise.race([youTubeDl(videoId, `${serverConfiguration.videoDirectory}/${videoId}`),
+                                    delay(configurationFile.downloadTimeout*60*1000, true, 'Download timed out')]);
         return true;
     } catch (error) {
 
@@ -90,15 +90,10 @@ let youTubeDl = async function (videoId, output) {
 
     return new Promise( function (resolve, reject) {
 
-        exec(`youtube-dl 'https://www.youtube.com/watch?v=${videoId}' -f '${dataManager.formatString}' -r '${dataManager.bitrate}' -o '${output}'`,
+        exec(`youtube-dl 'https://www.youtube.com/watch?v=${videoId}' -f '${formatString}' -r '${configurationFile.bitrate}' -o '${output}'`,
             (error, buffer) => error ? reject(error) : resolve(buffer));
     });
 };
 
-module.exports.queue = queue;
-module.exports.saveShutdown = saveShutdown;
-
-module.exports.startDownload = tryDownload;
-module.exports.addToQueue = addToQueue;
-
-module.exports.youTubeDl = youTubeDl;
+export {queue, saveShutdown}
+export {tryDownload, addToQueue, youTubeDl}

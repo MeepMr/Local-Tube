@@ -14,4 +14,4 @@ function videoObject(title, identifier, date, downloaded = false) {
     this.failed = 0;
 }
 
-module.exports = videoObject;
+export {videoObject}

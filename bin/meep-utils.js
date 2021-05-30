@@ -4,7 +4,7 @@
  * @param val {String}
  * @returns {Promise.<String>}
  */
-module.exports.delay = function (delay, error = false, val = 'Timer') {
+let delay = function (delay, error = false, val = 'Timer') {
 
     return new Promise( function (resolve, reject) {
 
@@ -15,3 +15,25 @@ module.exports.delay = function (delay, error = false, val = 'Timer') {
         }, delay);
     });
 };
+
+/**
+ * @param date {Date}
+ * @returns {Number}
+ */
+let weeksSinceDate = function (date) {
+
+    let millisecondsSinceDate = Date.now() - new Date(date);
+    return Math.floor(millisecondsSinceDate / 604800000);
+};
+
+/**
+ * @param date {Date}
+ * @returns {Number}
+ */
+let daysSinceDate = function (date) {
+
+    let millisecondsSinceDate = Date.now() - new Date(date);
+    return Math.floor(millisecondsSinceDate / 86400000);
+};
+
+export {daysSinceDate, weeksSinceDate, delay}

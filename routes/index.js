@@ -1,11 +1,11 @@
-const express = require('express');
-const IndexRouter = express.Router();
-const dataManager = require('../bin/dataManager');
+import express from 'express';
+const indexRouter = express.Router();
+import {getVideoList} from '../bin/dataManager.js';
 
 /* GET home page. */
-IndexRouter.get('/', function (req, res) {
+indexRouter.get('/', function (req, res) {
 
-    let videoList = dataManager.getVideoList();
+    let videoList = getVideoList();
 
     res.render('index', {
 
@@ -14,4 +14,4 @@ IndexRouter.get('/', function (req, res) {
     });
 });
 
-module.exports = IndexRouter;
+export {indexRouter}

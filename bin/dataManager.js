@@ -1,13 +1,17 @@
-/** @type {Array.<videoObject>} */
-const videoList = require('../data/videoData.json');
+import fs from 'fs';
+import {addToQueue, tryDownload} from "./downloadManager.js";
+import {weeksSinceDate} from './meep-utils.js';
 
 /** @type {Array.<videoObject>} */
-const newVideos = require('../data/newVideos.json');
+const videoList = JSON.parse(fs.readFileSync('./data/videoData.json').toString());
 
-const configurationFile = require('../data/configuration.json');
-const serverConfiguration = require('../data/serverConfiguration.json');
-const fs = require('fs');
-const downloadManager = require("./downloadManager");
+/** @type {Array.<videoObject>} */
+const newVideos = JSON.parse(fs.readFileSync('./data/newVideos.json').toString());
+
+const configurationFile = JSON.parse(fs.readFileSync('./data/configuration.json').toString());
+const serverConfiguration = JSON.parse(fs.readFileSync('./data/serverConfiguration.json').toString());
+const formatString = configurationFile.allowEncoding ? `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${configurationFile.videoHeight}]+bestaudio/best[ext=mp4]/best`
+                                                     : `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`;
 
 /**
  * @param video {videoObject}
@@ -40,7 +44,7 @@ let getVideo = function (videoId) {
 /**
  * @returns {String}
  */
-let getNewVideos = function () {
+let getNewVideosList = function () {
 
     let allVideosString = '';
 
@@ -61,10 +65,19 @@ let getVideoList = function () {
     return videoList;
 };
 
-let updateLists = function () {
+let saveLists = function () {
 
-    fs.writeFile('./data/videoData.json', JSON.stringify(videoList), () => {});
-    fs.writeFile('./data/newVideos.json', JSON.stringify(newVideos), () => {});
+    writeListToFs(videoList, 'videoData');
+    writeListToFs(newVideos, 'newVideos');
+};
+
+/**
+ * @param list {Array.<videoObject>}
+ * @param filename {String}
+ */
+let writeListToFs = function (list, filename) {
+
+    fs.writeFile(`./data/${filename}.json`, JSON.stringify(list), () => {});
 };
 
 /**
@@ -74,7 +87,7 @@ let updateLists = function () {
 let addVideoToList = function (video, list) {
 
     list.push(video);
-    updateLists();
+    saveLists();
 };
 
 /**
@@ -84,7 +97,7 @@ let addVideoToList = function (video, list) {
 let removeVideoFromList = function (index, list) {
 
     list.splice(index, 1);
-    updateLists();
+    saveLists();
 };
 
 /**
@@ -93,7 +106,7 @@ let removeVideoFromList = function (index, list) {
 let emptyList = function (list) {
 
     list.splice(0, list.length);
-    updateLists();
+    saveLists();
 };
 
 /**
@@ -125,7 +138,7 @@ let deleteVideo = function (videoId) {
     let index = findVideo(videoId);
     if (index !== -1) {
 
-        deleteVideoFromFs(`${configurationFile.videoDirectory}/${videoId}.mp4`);
+        deleteVideoFromFs(`${serverConfiguration.videoDirectory}/${videoId}.mp4`);
         removeVideoFromList(index, videoList);
     }
 };
@@ -141,7 +154,7 @@ let deleteAllVideos = function () {
 
     for (let videoId of videoIds) {
 
-        deleteVideoFromFs(`${configurationFile.videoDirectory}/${videoId}.mp4`);
+        deleteVideoFromFs(`${serverConfiguration.videoDirectory}/${videoId}.mp4`);
     }
 
     emptyList(videoList);
@@ -190,16 +203,6 @@ let findOldVideos = function (interval) {
     return foundOldVideoIds;
 };
 
-/**
- * @param date {Date}
- * @returns {Number}
- */
-let weeksSinceDate = function (date) {
-
-    let millisecondsSinceDate = Date.now() - new Date(date);
-    return Math.floor(millisecondsSinceDate / 604800000);
-};
-
 let cleanUpAndExit = function () {
 
     fs.writeFileSync('./data/videoData.json', JSON.stringify(videoList));
@@ -213,34 +216,15 @@ let restoreProgress = function () {
 
          if(!video.downloaded) {
 
-             downloadManager.addToQueue(video);
+             addToQueue(video);
          }
      }
 
-     downloadManager.startDownload().catch();
+     tryDownload().catch();
 };
 
-module.exports.addVideo = addVideo;
-
-module.exports.findVideo = findVideo;
-module.exports.getVideo = getVideo;
-module.exports.getNewVideosList = getNewVideos;
-module.exports.getVideoList = getVideoList;
-
-module.exports.deleteVideo = deleteVideo;
-module.exports.deleteOldVideos = deleteOldVideos;
-module.exports.deleteAllVideos = deleteAllVideos;
-
-module.exports.cleanUpAndExit = cleanUpAndExit;
-module.exports.saveState = updateLists;
-module.exports.restoreProgress = restoreProgress;
-
-module.exports.domain = serverConfiguration.domain;
-module.exports.port = serverConfiguration.port;
-module.exports.videoDirectory = serverConfiguration.videoDirectory;
-
-module.exports.downloadTimeout = configurationFile.downloadTimeout;
-module.exports.tempDuration = configurationFile.temporaryDuration;
-module.exports.bitrate = configurationFile.bitrate;
-module.exports.formatString = configurationFile.allowEncoding ? `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${configurationFile.videoHeight}]+bestaudio/best[ext=mp4]/best`
-                                                              : `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`;
+export {addVideo}
+export {findVideo, getVideo, getVideoList, getNewVideosList}
+export {writeListToFs, saveLists, restoreProgress, cleanUpAndExit}
+export {deleteVideo, deleteOldVideos, deleteAllVideos}
+export {serverConfiguration, configurationFile, formatString}
