@@ -18,7 +18,11 @@ router.get('/:videoId/:name?/', function (req, res) {
         downloadManger.startDownload().catch();
     }
 
-    res.send(`${dataManager.domain}/watch/${videoId}`);
+    res.render('register', {
+
+        link: `${dataManager.domain}/watch/${videoId}`,
+        videoId : videoId
+    });
 });
 
 module.exports = router;

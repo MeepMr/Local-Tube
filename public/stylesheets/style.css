@@ -19,6 +19,12 @@ main {
   flex-wrap: wrap;
 }
 
+a {
+
+  color: var(--textColor);
+  text-decoration: none;
+}
+
 .center {
 
   align-self: center;
@@ -46,7 +52,4 @@ main {
   display: flex;
   height: 100%;
   width: 100%;
-
-  color: var(--textColor);
-  text-decoration: none;
 }
