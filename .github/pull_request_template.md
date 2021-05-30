@@ -7,4 +7,4 @@
 
 - [ ] Add all desired Features
 - [ ] Run Code Inspection
-- [ ] Test Code or 1 day in test-environnement
+- [ ] Test Code or 1 day in test-environment
