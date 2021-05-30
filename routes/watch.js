@@ -17,7 +17,13 @@ router.get('/:videoId/', function (req, res) {
         res.sendFile(`${videoData.videoDirectory}/${videoId}.mp4`);
     } else {
 
-        res.send('Video is still being downloaded');
+        if(video.failed > 0) {
+
+            res.send(`Video is in the download-Queue. Download has failed ${video.failed} times`);
+        } else {
+
+            res.send('Video is still being downloaded');
+        }
     }
 });
 
