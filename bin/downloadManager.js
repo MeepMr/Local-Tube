@@ -72,7 +72,7 @@ let downloadVideo = async function (video) {
     try {
 
         await Promise.race([youTubeDl(videoId, `${dataManager.videoDirectory}/${videoId}`),
-                                    meepUtils.delay(10*60*1000, true, 'Download timed out')]);
+                                    meepUtils.delay(dataManager.downloadTimeout*60*1000, true, 'Download timed out')]);
         return true;
     } catch (error) {
 

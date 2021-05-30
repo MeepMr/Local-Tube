@@ -5,6 +5,7 @@ const videoList = require('../data/videoData.json');
 const newVideos = require('../data/newVideos.json');
 
 const configurationFile = require('../data/configuration.json');
+const serverConfiguration = require('../data/serverConfiguration.json');
 const fs = require('fs');
 const downloadManager = require("./downloadManager");
 
@@ -234,9 +235,11 @@ module.exports.cleanUpAndExit = cleanUpAndExit;
 module.exports.saveState = updateLists;
 module.exports.restoreProgress = restoreProgress;
 
-module.exports.domain = configurationFile.domain;
-module.exports.port = configurationFile.port;
-module.exports.videoDirectory = configurationFile.videoDirectory;
+module.exports.domain = serverConfiguration.domain;
+module.exports.port = serverConfiguration.port;
+module.exports.videoDirectory = serverConfiguration.videoDirectory;
+
+module.exports.downloadTimeout = configurationFile.downloadTimeout;
 module.exports.tempDuration = configurationFile.temporaryDuration;
 module.exports.formatString = configurationFile.allowEncoding ? `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${configurationFile.videoHeight}]+bestaudio/best[ext=mp4]/best`
                                                               : `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`;
