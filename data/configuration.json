@@ -4,5 +4,6 @@
   "videoDirectory": "/NodeTube/public/videos",
   "videoHeight": 1080,
   "temporaryDuration": 60,
-  "allowEncoding": false
+  "allowEncoding": false,
+  "downloadTimeout": 2
 }
