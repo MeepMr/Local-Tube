@@ -73,7 +73,7 @@ let youTubeDl = async function (videoId, output) {
 
     return new Promise( function (resolve, reject) {
 
-        const dl = spawn('youtube-dl', [`https://www.youtube.com/watch?v=${videoId}`, '-f', `${dataManager.formatString}`, '-o', `${output}`]);
+        const dl = spawn('youtube-dl', [`https://www.youtube.com/watch?v=${videoId}`, '-f', `${dataManager.formatString}`, '-o', `${output}`, '-r', '4.5M']);
 
         dl.on('error', reject);
         dl.on('exit', resolve);
