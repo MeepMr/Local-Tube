@@ -43,8 +43,14 @@ let startDownload = async function () {
     while (queue.length > 0) {
 
         let nextVideo = queue.pop();
-        await downloadVideo(nextVideo);
-        nextVideo.downloaded = true;
+        let success = await downloadVideo(nextVideo);
+        if(success) {
+            nextVideo.downloaded = true;
+        } else {
+
+            nextVideo.failed = nextVideo.failed ? nextVideo.failed++ : 1;
+            queue.push(nextVideo);
+        }
         dataManager.saveState();
     }
 
@@ -58,16 +64,27 @@ let startDownload = async function () {
 
 /**
  * @param video {videoObject}
+ * @returns {Boolean}
  */
 let downloadVideo = async function (video) {
 
     let videoId = video.identifier;
-    await youTubeDl(videoId, `${dataManager.videoDirectory}/${videoId}`).catch(error => console.log(`YouTube-Dl exited with error ${error}`));
+    try {
+
+        await Promise.race([youTubeDl(videoId, `${dataManager.videoDirectory}/${videoId}`),
+                                    meepUtils.delay(10*60*1000, true, 'Download timed out')]);
+        return true;
+    } catch (error) {
+
+        console.log(`Download Errored: ${error}`);
+        return false;
+    }
 };
 
 /**
  * @param videoId {String}
  * @param output {String}
+ * @returns {Promise.<String>}
  */
 let youTubeDl = async function (videoId, output) {
 

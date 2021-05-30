@@ -1,11 +1,17 @@
 /**
  * @param delay {Number} Delay in ms
- * @returns {Promise<>}
+ * @param error {boolean}
+ * @param val {String}
+ * @returns {Promise.<String>}
  */
-module.exports.delay = function (delay) {
+module.exports.delay = function (delay, error = false, val = 'Timer') {
 
-    return new Promise( function (resolve) {
+    return new Promise( function (resolve, reject) {
 
-        setTimeout(resolve, delay);
+        setTimeout(function () {
+
+            if(error) reject(val);
+            else resolve(val);
+        }, delay);
     });
 };
