@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="de">
     <head>
-        <title><%= title %></title>
+        <title><%=title;%></title>
         <link rel='stylesheet' href='/stylesheets/style.css'/>
     </head>
     <body>
-        <h1><%= title %></h1>
-        <p>Welcome to <%= title %></p>
+        <h1><%=title;%></h1>
+        <p>Welcome to <%=title;%></p>
         <main>
         <% for (let video of videos) { %>
                 <div class="videoContainer">
-                    <a class="videoLink" href="/watch/<%= video.identifier %>">
-                        <p class="center"><%= video.identifier %>
+                    <a class="videoLink" href="/watch/<%=video.identifier;%>">
+                        <p class="center"><%=video.identifier;%>
+                            <%let date = new Date(video.date);%>
+                            <br/>Downloaded on <%=date.getDate();%>.<%=date.getMonth()+1;%>.<%=date.getFullYear();%>
                         <% if(!video.downloaded) { %>
                                 <br/> <span class="downloading"> Still being downloaded</span>
                         <% } %>
