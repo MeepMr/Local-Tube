@@ -1,6 +1,9 @@
 const exec = require('child_process').exec;
 const dataManager = require('./dataManager');
 
+/** @type {Boolean} disable Downloads for development reasons*/
+const enableDownloads = true;
+
 /** @type {videoObject[]} */
 let queue = [];
 
@@ -20,7 +23,7 @@ let addToQueue = function (video) {
 
 let tryDownload = async function () {
 
-    if (!downloading) {
+    if (!downloading && enableDownloads) {
 
         await startDownload();
     }
