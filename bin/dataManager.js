@@ -52,6 +52,14 @@ let getNewVideos = function () {
     return allVideosString;
 };
 
+/**
+ * @returns {Array<videoObject>}
+ */
+let getVideoList = function () {
+
+    return videoList;
+};
+
 let updateLists = function () {
 
     fs.writeFile('./data/videoData.json', JSON.stringify(videoList), () => {});
@@ -216,6 +224,7 @@ module.exports.addVideo = addVideo;
 module.exports.findVideo = findVideo;
 module.exports.getVideo = getVideo;
 module.exports.getNewVideosList = getNewVideos;
+module.exports.getVideoList = getVideoList;
 
 module.exports.deleteVideo = deleteVideo;
 module.exports.deleteOldVideos = deleteOldVideos;

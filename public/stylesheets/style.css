@@ -1,8 +1,52 @@
+:root {
+
+  --textColor: rgba(243, 240, 240, 0.91);
+  --itemBackground: rgba(116,116,116,0.71);
+  --neonRed: rgb(255, 0, 30);
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #070707;
+  color: var(--textColor);
 }
 
-a {
-  color: #00B7FF;
+main {
+
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+}
+
+.center {
+
+  align-self: center;
+  vertical-align: center;
+  text-align: center;
+  width: 100%;
+}
+
+.downloading {
+
+  color: var(--neonRed);
+}
+
+.videoContainer {
+
+  height: 300px;
+  width: 500px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  background-color: var(--itemBackground);
+}
+
+.videoLink {
+
+  display: flex;
+  height: 100%;
+  width: 100%;
+
+  color: var(--textColor);
+  text-decoration: none;
 }

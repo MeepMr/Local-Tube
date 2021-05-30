@@ -1,9 +1,17 @@
 const express = require('express');
-const router = express.Router();
+const IndexRouter = express.Router();
+const dataManager = require('../bin/dataManager');
 
 /* GET home page. */
-router.get('/', function (req, res) {
-    res.render('index', {title: 'Local-Tube'});
+IndexRouter.get('/', function (req, res) {
+
+    let videoList = dataManager.getVideoList();
+
+    res.render('index', {
+
+        title: 'Local-Tube',
+        videos: videoList
+    });
 });
 
-module.exports = router;
+module.exports = IndexRouter;

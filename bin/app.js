@@ -1,13 +1,7 @@
 const express = require('express');
 const path = require('path');
 
-//Import routers
-const indexRouter = require('../routes');
-const registerRouter = require('../routes/register');
-const watchRouter = require('../routes/watch');
-const downloadRouter = require('../routes/download');
-const deleteRouter = require('../routes/management').deleteRouter;
-const managementRouter = require('../routes/management').managementRouter;
+
 
 const dataManager = require('./dataManager');
 const app = express();
@@ -27,12 +21,25 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Register the Routers
+app.use('/stylesheets', express.static(`${__dirname}/../public/stylesheets`));
+
+//Manage Routers
+const indexRouter = require('../routes');
 app.use('/', indexRouter);
+
+const registerRouter = require('../routes/register');
 app.use('/register', registerRouter);
+
+const watchRouter = require('../routes/watch');
 app.use('/watch', watchRouter);
+
+const downloadRouter = require('../routes/download');
 app.use('/download', downloadRouter);
+
+const deleteRouter = require('../routes/management').deleteRouter;
 app.use('/delete', deleteRouter);
+
+const managementRouter = require('../routes/management').managementRouter;
 app.use('/man', managementRouter);
 
 module.exports = app;
