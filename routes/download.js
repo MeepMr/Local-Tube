@@ -17,14 +17,20 @@ router.get('/:videoId/:name?/', async function (req, res) {
 
     } else {
 
-        await youTubeDl(videoId, `${dataManager.videoDirectory}/temp/${videoId}`).catch(error => `YouTube-Dl errored with ${error}`);
-        res.redirect(`/download/file/${videoId}/${name}`);
+        res.render('download', {
 
-        //Delete the downloaded file after the time specified in the config-File in seconds
+            link: `${dataManager.domain}/download/file/${videoId}/${name}`,
+            videoId: videoId,
+            name: name,
+        });
+
+        await youTubeDl(videoId, `${dataManager.videoDirectory}/temp/${videoId}`).catch(error => `YouTube-Dl errored with ${error}`);
+
+        //Delete the downloaded file after the time specified in the config-File in minutes
         setTimeout(() => {
 
             fs.unlinkSync(`${dataManager.videoDirectory}/temp/${videoId}.mp4`);
-        }, dataManager.tempDuration * 1000);
+        }, dataManager.tempDuration * 60 * 1000);
     }
 });
 
@@ -34,7 +40,13 @@ router.get('/file/:videoId/:name/', function (req, res) {
     videoId = decodeURIComponent(videoId);
     name = decodeURIComponent(name);
 
-    sendDownloadedVideo(res, videoId, name, false);
+    if(fs.existsSync(`${dataManager.videoDirectory}/temp/${videoId}.mp4`)) {
+
+        sendDownloadedVideo(res, videoId, name, false);
+    } else {
+
+        res.send('Video is still being downloaded');
+    }
 });
 
 /**
