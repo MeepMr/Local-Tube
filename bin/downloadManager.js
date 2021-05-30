@@ -1,4 +1,5 @@
-const exec = require('child_process').exec;
+const spawn = require('child_process').spawn;
+
 const dataManager = require('./dataManager');
 
 /** @type {Boolean} disable Downloads for development reasons*/
@@ -55,7 +56,7 @@ let startDownload = async function () {
 let downloadVideo = async function (video) {
 
     let videoId = video.identifier;
-    await youTubeDl(videoId, `${dataManager.videoDirectory}/${videoId}`);
+    await youTubeDl(videoId, `${dataManager.videoDirectory}/${videoId}`).catch(error => console.log(`YouTube-Dl exited with error ${error}`));
 };
 
 /**
@@ -66,8 +67,10 @@ let youTubeDl = async function (videoId, output) {
 
     return new Promise( function (resolve, reject) {
 
-        exec(`youtube-dl 'https://www.youtube.com/watch?v=${videoId}' -f '${dataManager.formatString}' -o '${output}'`,
-            (error, buffer) => error ? reject(error) : resolve(buffer));
+        const dl = spawn('youtube-dl', [`https://www.youtube.com/watch?v=${videoId}`, '-f', `${dataManager.formatString}`, '-o', `${output}`]);
+
+        dl.on('error', reject);
+        dl.on('exit', resolve);
     });
 };
 
