@@ -1,4 +1,4 @@
-const spawn = require('child_process').spawn;
+const exec = require('child_process').exec;
 const meepUtils = require('../bin/meep-utils');
 const dataManager = require('./dataManager');
 
@@ -48,7 +48,7 @@ let startDownload = async function () {
             nextVideo.downloaded = true;
         } else {
 
-            nextVideo.failed = nextVideo.failed ? nextVideo.failed++ : 1;
+            nextVideo.failed++;
             queue.push(nextVideo);
         }
         dataManager.saveState();
@@ -90,10 +90,8 @@ let youTubeDl = async function (videoId, output) {
 
     return new Promise( function (resolve, reject) {
 
-        const dl = spawn('youtube-dl', [`https://www.youtube.com/watch?v=${videoId}`, '-f', `${dataManager.formatString}`, '-o', `${output}`, '-r', '4.5M']);
-
-        dl.on('error', reject);
-        dl.on('exit', resolve);
+        exec(`youtube-dl 'https://www.youtube.com/watch?v=${videoId}' -f '${dataManager.formatString}' -r '${dataManager.bitrate}' -o '${output}'`,
+            (error, buffer) => error ? reject(error) : resolve(buffer));
     });
 };
 

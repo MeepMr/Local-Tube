@@ -241,5 +241,6 @@ module.exports.videoDirectory = serverConfiguration.videoDirectory;
 
 module.exports.downloadTimeout = configurationFile.downloadTimeout;
 module.exports.tempDuration = configurationFile.temporaryDuration;
+module.exports.bitrate = configurationFile.bitrate;
 module.exports.formatString = configurationFile.allowEncoding ? `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${configurationFile.videoHeight}]+bestaudio/best[ext=mp4]/best`
                                                               : `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`;
