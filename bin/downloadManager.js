@@ -1,6 +1,15 @@
 import {exec} from 'child_process';
 import {delay} from './meep-utils.js';
-import {cleanUpAndExit, configurationFile, formatString, saveLists, serverConfiguration} from './dataManager.js';
+import {
+    addVideoToList,
+    cleanUpAndExit,
+    configurationFile,
+    formatString,
+    saveLists,
+    serverConfiguration
+} from './dataManager.js';
+import {addToFailedList, getReadyVideos} from "./failedDownloads";
+import {failedDownloads, newVideos} from "./dataFiles";
 
 /** @type {Boolean} disable Downloads for development reasons*/
 const enableDownloads = true;
@@ -46,12 +55,29 @@ let startDownload = async function () {
         let success = await downloadVideo(nextVideo);
         if(success) {
             nextVideo.downloaded = true;
+            if(nextVideo.lastDownload !== undefined) {
+
+                nextVideo.date = new Date();
+                addVideoToList(nextVideo, newVideos);
+            }
         } else {
 
             nextVideo.failed++;
-            queue.push(nextVideo);
+
+            if(nextVideo.failed < 10)
+                queue.push(nextVideo);
+             else
+                addToFailedList(nextVideo);
         }
         saveLists();
+
+        if(queue.length === 0 && failedDownloads.length > 0 ) {
+
+            for(let video of getReadyVideos()) {
+
+                queue.push(video);
+            }
+        }
     }
 
     if(saveShutdown) {

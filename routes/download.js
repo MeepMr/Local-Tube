@@ -2,7 +2,7 @@ import express from 'express';
 const downloadRouter = express.Router();
 
 import {youTubeDl} from '../bin/downloadManager.js';
-import {findVideo, serverConfiguration} from '../bin/dataManager.js';
+import {configurationFile, findVideo, serverConfiguration} from '../bin/dataManager.js';
 import fs from 'fs'
 
 downloadRouter.get('/:videoId/:name?/', async function (req, res) {
@@ -30,7 +30,7 @@ downloadRouter.get('/:videoId/:name?/', async function (req, res) {
         setTimeout(() => {
 
             fs.unlinkSync(`${serverConfiguration.videoDirectory}/temp/${videoId}.mp4`);
-        }, tempDuration * 60 * 1000);
+        }, configurationFile.temporaryDuration * 60 * 1000);
     }
 });
 
@@ -40,7 +40,7 @@ downloadRouter.get('/file/:videoId/:name/', function (req, res) {
     videoId = decodeURIComponent(videoId);
     name = decodeURIComponent(name);
 
-    if(fs.existsSync(`${dataManager.serverConfiguration.videoDirectory}/temp/${videoId}.mp4`)) {
+    if(fs.existsSync(`${serverConfiguration.videoDirectory}/temp/${videoId}.mp4`)) {
 
         sendDownloadedVideo(res, videoId, name, false);
     } else {
@@ -60,9 +60,9 @@ let sendDownloadedVideo = function(res, videoId, fileName, registered) {
     res.attachment(`${fileName}.mp4`);
 
     if(registered)
-        res.sendFile(`${dataManager.serverConfiguration.videoDirectory}/${videoId}.mp4`);
+        res.sendFile(`${serverConfiguration.videoDirectory}/${videoId}.mp4`);
     else
-        res.sendFile(`${dataManager.serverConfiguration.videoDirectory}/temp/${videoId}.mp4`);
+        res.sendFile(`${serverConfiguration.videoDirectory}/temp/${videoId}.mp4`);
 };
 
 export {downloadRouter}

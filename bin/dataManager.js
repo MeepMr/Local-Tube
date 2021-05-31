@@ -1,5 +1,12 @@
 import {daysSinceDate, weeksSinceDate} from './meep-utils.js';
-import {configurationFile, serverConfiguration, videoList, newVideos, deleteVideoFromFs} from './dataFiles.js';
+import {
+    configurationFile,
+    serverConfiguration,
+    videoList,
+    newVideos,
+    deleteVideoFromFs,
+    failedDownloads
+} from './dataFiles.js';
 import {writeListToFs} from "./dataFiles.js";
 
 const formatString = configurationFile.allowEncoding ? `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${configurationFile.videoHeight}]+bestaudio/best[ext=mp4]/best`
@@ -61,6 +68,7 @@ let saveLists = function () {
 
     writeListToFs(videoList, 'videoData');
     writeListToFs(newVideos, 'newVideos');
+    writeListToFs(failedDownloads, 'failedDownloads');
 };
 
 /**
@@ -182,7 +190,7 @@ let findOldVideos = function (interval, days) {
 
 export {addVideo}
 export {findVideo, getVideo, getVideoList, getNewVideosList}
-export {writeListToFs, saveLists}
+export {writeListToFs, saveLists, removeVideoFromList, addVideoToList}
 export {restoreProgress, cleanUpAndExit} from './startup-exit.js';
 export {deleteVideo, deleteOldVideos, deleteAllVideos}
 export {serverConfiguration, configurationFile, formatString}
