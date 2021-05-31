@@ -52,8 +52,8 @@ let startDownload = async function () {
     while (queue.length > 0) {
 
         let nextVideo = queue.pop();
-        let success = await downloadVideo(nextVideo);
-        success = success && await downloadThumbnail(nextVideo);
+        let success = await downloadThumbnail(nextVideo);
+        success = success && await downloadVideo(nextVideo);
         if(success) {
             nextVideo.downloaded = true;
             if(nextVideo.lastDownload !== undefined) {
@@ -116,7 +116,7 @@ let downloadThumbnail = async function (video) {
     let videoId = video.identifier;
     try {
 
-        await Promise.race([youTubeDl(`https://www.youtube.com/watch?v=${videoId}`, `${serverConfiguration.videoDirectory}/${videoId}`, '--write-thumbnail --skip-download'),
+        await Promise.race([youTubeDl(`https://www.youtube.com/watch?v=${videoId}`, `${serverConfiguration.videoDirectory}/${videoId}`, `--write-thumbnail --skip-download -f 'best[ext=jpg]/best[ext=webp]/best'`),
             delay(configurationFile.downloadTimeout*60*1000, true, 'Download timed out')]);
         return true;
     } catch (error) {

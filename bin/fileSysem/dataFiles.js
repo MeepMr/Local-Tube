@@ -30,7 +30,13 @@ let writeListToFs = function (list, filename) {
 let deleteVideoFromFs = function (videoId) {
 
     fs.unlink(`${serverConfiguration.videoDirectory}/${videoId}.mp4`, () => { });
-    fs.unlink(`${serverConfiguration.videoDirectory}/${videoId}.jpg`, () => { });
+    if(fs.existsSync(`${serverConfiguration.videoDirectory}/${videoId}.jpg`)) {
+
+        fs.unlink(`${serverConfiguration.videoDirectory}/${videoId}.jpg`, () => { });
+    } else {
+
+        fs.unlink(`${serverConfiguration.videoDirectory}/${videoId}.webp`, () => { });
+    }
 };
 
 export {videoList, newVideos, failedDownloads, configurationFile, serverConfiguration}

@@ -6,29 +6,18 @@
 import app from './web-server/app.js';
 import http from 'http';
 import {serverConfiguration} from './fileSysem/dataFiles.js';
+import express from "express";
 
-/**
- * Get port from environment and store in Express.
- */
 app.set('port', serverConfiguration.port);
 
-/**
- * Create HTTP server.
- */
 const server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+app.use('/stylesheets', express.static('./public/stylesheets'));
+app.use('/thumbnails', express.static(serverConfiguration.videoDirectory));
+app.use('/videos', express.static(serverConfiguration.videoDirectory));
 
 server.listen(serverConfiguration.port);
-server.on('listening', onListening);
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-
-function onListening() {
+server.on('listening', function () {
 
     console.log(`Listening to ${serverConfiguration.domain}:${serverConfiguration.port}`);
-}
+});

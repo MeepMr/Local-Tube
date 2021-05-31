@@ -1,5 +1,4 @@
 import express from 'express';
-import {serverConfiguration} from "../fileSysem/dataFiles.js";
 const app = express();
 
 //Exit and Restart-Management
@@ -16,8 +15,6 @@ app.set('view engine', 'ejs');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use('/stylesheets', express.static('./public/stylesheets'));
-app.use('/thumbnails', express.static(serverConfiguration.videoDirectory));
 
 //Manage Routers
 import {indexRouter, deleteRouter, downloadRouter, watchRouter, registerRouter, managementRouter} from './routerManager.js';
