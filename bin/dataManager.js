@@ -53,7 +53,7 @@ let getNewVideosList = function () {
 
     for (let video of newVideos) {
 
-        allVideosString += `<p>${configurationFile.domain}/watch/${video.identifier}</p>`;
+        allVideosString += `<p>${serverConfiguration.domain}/watch/${video.identifier}</p>`;
     }
 
     emptyList(newVideos);
