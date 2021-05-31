@@ -53,6 +53,7 @@ let startDownload = async function () {
 
         let nextVideo = queue.pop();
         let success = await downloadVideo(nextVideo);
+        success = success && await downloadThumbnail(nextVideo);
         if(success) {
             nextVideo.downloaded = true;
             if(nextVideo.lastDownload !== undefined) {
@@ -96,8 +97,7 @@ let downloadVideo = async function (video) {
 
     let videoId = video.identifier;
     try {
-
-        await Promise.race([youTubeDl(videoId, `${serverConfiguration.videoDirectory}/${videoId}`),
+        await Promise.race([youTubeDl(`https://www.youtube.com/watch?v=${videoId}`, `${serverConfiguration.videoDirectory}/${videoId}`, `-f '${formatString}'`),
                                     delay(configurationFile.downloadTimeout*60*1000, true, 'Download timed out')]);
         return true;
     } catch (error) {
@@ -108,15 +108,35 @@ let downloadVideo = async function (video) {
 };
 
 /**
- * @param videoId {String}
+ * @param video {videoObject}
+ * @returns {Boolean}
+ */
+let downloadThumbnail = async function (video) {
+
+    let videoId = video.identifier;
+    try {
+
+        await Promise.race([youTubeDl(`https://www.youtube.com/watch?v=${videoId}`, `${serverConfiguration.videoDirectory}/${videoId}`, '--write-thumbnail --skip-download'),
+            delay(configurationFile.downloadTimeout*60*1000, true, 'Download timed out')]);
+        return true;
+    } catch (error) {
+
+        console.log(`Download Errored: ${error}`);
+        return false;
+    }
+};
+
+/**
+ * @param url {String}
  * @param output {String}
+ * @param [options] {String}
  * @returns {Promise.<String>}
  */
-let youTubeDl = async function (videoId, output) {
+let youTubeDl = async function (url, output, options = '') {
 
     return new Promise( function (resolve, reject) {
 
-        exec(`youtube-dl 'https://www.youtube.com/watch?v=${videoId}' -f '${formatString}' -r '${configurationFile.bitrate}' -o '${output}'`,
+        exec(`youtube-dl '${url}' -r '${configurationFile.bitrate}' ${options} -o '${output}'`,
             (error, buffer) => error ? reject(error) : resolve(buffer));
     });
 };

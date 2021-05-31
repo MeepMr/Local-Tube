@@ -25,11 +25,12 @@ let writeListToFs = function (list, filename) {
 };
 
 /**
- * @param path {String}
+ * @param videoId {String}
  */
-let deleteVideoFromFs = function (path) {
+let deleteVideoFromFs = function (videoId) {
 
-    fs.unlink(path, () => { });
+    fs.unlink(`${serverConfiguration.videoDirectory}/${videoId}.mp4`, () => { });
+    fs.unlink(`${serverConfiguration.videoDirectory}/${videoId}.jpg`, () => { });
 };
 
 export {videoList, newVideos, failedDownloads, configurationFile, serverConfiguration}

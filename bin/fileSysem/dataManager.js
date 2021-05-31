@@ -129,7 +129,7 @@ let deleteVideo = function (videoId) {
     let index = findVideo(videoId);
     if (index !== -1) {
 
-        deleteVideoFromFs(`${serverConfiguration.videoDirectory}/${videoId}.mp4`);
+        deleteVideoFromFs(videoId);
         removeVideoFromList(index, videoList);
     }
 };
