@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <title>Feedback <%=usage;%></title>
+        <link rel='stylesheet' href='/stylesheets/style.css'/>
+        <link rel='stylesheet' href='/stylesheets/feedback-style.css'/>
+    </head>
+    <body>
+        <h1 id="title"><%=usage;%> - Feedback</h1>
+        <main id="feedback">
+            <% if(response) { %>
+                <p><%=responseMessage;%></p>
+            <% } else { %>
+                <form method="post" target="/respond">
+                <% let index = 1; for (let question of questions) { %>
+                    <label for="question<%=index;%>" class="feedback-label"><%=question;%></label>
+                    <textarea rows="5" cols="80" name="question<%=index;%>"
+                              id="question<%=index;%>" maxlength="160"
+                              class="feedback-text"
+                    ></textarea>
+                <% index++; } %>
+                    <button type="submit" formtarget="_self" class="feedback-button">Send Feedback</button>
+                </form>
+            <% } %>
+        </main>
+    </body>
+</html>

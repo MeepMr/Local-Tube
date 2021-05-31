@@ -3,21 +3,37 @@
 /**
  * Module dependencies.
  */
-import app from './web-server/app.js';
 import http from 'http';
-import {serverConfiguration} from './fileSysem/dataFiles.js';
 import express from "express";
 
-app.set('port', serverConfiguration.port);
+import localTube from './web-server/local-tube.js';
 
-const server = http.createServer(app);
+import {serverConfiguration} from './fileSysem/dataFiles.js';
+localTube.set('port', serverConfiguration.port);
 
-app.use('/stylesheets', express.static('./public/stylesheets'));
-app.use('/thumbnails', express.static(serverConfiguration.videoDirectory));
-app.use('/videos', express.static(serverConfiguration.videoDirectory));
 
-server.listen(serverConfiguration.port);
-server.on('listening', function () {
+const LocalTubeServer = http.createServer(localTube);
+
+
+localTube.use('/stylesheets', express.static('./public/stylesheets'));
+localTube.use('/thumbnails', express.static(serverConfiguration.videoDirectory));
+localTube.use('/videos', express.static(serverConfiguration.videoDirectory));
+
+LocalTubeServer.listen(serverConfiguration.port);
+LocalTubeServer.on('listening', function () {
 
     console.log(`Listening to ${serverConfiguration.domain}:${serverConfiguration.port}`);
+});
+
+
+
+import feedbackServer from './feedback-server/feedback-server.js';
+
+const FeedBackServer = http.createServer(feedbackServer);
+feedbackServer.use('/stylesheets', express.static('./public/stylesheets'));
+
+FeedBackServer.listen(3090);
+FeedBackServer.on('listening', function () {
+
+    console.log('Feedback-Server started');
 });

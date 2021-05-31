@@ -1,5 +1,5 @@
 import express from 'express';
-const app = express();
+const localTube = express();
 
 //Exit and Restart-Management
 import {cleanUpAndExit, restoreProgress} from './startup-exit.js';
@@ -10,19 +10,19 @@ process.on('SIGTERM', cleanUpAndExit);
 restoreProgress();
 
 // view engine setup
-app.set('views', './views');
-app.set('view engine', 'ejs');
+localTube.set('views', './views');
+localTube.set('view engine', 'ejs');
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+localTube.use(express.json());
+localTube.use(express.urlencoded({extended: true}));
 
 //Manage Routers
 import {indexRouter, deleteRouter, downloadRouter, watchRouter, registerRouter, managementRouter} from './routerManager.js';
-app.use('/', indexRouter);
-app.use('/register', registerRouter);
-app.use('/watch', watchRouter);
-app.use('/download', downloadRouter);
-app.use('/delete', deleteRouter);
-app.use('/man', managementRouter);
+localTube.use('/', indexRouter);
+localTube.use('/register', registerRouter);
+localTube.use('/watch', watchRouter);
+localTube.use('/download', downloadRouter);
+localTube.use('/delete', deleteRouter);
+localTube.use('/man', managementRouter);
 
-export default app;
+export default localTube;
