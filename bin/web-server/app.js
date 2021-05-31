@@ -2,7 +2,7 @@ import express from 'express';
 const app = express();
 
 //Exit and Restart-Management
-import {cleanUpAndExit, restoreProgress} from './dataManager.js';
+import {cleanUpAndExit, restoreProgress} from './startup-exit.js';
 process.on('exit', cleanUpAndExit);
 process.on('uncaughtException', cleanUpAndExit);
 process.on('SIGINT', cleanUpAndExit);

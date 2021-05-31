@@ -1,5 +1,5 @@
 import {exec} from 'child_process';
-import {delay} from './meep-utils.js';
+import {delay} from '../meep-utils.js';
 import {
     addVideoToList,
     cleanUpAndExit,
@@ -7,9 +7,9 @@ import {
     formatString,
     saveLists,
     serverConfiguration
-} from './dataManager.js';
+} from '../fileSysem/dataManager.js';
 import {addToFailedList, getReadyVideos} from "./failedDownloads.js";
-import {failedDownloads, newVideos} from "./dataFiles.js";
+import {failedDownloads, newVideos} from "../fileSysem/dataFiles.js";
 
 /** @type {Boolean} disable Downloads for development reasons*/
 const enableDownloads = true;

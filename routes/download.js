@@ -1,8 +1,8 @@
 import express from 'express';
 const downloadRouter = express.Router();
 
-import {youTubeDl} from '../bin/downloadManager.js';
-import {configurationFile, findVideo, serverConfiguration} from '../bin/dataManager.js';
+import {youTubeDl} from '../bin/download/downloadManager.js';
+import {configurationFile, findVideo, serverConfiguration} from '../bin/fileSysem/dataManager.js';
 import fs from 'fs'
 
 downloadRouter.get('/:videoId/:name?/', async function (req, res) {

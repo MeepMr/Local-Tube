@@ -3,9 +3,9 @@
 /**
  * Module dependencies.
  */
-import app from './app.js';
+import app from './web-server/app.js';
 import http from 'http';
-import {serverConfiguration} from './dataFiles.js';
+import {serverConfiguration} from './fileSysem/dataFiles.js';
 
 /**
  * Get port from environment and store in Express.

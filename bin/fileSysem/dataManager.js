@@ -1,4 +1,4 @@
-import {daysSinceDate, weeksSinceDate} from './meep-utils.js';
+import {daysSinceDate, weeksSinceDate} from '../meep-utils.js';
 import {
     configurationFile,
     serverConfiguration,
@@ -191,6 +191,6 @@ let findOldVideos = function (interval, days) {
 export {addVideo}
 export {findVideo, getVideo, getVideoList, getNewVideosList}
 export {writeListToFs, saveLists, removeVideoFromList, addVideoToList}
-export {restoreProgress, cleanUpAndExit} from './startup-exit.js';
+export {restoreProgress, cleanUpAndExit} from '../web-server/startup-exit.js';
 export {deleteVideo, deleteOldVideos, deleteAllVideos}
 export {serverConfiguration, configurationFile, formatString}
