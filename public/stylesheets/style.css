@@ -1,7 +1,7 @@
 :root {
 
   --textColor: rgba(243, 240, 240, 0.91);
-  --itemBackground: rgba(116,116,116,0.71);
+  --itemBackground: rgba(158, 158, 158, 0.75);
   --neonRed: rgb(255, 0, 30);
 }
 
@@ -33,23 +33,20 @@ a {
   width: 100%;
 }
 
-.downloading {
+.bottomCenter {
 
-  color: var(--neonRed);
-}
-
-.videoContainer {
-
-  height: 300px;
-  width: 500px;
-  margin-right: 20px;
-  margin-bottom: 20px;
-  background-color: var(--itemBackground);
-}
-
-.videoLink {
-
-  display: flex;
-  height: 100%;
+  align-self: center;
+  vertical-align: bottom;
+  text-align: center;
   width: 100%;
+}
+
+.download-button {
+
+  background-color: rgba(48, 125, 220, 0.33);
+}
+
+.delete-button {
+
+  background-color: rgba(220, 48, 48, 0.33);
 }
