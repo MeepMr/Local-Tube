@@ -1,6 +1,6 @@
 import express from 'express';
 const watchRouter = express.Router();
-import {getVideo, serverConfiguration} from '../bin/fileSysem/dataManager.js';
+import {getVideo} from '../bin/fileSysem/dataManager.js';
 
 watchRouter.get('/:videoId/', function (req, res) {
 
@@ -11,18 +11,38 @@ watchRouter.get('/:videoId/', function (req, res) {
 
     if (video === null) {
 
-        res.send('Video is not registered');
+        res.render('watch', {
+            error: true,
+            errorMessage: 'Video is not registered',
+            video: undefined,
+            videoId: videoId
+        });
     } else if (video.downloaded) {
 
-        res.sendFile(`${serverConfiguration.videoDirectory}/${videoId}.mp4`);
+        res.render('watch', {
+            error: false,
+            errorMessage: undefined,
+            video: video,
+            videoId: videoId
+        });
     } else {
 
         if(video.failed > 0) {
 
-            res.send(`Video is in the download-Queue. Download has failed ${video.failed} times`);
+            res.render('watch', {
+                error: true,
+                errorMessage: `Video is in the download-Queue. Download has failed ${video.failed} times`,
+                video: undefined,
+                videoId: videoId
+            });
         } else {
 
-            res.send('Video is still being downloaded');
+            res.render('watch', {
+                error: true,
+                errorMessage: 'Video is still the download-Queue.',
+                video: undefined,
+                videoId: videoId
+            });
         }
     }
 });

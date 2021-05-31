@@ -1,0 +1,36 @@
+#watch {
+
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+}
+
+.videoContainer {
+
+    display: flex;
+    width: 80%;
+}
+
+.video-management {
+
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    width: 80%;
+    height: 50px;
+}
+
+.video-management-container {
+
+    border-radius: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 100%;
+    width: 50%;
+}
+
+.video-object {
+
+    height: 100%;
+    width: 100%;
+}

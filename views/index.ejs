@@ -6,13 +6,13 @@
         <link rel='stylesheet' href='/stylesheets/index-style.css'/>
     </head>
     <body>
-        <h1><%=title;%></h1>
+        <h1 id="title"><%=title;%></h1>
         <p>Welcome to <%=title;%></p>
-        <main>
+        <main id="index">
         <% for (let video of videos) { %>
                 <div class="videoContainer">
                     <a class="videoLink" href="/watch/<%=video.identifier;%>"
-                            style="background-image: url('/thumbnails/<%=video.identifier%>.jpg');
+                            style="background-image: url('/thumbnails/<%=video.identifier%>.webp'), url('/thumbnails/<%=video.identifier%>.jpg');
                                     <%if(!video.downloaded) {%> background-color: var(--neonRed); <%}%>
                     "> </a>
                     <section class="video-info">

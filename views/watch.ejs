@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <title>Watch <%=videoId;%></title>
+        <link rel='stylesheet' href='/stylesheets/style.css'/>
+        <link rel='stylesheet' href='/stylesheets/watch-style.css'/>
+    </head>
+    <body>
+        <h1 id="title">Local-Tube</h1>
+        <p>Welcome to Local-Tube</p>
+        <main id="watch">
+            <%if(error) { %>
+                <p class="error"> <%=errorMessage;%></p>
+            <% } else { %>
+                <div class="videoContainer">
+                    <video class="video-object"
+                           controls
+                           poster="/thumbnails/<%=video.identifier%>.jpg"
+                    >
+                        <source src="/videos/<%=video.identifier;%>.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-management">
+                    <div class="video-management-container download-button">
+                        <a class="index-video-link" href="/download/<%=video.identifier;%>/<%=video.title;%>">
+                            <p class="center">Download Video</p>
+                        </a>
+                    </div>
+                    <div class="video-management-container delete-button">
+                        <a class="index-video-link" href="/delete/<%=video.identifier;%>">
+                            <p class="center">Delete Video</p>
+                        </a>
+                    </div>
+                </div>
+            <% } %>
+        </main>
+    </body>
+</html>
