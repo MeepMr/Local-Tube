@@ -8,8 +8,8 @@ import {
     saveLists,
     serverConfiguration
 } from './dataManager.js';
-import {addToFailedList, getReadyVideos} from "./failedDownloads";
-import {failedDownloads, newVideos} from "./dataFiles";
+import {addToFailedList, getReadyVideos} from "./failedDownloads.js";
+import {failedDownloads, newVideos} from "./dataFiles.js";
 
 /** @type {Boolean} disable Downloads for development reasons*/
 const enableDownloads = true;
