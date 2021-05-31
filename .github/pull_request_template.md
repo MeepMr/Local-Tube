@@ -1,7 +1,11 @@
 **Changes in this Pull-Request**
 
-- Change 1
-- Change 2
+- [x] Change 1
+- [x] Change 2
+
+**Planned Changes**
+- [ ] Change 1
+- [ ] Change 2
 
 **Pull-Request Checklist**
 
