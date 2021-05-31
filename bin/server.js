@@ -5,7 +5,7 @@
  */
 import app from './app.js';
 import http from 'http';
-import {serverConfiguration} from './dataManager.js';
+import {serverConfiguration} from './dataFiles.js';
 
 /**
  * Get port from environment and store in Express.
