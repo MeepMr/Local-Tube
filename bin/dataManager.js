@@ -1,18 +1,7 @@
-import fs from 'fs';
-import {addToQueue, tryDownload} from "./downloadManager.js";
 import {daysSinceDate, weeksSinceDate} from './meep-utils.js';
+import {configurationFile, serverConfiguration, videoList, newVideos, deleteVideoFromFs} from './dataFiles.js';
+import {writeListToFs} from "./dataFiles.js";
 
-/** @type {Array.<videoObject>} */
-const videoList = JSON.parse(fs.readFileSync('./data/videoData.json').toString());
-
-/** @type {Array.<videoObject>} */
-const newVideos = JSON.parse(fs.readFileSync('./data/newVideos.json').toString());
-
-/** @type {{videoHeight:Number, temporaryDuration:Number, allowEncoding:Boolean, downloadTimeout:Number, bitrate:String}}*/
-const configurationFile = JSON.parse(fs.readFileSync('./data/configuration.json').toString());
-
-/** @type {{domain:String, port:String, videoDirectory:String}} */
-const serverConfiguration = JSON.parse(fs.readFileSync('./data/serverConfiguration.json').toString());
 const formatString = configurationFile.allowEncoding ? `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${configurationFile.videoHeight}]+bestaudio/best[ext=mp4]/best`
                                                      : `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`;
 
@@ -72,15 +61,6 @@ let saveLists = function () {
 
     writeListToFs(videoList, 'videoData');
     writeListToFs(newVideos, 'newVideos');
-};
-
-/**
- * @param list {Array.<videoObject>}
- * @param filename {String}
- */
-let writeListToFs = function (list, filename) {
-
-    fs.writeFile(`./data/${filename}.json`, JSON.stringify(list), () => {});
 };
 
 /**
@@ -164,14 +144,6 @@ let deleteAllVideos = function () {
 };
 
 /**
- * @param path {String}
- */
-let deleteVideoFromFs = function (path) {
-
-    fs.unlink(path, () => { });
-};
-
-/**
  * @param interval {Number} Number of Weeks since download
  * @param days {Number} Number of Days
  * @returns {Number} Number of old videos
@@ -208,28 +180,9 @@ let findOldVideos = function (interval, days) {
     return foundOldVideoIds;
 };
 
-let cleanUpAndExit = function () {
-
-    fs.writeFileSync('./data/videoData.json', JSON.stringify(videoList));
-    fs.writeFileSync('./data/newVideos.json', JSON.stringify(newVideos));
-    process.exit(0);
-};
-
-let restoreProgress = function () {
-
-     for(let video of videoList) {
-
-         if(!video.downloaded) {
-
-             addToQueue(video);
-         }
-     }
-
-     tryDownload().catch();
-};
-
 export {addVideo}
 export {findVideo, getVideo, getVideoList, getNewVideosList}
-export {writeListToFs, saveLists, restoreProgress, cleanUpAndExit}
+export {writeListToFs, saveLists}
+export {restoreProgress, cleanUpAndExit} from './startup-exit.js';
 export {deleteVideo, deleteOldVideos, deleteAllVideos}
 export {serverConfiguration, configurationFile, formatString}
