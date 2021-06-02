@@ -10,6 +10,7 @@ import {
 } from '../fileSysem/dataManager.js';
 import {addToFailedList, getReadyVideos} from "./failedDownloads.js";
 import {failedDownloads, newVideos} from "../fileSysem/dataFiles.js";
+import {moduleMap} from "../web-server/module-loader.js";
 
 /** @type {Boolean} disable Downloads for development reasons*/
 const enableDownloads = true;
@@ -52,8 +53,13 @@ let startDownload = async function () {
     while (queue.length > 0) {
 
         let nextVideo = queue.pop();
-        let success = await downloadThumbnail(nextVideo);
-        success = success && await downloadVideo(nextVideo);
+
+        let moduleNameSplit = nextVideo.identifier.indexOf('-');
+        let moduleName = nextVideo.identifier.substring(0,moduleNameSplit);
+
+        let module = moduleMap.get(moduleName);
+        let success = await downloadThumbnail(nextVideo.identifier, module.getUrl(nextVideo));
+        success = success && await downloadVideo(nextVideo.identifier, module.getUrl(nextVideo));
         if(success) {
             nextVideo.downloaded = true;
             if(nextVideo.lastDownload !== undefined) {
@@ -90,14 +96,14 @@ let startDownload = async function () {
 };
 
 /**
- * @param video {videoObject}
+ * @param videoId {String}
+ * @param url {String}
  * @returns {Boolean}
  */
-let downloadVideo = async function (video) {
+let downloadVideo = async function (videoId, url) {
 
-    let videoId = video.identifier;
     try {
-        await Promise.race([youTubeDl(`https://www.youtube.com/watch?v=${videoId}`, `${serverConfiguration.videoDirectory}/${videoId}`, `-f '${formatString}'`),
+        await Promise.race([youTubeDl(url, `${serverConfiguration.videoDirectory}/${videoId}`, `-f '${formatString}'`),
                                     delay(configurationFile.downloadTimeout*60*1000, true, 'Download timed out')]);
         return true;
     } catch (error) {
@@ -108,15 +114,15 @@ let downloadVideo = async function (video) {
 };
 
 /**
- * @param video {videoObject}
+ * @param videoId {String}
+ * @param url {String}
  * @returns {Boolean}
  */
-let downloadThumbnail = async function (video) {
+let downloadThumbnail = async function (videoId, url) {
 
-    let videoId = video.identifier;
     try {
 
-        await Promise.race([youTubeDl(`https://www.youtube.com/watch?v=${videoId}`, `${serverConfiguration.videoDirectory}/${videoId}`, `--write-thumbnail --skip-download -f 'best[ext=jpg]/best[ext=webp]/best'`),
+        await Promise.race([youTubeDl(url, `${serverConfiguration.videoDirectory}/${videoId}`, `--write-thumbnail --skip-download -f 'best[ext=jpg]/best[ext=webp]/best'`),
             delay(configurationFile.downloadTimeout*60*1000, true, 'Download timed out')]);
         return true;
     } catch (error) {

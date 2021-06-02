@@ -1,6 +1,7 @@
 import fs from "fs";
 import {failedDownloads, newVideos, videoList} from "../fileSysem/dataFiles.js";
 import {addToQueue, tryDownload} from "../download/downloadManager.js";
+import {loadModules} from "./module-loader.js";
 
 let cleanUpAndExit = function () {
 
@@ -10,7 +11,7 @@ let cleanUpAndExit = function () {
     process.exit(0);
 };
 
-let restoreProgress = function () {
+let restoreProgress = async function () {
 
     for(let video of videoList) {
 
@@ -19,6 +20,8 @@ let restoreProgress = function () {
             addToQueue(video);
         }
     }
+
+    await loadModules();
 
     tryDownload().catch();
 };
