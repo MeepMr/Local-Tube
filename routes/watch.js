@@ -47,4 +47,26 @@ watchRouter.get('/:videoId/', function (req, res) {
     }
 });
 
+watchRouter.get('/percent/:videoId/:percent', function (req) {
+
+    let {videoId, percent} = req.params;
+    videoId = decodeURIComponent(videoId);
+    percent = decodeURIComponent(percent);
+
+    getVideo(videoId).percentPlayed = percent;
+});
+
+watchRouter.get('/percent/:videoId', function (req, res) {
+
+    let {videoId} = req.params;
+    videoId = decodeURIComponent(videoId);
+
+    let percent = getVideo(videoId).percentPlayed;
+    if (percent === undefined)
+        percent = 0;
+
+    res.type('application/json');
+    res.json({percent});
+});
+
 export {watchRouter}

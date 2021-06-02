@@ -13,6 +13,7 @@
         <% } else { %>
             <div class="videoContainer">
                 <video class="video-object"
+                       id="<%=video.identifier;%>"
                        controls
                        poster="/thumbnails/<%=video.identifier%>.jpg"
                 >
@@ -34,5 +35,6 @@
         <% } %>
     </main>
     <%- include('footer.ejs') %>
+    <script src="/javascript/watchscript.js"></script>
     </body>
 </html>
