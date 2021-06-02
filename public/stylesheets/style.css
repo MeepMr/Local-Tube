@@ -49,9 +49,21 @@ h1 #title {
   background-color: rgba(48, 125, 220, 0.33);
 }
 
+.download-button:hover {
+
+  background-color: rgba(48, 125, 220, 0.7);
+  cursor: pointer;
+}
+
 .delete-button {
 
   background-color: rgba(220, 48, 48, 0.33);
+}
+
+.delete-button:hover {
+
+  background-color: rgba(220, 48, 48, 0.7);
+  cursor: pointer;
 }
 
 footer {
