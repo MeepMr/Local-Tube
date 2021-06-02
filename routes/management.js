@@ -8,7 +8,7 @@ deleteRouter.get('/all/', function (req, res) {
 
     deleteAllVideos();
 
-    res.send('deleted all videos');
+    res.redirect('/');
 });
 
 deleteRouter.get('/:vid/', function (req, res) {
@@ -18,7 +18,7 @@ deleteRouter.get('/:vid/', function (req, res) {
 
     deleteVideo(videoId);
 
-    res.send('deleted');
+    res.redirect('/');
 });
 
 const managementRouter = express.Router();

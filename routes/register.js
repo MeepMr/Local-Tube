@@ -1,7 +1,7 @@
 import express from 'express';
 const registerRouter = express.Router();
 import {addToQueue, tryDownload} from '../bin/download/downloadManager.js';
-import {serverConfiguration, addVideo} from '../bin/fileSysem/dataManager.js';
+import {addVideo} from '../bin/fileSysem/dataManager.js';
 import {videoObject} from '../models/Video.js';
 
 registerRouter.get('/:videoId/:name?/', function (req, res) {
@@ -18,11 +18,7 @@ registerRouter.get('/:videoId/:name?/', function (req, res) {
         tryDownload().catch();
     }
 
-    res.render('register', {
-
-        link: `${serverConfiguration.domain}/watch/${videoId}`,
-        videoId : videoId
-    });
+    res.redirect(`/#${videoId}`);
 });
 
 export {registerRouter}

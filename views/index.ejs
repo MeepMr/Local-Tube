@@ -10,7 +10,7 @@
         <p>Welcome to <%=title;%></p>
         <main id="index">
         <% for (let video of videos) { %>
-                <div class="videoContainer">
+                <div class="videoContainer" id="<%=video.identifier;%>">
                     <a class="videoLink" href="/watch/<%=video.identifier;%>"
                             style="background-image: url('/thumbnails/<%=video.identifier%>.webp'), url('/thumbnails/<%=video.identifier%>.jpg');
                                     <%if(!video.downloaded) {%> background-color: var(--neonRed); <%}%>
