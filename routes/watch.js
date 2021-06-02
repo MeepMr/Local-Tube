@@ -47,13 +47,14 @@ watchRouter.get('/:videoId/', function (req, res) {
     }
 });
 
-watchRouter.get('/percent/:videoId/:percent', function (req) {
+watchRouter.get('/percent/:videoId/:percent', function (req, res) {
 
     let {videoId, percent} = req.params;
     videoId = decodeURIComponent(videoId);
     percent = decodeURIComponent(percent);
 
     getVideo(videoId).percentPlayed = percent;
+    res.end();
 });
 
 watchRouter.get('/percent/:videoId', function (req, res) {
