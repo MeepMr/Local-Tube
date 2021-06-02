@@ -53,3 +53,24 @@ h1 #title {
 
   background-color: rgba(220, 48, 48, 0.33);
 }
+
+footer {
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+
+  background-color: rgba(7,7,7,0.59);
+}
+
+.footer-object {
+
+  height: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: 20px;
+}
