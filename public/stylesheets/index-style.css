@@ -5,6 +5,7 @@
     margin-right: 20px;
     margin-bottom: 20px;
     background-color: var(--itemBackground);
+    border-radius: 15px;
 }
 
 #index {
@@ -23,6 +24,7 @@
     background-color: var(--itemBackground);
     background-size: cover;
     background-blend-mode: darken;
+    border-radius: 15px;
 }
 .video-info {
 
