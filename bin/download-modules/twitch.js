@@ -1,4 +1,4 @@
-const moduleName = 'youtube';
+const moduleName = 'twitch';
 
 /**
  * @param video {videoObject}
@@ -6,8 +6,8 @@ const moduleName = 'youtube';
  */
 const getUrl = function (video) {
 
-    let videoId = video.identifier.substring(8);
-    return `https://www.youtube.com/watch?v=${videoId}`;
+    let videoId = video.identifier.substring(7);
+    return `https://www.twitch.tv/videos/${videoId}`;
 };
 
 /**
@@ -16,9 +16,7 @@ const getUrl = function (video) {
  */
 const getOutPut = function (videoId) {
 
-    return videoId;
+    return `${videoId}.mp4`;
 };
 
 export {moduleName, getUrl, getOutPut}
-
-

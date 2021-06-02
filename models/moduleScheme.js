@@ -1,9 +1,10 @@
 /**
  * @param moduleName {String}
  * @param getUrl {function(videoObject) : String}
+ * @param getOutPut {function(String) : String}
  * @constructor
  */
-function moduleScheme (moduleName, getUrl) {
+function moduleScheme (moduleName, getUrl, getOutPut) {
 
     this.moduleName = moduleName;
     /**
@@ -11,6 +12,7 @@ function moduleScheme (moduleName, getUrl) {
      * @returns {String}
      */
     this.getUrl = getUrl;
+    this.getOutPut = getOutPut;
 }
 
 export {moduleScheme}
