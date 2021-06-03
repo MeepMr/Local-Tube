@@ -53,8 +53,7 @@ let startDownload = async function () {
     while (queue.length > 0) {
 
         let nextVideo = queue.pop();
-
-        let {module, identifier} = spliceVideoId(videoId);
+        let {module, identifier} = spliceVideoId(nextVideo.identifier);
 
         let success = await downloadThumbnail(module.getUrl(nextVideo, identifier), module.getOutPut(nextVideo.identifier));
         success = success && await downloadVideo(module.getUrl(nextVideo, identifier), module.getOutPut(nextVideo.identifier));
