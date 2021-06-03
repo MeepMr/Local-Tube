@@ -1,6 +1,7 @@
 import express from 'express';
 import {cleanUpAndExit, deleteAllVideos, deleteOldVideos, deleteVideo, getNewVideosList} from '../bin/fileSysem/dataManager.js';
-import {queue, saveShutdown} from '../bin/download/downloadManager.js';
+import {addToQueue, queue, saveShutdown, tryDownload} from '../bin/download/downloadManager.js';
+import {restoreDownloads} from "../bin/download/failedDownloads.js";
 
 const deleteRouter = express.Router();
 
@@ -49,6 +50,18 @@ managementRouter.get('/saveExit', function (req, res) {
 
     saveShutdown = true;
     res.send(`Waiting for ${queue.length} downloads to complete and then shut down`);
+});
+
+managementRouter.get('/restoreDownloads', function (req, res) {
+
+    for (let video of restoreDownloads()) {
+
+        addToQueue(video);
+    }
+
+    tryDownload().catch();
+
+    res.redirect('/');
 });
 
 export {managementRouter, deleteRouter}

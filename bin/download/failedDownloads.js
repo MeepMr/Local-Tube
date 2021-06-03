@@ -62,4 +62,20 @@ let addToFailedList = function (video) {
     failedDownloads.push(video);
 };
 
-export {addToFailedList, getReadyVideos}
+/**
+ * @returns {Array.<videoObject>}
+ */
+let restoreDownloads = function () {
+
+    let failedVideos = [];
+
+    for(let video of failedDownloads) {
+
+        readyUpVideo(failedVideos, video, 0);
+        video.failed = 0;
+    }
+
+    return  failedVideos;
+};
+
+export {addToFailedList, getReadyVideos, restoreDownloads}
