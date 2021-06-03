@@ -1,5 +1,8 @@
 {
   "domain": "http://www.yourdomain.com",
   "port": 3080,
-  "videoDirectory": "/NodeTube/public/videos"
+  "videoDirectory": "/LocalTube/public/videos",
+  "title": "Local-Tube",
+  "description": "A YouTube-Dl Implementation",
+  "author": "Justin Klein"
 }
