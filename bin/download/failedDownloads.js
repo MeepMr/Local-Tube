@@ -20,7 +20,7 @@ let getReadyVideos = function () {
 
         if (day > 0) {
 
-            if (weeks < 1 && video.failed < 17) {
+            if (weeks < 1 && video.failed < 17 || video.identifier.startsWith('twitch')) {
 
                 readyUpVideo(readyVideos, video, index);
             } else if (weeks < 2 && video.failed < 21 && day > 7) {
@@ -30,6 +30,12 @@ let getReadyVideos = function () {
 
                 index++;
             }
+        } else if(video.identifier.startsWith('twitch') && video.failed < 50) {
+
+            readyUpVideo(readyVideos, video, index);
+        } else {
+
+            index++;
         }
     }
 
