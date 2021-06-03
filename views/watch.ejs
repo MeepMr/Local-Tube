@@ -15,18 +15,18 @@
                 <video class="video-object"
                        id="<%=video.identifier;%>"
                        controls
-                       poster="/thumbnails/<%=video.identifier%>.jpg"
+                       poster="/thumbnails/<%=video.identifier;%>.jpg"
                 >
                     <source src="/videos/<%=video.identifier;%>.mp4" type="video/mp4">
                 </video>
             </div>
             <div class="video-management">
                 <div class="video-management-container download-button"
-                     onclick="window.location.href='/download/<%=video.identifier;%>/<%=video.title;%>'">
+                     onclick="window.location.href='/download/<%=video.identifier;%>/<%=video.title;%>';">
                     <p class="center">Download Video</p>
                 </div>
                 <div class="video-management-container delete-button"
-                     onclick="window.location.href='/delete/<%=video.identifier;%>'">
+                     onclick="window.location.href='/delete/<%=video.identifier;%>';">
                     <p class="center">Delete Video</p>
                 </div>
             </div>

@@ -7,7 +7,7 @@ process.on('exit', cleanUpAndExit);
 process.on('uncaughtException', cleanUpAndExit);
 process.on('SIGINT', cleanUpAndExit);
 process.on('SIGTERM', cleanUpAndExit);
-restoreProgress();
+restoreProgress().catch();
 
 // view engine setup
 localTube.set('views', './views');

@@ -36,14 +36,6 @@ h1 #title {
   color: var(--neonRed);
 }
 
-.bottomCenter {
-
-  align-self: center;
-  vertical-align: bottom;
-  text-align: center;
-  width: 100%;
-}
-
 .download-button {
 
   background-color: rgba(48, 125, 220, 0.33);

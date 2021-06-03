@@ -11,7 +11,7 @@
     <% for (let video of videos) { %>
         <div class="videoContainer" id="<%=video.identifier;%>">
             <a class="videoLink" href="/watch/<%=video.identifier;%>"
-                    style="background-image: url('/thumbnails/<%=video.identifier%>.webp'), url('/thumbnails/<%=video.identifier%>.jpg');
+                    style="background-image: url('/thumbnails/<%=video.identifier;%>.webp'), url('/thumbnails/<%=video.identifier;%>.jpg');
                             <%if(!video.downloaded) {%> background-color: var(--neonRed); <%}%>
             ">
             </a>
@@ -22,11 +22,11 @@
                 </div>
                 <div class="video-management">
                     <div class="video-management-container download-button"
-                         onclick="window.location.href='/download/<%=video.identifier;%>/<%=video.title;%>'">
+                         onclick="window.location.href='/download/<%=video.identifier;%>/<%=video.title;%>';">
                         <p class="center">Download Video</p>
                     </div>
                     <div class="video-management-container delete-button"
-                         onclick="window.location.href='/delete/<%=video.identifier;%>'">
+                         onclick="window.location.href='/delete/<%=video.identifier;%>';">
                         <p class="center">Delete Video</p>
                     </div>
                 </div>
