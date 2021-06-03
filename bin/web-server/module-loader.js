@@ -1,9 +1,11 @@
 import fs from 'fs';
+import {moduleScheme} from "../../models/moduleScheme.js";
 
 /**
  * @type {Map.<String, moduleScheme>}>}
  */
 let moduleMap = new Map();
+let moduleRegEx = '';
 
 let loadModules = async function () {
 
@@ -11,8 +13,14 @@ let loadModules = async function () {
 
     for (let moduleFile of moduleFiles) {
 
-        let module = await import(`../download-modules/${moduleFile}`);
-        moduleMap.set(module.moduleName, module);
+        let {moduleName, getUrl, getOutPut} = await import(`../download-modules/${moduleFile}`);
+        let module = new moduleScheme(moduleName,getUrl,getOutPut);
+        moduleMap.set(moduleName, module);
+
+        if(moduleRegEx === '')
+            moduleRegEx = moduleName;
+        else
+            moduleRegEx += `|${moduleName}`;
     }
 
     console.log('Loaded Modules:');
@@ -33,4 +41,4 @@ let spliceVideoId = function (videoId) {
     return {module, identifier};
 };
 
-export {loadModules, moduleMap, spliceVideoId}
+export {loadModules, spliceVideoId, moduleMap, moduleRegEx}

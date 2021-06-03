@@ -12,7 +12,7 @@ const failedDownloads = JSON.parse(fs.readFileSync('./data/failedDownloads.json'
 /** @type {{videoHeight:Number, temporaryDuration:Number, allowEncoding:Boolean, downloadTimeout:Number, bitrate:String}}*/
 const configurationFile = JSON.parse(fs.readFileSync('./data/configuration.json').toString());
 
-/** @type {{domain:String, port:String, videoDirectory:String}} */
+/** @type {{domain:String, port:String, videoDirectory:String, author:String, title:String, description:String}} */
 const serverConfiguration = JSON.parse(fs.readFileSync('./data/serverConfiguration.json').toString());
 
 /**
