@@ -1,6 +1,6 @@
 /**
  * @param moduleName {String}
- * @param getUrl {function(videoObject) : String}
+ * @param getUrl {function(videoObject, String?) : String}
  * @param getOutPut {function(String) : String}
  * @constructor
  */

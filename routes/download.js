@@ -4,7 +4,7 @@ const downloadRouter = express.Router();
 import {youTubeDl} from '../bin/download/downloadManager.js';
 import {configurationFile, findVideo, serverConfiguration} from '../bin/fileSysem/dataManager.js';
 import fs from 'fs'
-import {moduleMap} from "../bin/web-server/module-loader.js";
+import {spliceVideoId} from "../bin/web-server/module-loader.js";
 import {videoObject} from "../models/Video.js";
 
 downloadRouter.get('/:videoId/:name?/', async function (req, res) {
@@ -27,11 +27,9 @@ downloadRouter.get('/:videoId/:name?/', async function (req, res) {
         });
 
         let video = new videoObject(name, videoId, new Date());
-        let moduleSplitIndex = videoId.indexOf('-');
-        let moduleName = videoId.substring(0, moduleSplitIndex);
-        let module = moduleMap.get(moduleName);
+        let {module, identifier} = spliceVideoId(videoId);
 
-        await youTubeDl(module.getUrl(video), `${serverConfiguration.videoDirectory}/temp/${module.getOutPut(videoId)}`).catch(error => `YouTube-Dl errored with ${error}`);
+        await youTubeDl(module.getUrl(video, identifier), `${serverConfiguration.videoDirectory}/temp/${module.getOutPut(videoId)}`).catch(error => `YouTube-Dl errored with ${error}`);
 
         //Delete the downloaded file after the time specified in the config-File in minutes
         setTimeout(() => {

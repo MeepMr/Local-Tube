@@ -10,7 +10,7 @@ import {
 } from '../fileSysem/dataManager.js';
 import {addToFailedList, getReadyVideos} from "./failedDownloads.js";
 import {failedDownloads, newVideos} from "../fileSysem/dataFiles.js";
-import {moduleMap} from "../web-server/module-loader.js";
+import {spliceVideoId} from "../web-server/module-loader.js";
 
 /** @type {Boolean} disable Downloads for development reasons*/
 const enableDownloads = true;
@@ -54,12 +54,10 @@ let startDownload = async function () {
 
         let nextVideo = queue.pop();
 
-        let moduleNameSplit = nextVideo.identifier.indexOf('-');
-        let moduleName = nextVideo.identifier.substring(0,moduleNameSplit);
+        let {module, identifier} = spliceVideoId(videoId);
 
-        let module = moduleMap.get(moduleName);
-        let success = await downloadThumbnail(module.getUrl(nextVideo), module.getOutPut(nextVideo.identifier));
-        success = success && await downloadVideo(module.getUrl(nextVideo), module.getOutPut(nextVideo.identifier));
+        let success = await downloadThumbnail(module.getUrl(nextVideo, identifier), module.getOutPut(nextVideo.identifier));
+        success = success && await downloadVideo(module.getUrl(nextVideo, identifier), module.getOutPut(nextVideo.identifier));
         if(success) {
             nextVideo.downloaded = true;
             if(nextVideo.lastDownload !== undefined) {

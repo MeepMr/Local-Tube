@@ -20,4 +20,17 @@ let loadModules = async function () {
 
 };
 
-export {loadModules, moduleMap}
+/**
+ * @param videoId {String}
+ * @returns {{identifier: string, module: moduleScheme}}
+ */
+let spliceVideoId = function (videoId) {
+
+    let moduleSplitIndex = videoId.indexOf('-');
+    let moduleName = videoId.substring(0, moduleSplitIndex);
+    let module = moduleMap.get(moduleName);
+    let identifier = videoId.substring(moduleSplitIndex);
+    return {module, identifier};
+};
+
+export {loadModules, moduleMap, spliceVideoId}

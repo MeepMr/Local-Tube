@@ -1,7 +1,7 @@
 {
   "videoHeight": 1080,
-  "temporaryDuration": 60,
+  "temporaryDuration": 120,
   "allowEncoding": false,
-  "downloadTimeout": 30,
+  "downloadTimeout": 120,
   "bitrate": "4.6M"
 }
