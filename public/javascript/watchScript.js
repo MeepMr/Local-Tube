@@ -7,6 +7,7 @@ let pip = false;
 let fullscreen = false;
 
 video.addEventListener('playing', TenSecondLoop);
+video.addEventListener('loadedmetadata', logMetaData);
 video.addEventListener('enterpictureinpicture', () => {pip = true;});
 video.addEventListener('leavepictureinpicture', () => {pip = false;});
 document.addEventListener('webkitfullscreenchange', () => {fullscreen = !fullscreen;});
@@ -63,23 +64,23 @@ async function TenSecondLoop () {
 
         started = true;
 
-        let response = await fetch(`/watch/watchedTime/${videoId}`);
-        let responseJSON = await response.json();
-        video.currentTime = seconds = responseJSON.watchedSeconds;
-
-        await delay(30*1000);
-        duration = video.duration;
-        await fetch(`/watch/duration/${videoId}/${duration}`);
-
         while (!video.paused) {
-
-            await logSecondsWatched();
             await delay(30*1000);
+            await logSecondsWatched();
         }
 
         await logSecondsWatched();
         started = false;
     }
+}
+
+async function logMetaData() {
+
+    duration = video.duration;
+    let response = await fetch(`/watch/watchedTime/${videoId}`);
+    let responseJSON = await response.json();
+    video.currentTime = seconds = responseJSON.watchedSeconds;
+    await fetch(`/watch/duration/${videoId}/${duration}`);
 }
 
  function delay (delay) {
