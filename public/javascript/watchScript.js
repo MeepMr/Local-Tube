@@ -35,6 +35,17 @@ window.addEventListener('keypress', async function (key) {
     }
 });
 
+window.addEventListener('keydown', function (key) {
+
+    if (key.code === 'ArrowLeft') { // Left-Arrow
+
+        video.currentTime = video.currentTime-10;
+    } else if (key.code === 'ArrowRight') { // Right-Arrow
+
+        video.currentTime = video.currentTime+10;
+    }
+});
+
 async function logSecondsWatched () {
 
     seconds = video.currentTime;
