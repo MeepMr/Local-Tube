@@ -1,8 +1,8 @@
 const video = getVideoElement();
 const videoId = video.id;
 video.addEventListener('play', TenSecondLoop);
-let percent;
 let duration;
+let seconds;
 let started = false;
 
 function getVideoElement () {
@@ -11,10 +11,10 @@ function getVideoElement () {
     return videos.item(0);
 }
 
-function logPercentWatched () {
+async function logSecondsWatched () {
 
-    percent = video.currentTime / duration;
-    fetch(`/watch/percent/${videoId}/${percent}`).then();
+    seconds = video.currentTime;
+    await fetch(`/watch/watchedTime/${videoId}/${seconds}`);
 }
 
 async function TenSecondLoop () {
@@ -22,17 +22,19 @@ async function TenSecondLoop () {
     if(!started) {
 
         started = true;
-        duration = video.duration;
-        let response = await fetch(`/watch/percent/${videoId}`);
+
+        let response = await fetch(`/watch/watchedTime/${videoId}`);
         let responseJSON = await response.json();
-        percent = responseJSON.percent;
+        video.currentTime = seconds = responseJSON.watchedSeconds;
 
-        video.currentTime = percent * duration;
+        await delay(30*1000);
+        duration = video.duration;
+        await fetch(`/watch/duration/${videoId}/${duration}`);
 
-        while (percent < 1) {
+        while (seconds < duration) {
 
+            await logSecondsWatched();
             await delay(30*1000);
-            logPercentWatched();
         }
     }
 }

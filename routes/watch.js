@@ -47,27 +47,36 @@ watchRouter.get('/:videoId/', function (req, res) {
     }
 });
 
-watchRouter.get('/percent/:videoId/:percent', function (req, res) {
+watchRouter.get('/watchedTime/:videoId/:watchedSeconds', function (req, res) {
 
-    let {videoId, percent} = req.params;
+    let {videoId, watchedSeconds} = req.params;
     videoId = decodeURIComponent(videoId);
-    percent = decodeURIComponent(percent);
+    watchedSeconds = decodeURIComponent(watchedSeconds);
 
-    getVideo(videoId).percentPlayed = percent;
+    getVideo(videoId).watchedSeconds = watchedSeconds;
     res.end();
 });
 
-watchRouter.get('/percent/:videoId', function (req, res) {
+watchRouter.get('/duration/:videoId/:videoDuration', function (req, res) {
+
+    let {videoId, videoDuration} = req.params;
+    videoId = decodeURIComponent(videoId);
+    videoDuration = decodeURIComponent(videoDuration);
+
+    getVideo(videoId).duration = videoDuration;
+    res.end();
+});
+
+watchRouter.get('/watchedTime/:videoId', function (req, res) {
 
     let {videoId} = req.params;
     videoId = decodeURIComponent(videoId);
 
-    let percent = getVideo(videoId).percentPlayed;
-    if (percent === undefined)
-        percent = 0;
+    let watchedSeconds = getVideo(videoId).watchedSeconds;
+    watchedSeconds = watchedSeconds === undefined ? 0 : watchedSeconds;
 
     res.type('application/json');
-    res.json({percent});
+    res.json({watchedSeconds});
 });
 
 export {watchRouter}

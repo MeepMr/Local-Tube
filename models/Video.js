@@ -13,7 +13,8 @@ function videoObject(title, identifier, date, downloaded = false) {
     this.downloaded = downloaded;
     this.failed = 0;
     this.lastDownload = undefined;
-    this.percentPlayed = 0;
+    this.duration = 0;
+    this.watchedSeconds = 0;
 }
 
 export {videoObject}
