@@ -1,7 +1,7 @@
 {
   "domain": "http://127.0.0.1:3080",
   "port": 3080,
-  "videoDirectory": "/Users/justinklein/Library/Mobile Documents/com~apple~CloudDocs/dev/Local-Tube/public/videos",
+  "videoDirectory": "/Local-Tube/public/videos",
   "title": "Local-Tube",
   "description": "A YouTube-Dl Implementation",
   "author": "Justin Klein"
