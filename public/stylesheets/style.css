@@ -1,8 +1,165 @@
+:root {
+
+  --textColor: rgba(243, 240, 240, 0.91);
+  --itemBackground: rgba(158, 158, 158, 0.75);
+  --neonRed: rgb(255, 0, 30);
+}
+
 body {
-  padding: 50px;
+  padding: 5px 50px 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #070707;
+  color: var(--textColor);
 }
 
 a {
-  color: #00B7FF;
+
+  color: var(--textColor);
+  text-decoration: none;
+}
+
+h1 #title {
+
+  margin-top: 0;
+}
+
+.center {
+
+  align-self: center;
+  vertical-align: center;
+  text-align: center;
+  width: 100%;
+}
+
+.error {
+
+  color: var(--neonRed);
+}
+
+.download-button {
+
+  background-color: rgba(48, 125, 220, 0.33);
+}
+
+.download-button:hover {
+
+  background-color: rgba(48, 125, 220, 0.7);
+  cursor: pointer;
+}
+
+.delete-button {
+
+  background-color: rgba(220, 48, 48, 0.33);
+}
+
+.delete-button:hover {
+
+  background-color: rgba(220, 48, 48, 0.7);
+  cursor: pointer;
+}
+
+.submit-button {
+
+  display: flex;
+  background-color: rgba(65, 48, 220, 0.33);
+  border-radius: 20px;
+  height: 45px;
+  width: 15%;
+  margin-left: 30px;
+}
+
+.submit-button:hover {
+
+  background-color: rgba(65, 48, 220, 0.7);
+  cursor: pointer;
+}
+
+header {
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  background-color: rgba(7, 7, 7, 0.7);
+}
+
+#register-form {
+
+  display: flex;
+  justify-content: flex-end;
+  justify-items: flex-end;
+  justify-self: right;
+  float: right;
+  width: 70%;
+  height: 80px;
+}
+
+#register-text {
+
+  background-color: #312f2f;
+  width: 100%;
+  height: 40px;
+  border-radius: 20px;
+  border: 5px #342424;
+  margin-right: 5px;
+  padding-left: 20px;
+  color: white;
+  font-size: large;
+}
+
+.register-text {
+
+  width: 75%;
+}
+
+.register-form-element {
+
+  vertical-align: center;
+  align-self: center;
+}
+
+footer {
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+
+  background-color: rgba(7,7,7,0.59);
+}
+
+.footer-object {
+
+  height: 20px;
+  margin: 5px 10px;
+}
+
+@keyframes flashGreen {
+  0% {
+    background:#312f2f;
+  }
+  50% {
+    background:green;
+  }
+  100% {
+    background:#312f2f;
+  }
+}
+
+@keyframes flashRed {
+  0% {
+    background:#312f2f;
+  }
+  50% {
+    background:red;
+  }
+  100% {
+    background:#312f2f;
+  }
 }

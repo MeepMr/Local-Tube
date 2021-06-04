@@ -1,8 +1,7 @@
 {
-  "domain": "http://www.yourdomain.com",
-  "port": 3080,
-  "videoDirectory": "/NodeTube/public/videos",
   "videoHeight": 1080,
-  "temporaryDuration": 60,
-  "allowEncoding": false
+  "temporaryDuration": 120,
+  "allowEncoding": false,
+  "downloadTimeout": 120,
+  "bitrate": "4.6M"
 }

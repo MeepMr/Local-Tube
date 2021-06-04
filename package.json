@@ -1,11 +1,13 @@
 {
-  "name": "nodetube",
-  "version": "0.0.0",
+  "type": "module",
+  "name": "local-tube",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node bin/server.js"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "ejs": "~2.6.1",
     "express": "~4.16.1"
   }

@@ -1,0 +1,62 @@
+.videoContainer {
+
+    height: 300px;
+    width: 500px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    background-color: var(--itemBackground);
+    border-radius: 15px;
+}
+
+#index {
+
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+}
+
+.videoLink {
+
+    display: flex;
+    height: 80%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-color: var(--itemBackground);
+    background-size: cover;
+    background-blend-mode: darken;
+    border-radius: 15px;
+}
+.video-info {
+
+    height: 20%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.video-info-text {
+
+    display: flex;
+    height: 50px;
+    width: 140px;
+    margin: 5px;
+}
+
+.video-management {
+
+    display: flex;
+
+    height: 50px;
+    width: 340px;
+    margin: 5px;
+}
+
+.video-management-container {
+
+    border-radius: 20px;
+    border-collapse: separate;
+    height: 100%;
+    width: 340px;
+    margin-right: 5px;
+    margin-left: 5px;
+}

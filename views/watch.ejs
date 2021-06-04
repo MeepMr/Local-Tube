@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <title>Watch <%=videoId;%></title>
+        <link rel='stylesheet' href='/stylesheets/style.css'/>
+        <link rel='stylesheet' href='/stylesheets/watch-style.css'/>
+    </head>
+    <body>
+    <%- include('header.ejs') %>
+    <main id="watch">
+        <%if(error) { %>
+            <p class="error"> <%=errorMessage;%></p>
+        <% } else { %>
+            <div class="videoContainer">
+                <video class="video-object"
+                       id="<%=video.identifier;%>"
+                       controls
+                       poster="/thumbnails/<%=video.identifier;%>.jpg"
+                >
+                    <source src="/videos/<%=video.identifier;%>.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="video-management">
+                <div class="video-management-container download-button"
+                     onclick="window.location.href='/download/<%=video.identifier;%>/<%=video.title;%>';">
+                    <p class="center">Download Video</p>
+                </div>
+                <div class="video-management-container delete-button"
+                     onclick="window.location.href='/delete/<%=video.identifier;%>';">
+                    <p class="center">Delete Video</p>
+                </div>
+            </div>
+        <% } %>
+    </main>
+    <%- include('footer.ejs') %>
+    <script src="/javascript/watchScript.js"></script>
+    </body>
+</html>

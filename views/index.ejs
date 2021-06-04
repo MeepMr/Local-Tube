@@ -1,11 +1,39 @@
 <!DOCTYPE html>
 <html lang="de">
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+    <head>
+        <title>Local-Tube</title>
+        <link rel='stylesheet' href='/stylesheets/style.css'/>
+        <link rel='stylesheet' href='/stylesheets/index-style.css'/>
+    </head>
+    <body>
+    <%- include('header.ejs') %>
+    <main id="index">
+    <% for (let video of videos) { %>
+        <div class="videoContainer" id="<%=video.identifier;%>">
+            <a class="videoLink" href="/watch/<%=video.identifier;%>"
+                    style="background-image: url('/thumbnails/<%=video.identifier;%>.webp'), url('/thumbnails/<%=video.identifier;%>.jpg');
+                            <%if(!video.downloaded) {%> background-color: var(--neonRed); <%}%>
+            ">
+            </a>
+            <section class="video-info">
+                <div class="video-info-text">
+                    <%let date = new Date(video.date);%>
+                    <p class="center">Downloaded on: <%=date.getDate();%>.<%=date.getMonth()+1;%>.<%=date.getFullYear();%></p>
+                </div>
+                <div class="video-management">
+                    <div class="video-management-container download-button"
+                         onclick="window.location.href='/download/<%=video.identifier;%>/<%=video.title;%>';">
+                        <p class="center">Download Video</p>
+                    </div>
+                    <div class="video-management-container delete-button"
+                         onclick="window.location.href='/delete/<%=video.identifier;%>';">
+                        <p class="center">Delete Video</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    <% } %>
+    </main>
+    <%- include('footer.ejs') %>
+    </body>
 </html>

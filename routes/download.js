@@ -1,34 +1,73 @@
-const express = require('express');
-const router = express.Router();
+import express from 'express';
+const downloadRouter = express.Router();
 
-const youTubeDl = require('../bin/downloadManager').youTubeDl;
-const dataManager = require('../bin/dataManager');
-const fs = require('fs');
+import {youTubeDl} from '../bin/download/downloadManager.js';
+import {configurationFile, findVideo, serverConfiguration} from '../bin/fileSysem/dataManager.js';
+import fs from 'fs'
+import {spliceVideoId} from "../bin/web-server/module-loader.js";
+import {videoObject} from "../models/Video.js";
 
-router.get('/:videoId/:name?/', async function (req, res) {
+downloadRouter.get('/:videoId/:name?/', async function (req, res) {
 
     let {videoId, name} = req.params;
     videoId = decodeURIComponent(videoId);
     name = name ? decodeURIComponent(name) : videoId;
 
-    /* response attachment for triggering download instead of stream */
-    res.attachment(`${name}.mp4`);
+    if (findVideo(videoId) !== -1) {
 
-    if (dataManager.findVideo(videoId) !== -1) {
+        sendDownloadedVideo(res, videoId, name, true);
 
-        res.sendFile(`${dataManager.videoDirectory}/${name}.mp4`);
     } else {
 
-        await youTubeDl(videoId, `${dataManager.videoDirectory}/temp/${name}`);
+        res.render('download', {
 
-        res.sendFile(`${dataManager.videoDirectory}/temp/${name}.mp4`);
+            link: `${serverConfiguration.domain}/download/file/${videoId}/${name}`,
+            videoId: videoId,
+            name: name,
+        });
 
-        //Delete the downloaded file after the time specified in the config-File in seconds
+        let video = new videoObject(name, videoId, new Date());
+        let {module, identifier} = spliceVideoId(videoId);
+
+        await youTubeDl(module.getUrl(video, identifier), `${serverConfiguration.videoDirectory}/temp/${module.getOutPut(videoId)}`).catch(error => `YouTube-Dl errored with ${error}`);
+
+        //Delete the downloaded file after the time specified in the config-File in minutes
         setTimeout(() => {
 
-            fs.unlinkSync(`${dataManager.videoDirectory}/temp/${name}.mp4`);
-        }, dataManager.tempDuration * 1000);
+            fs.unlinkSync(`${serverConfiguration.videoDirectory}/temp/${videoId}.mp4`);
+        }, configurationFile.temporaryDuration * 60 * 1000);
     }
 });
 
-module.exports = router;
+downloadRouter.get('/file/:videoId/:name/', function (req, res) {
+
+    let {videoId, name} = req.params;
+    videoId = decodeURIComponent(videoId);
+    name = decodeURIComponent(name);
+
+    if(fs.existsSync(`${serverConfiguration.videoDirectory}/temp/${videoId}.mp4`)) {
+
+        sendDownloadedVideo(res, videoId, name, false);
+    } else {
+
+        res.send('Video is still being downloaded');
+    }
+});
+
+/**
+ * @param res {Response}
+ * @param videoId {String}
+ * @param fileName {String}
+ * @param registered {Boolean} Was the Video already registered?
+ */
+let sendDownloadedVideo = function(res, videoId, fileName, registered) {
+
+    res.attachment(`${fileName}.mp4`);
+
+    if(registered)
+        res.sendFile(`${serverConfiguration.videoDirectory}/${videoId}.mp4`);
+    else
+        res.sendFile(`${serverConfiguration.videoDirectory}/temp/${videoId}.mp4`);
+};
+
+export {downloadRouter}

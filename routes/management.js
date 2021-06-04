@@ -1,13 +1,15 @@
-const express = require('express');
-const dataManager = require('../bin/dataManager');
+import express from 'express';
+import {cleanUpAndExit, deleteAllVideos, deleteOldVideos, deleteVideo, getNewVideosList} from '../bin/fileSysem/dataManager.js';
+import {addToQueue, queue, saveShutdown, tryDownload} from '../bin/download/downloadManager.js';
+import {restoreDownloads} from "../bin/download/failedDownloads.js";
 
 const deleteRouter = express.Router();
 
 deleteRouter.get('/all/', function (req, res) {
 
-    dataManager.deleteAllVideos();
+    deleteAllVideos();
 
-    res.send('deleted all videos');
+    res.redirect('/');
 });
 
 deleteRouter.get('/:vid/', function (req, res) {
@@ -15,34 +17,51 @@ deleteRouter.get('/:vid/', function (req, res) {
     let {vid: videoId} = req.params;
     videoId = decodeURIComponent(videoId);
 
-    dataManager.deleteVideo(videoId);
+    deleteVideo(videoId);
 
-    res.send('deleted');
+    res.redirect('/');
 });
-
-module.exports.deleteRouter = deleteRouter;
 
 const managementRouter = express.Router();
 
 managementRouter.get('/newVideos', function (req, res) {
 
-    let newVideosString = dataManager.getNewVideosList();
+    let newVideosString = getNewVideosList();
 
     res.send(newVideosString);
 });
 
-managementRouter.get('/cleanUp/:interval?', function (req, res) {
+managementRouter.get('/cleanUp/:interval?/:days?', function (req, res) {
 
-    let {interval} = req.params;
+    let {interval, days} = req.params;
+    days = days ? decodeURIComponent(days) : 0;
     interval = interval ? decodeURIComponent(interval) : 2;
 
-    res.send(`Deleted ${dataManager.deleteOldVideos(interval)} Videos`);
+    res.send(`Deleted ${deleteOldVideos(interval, days)} Videos`);
 });
 
 managementRouter.get('/exit', function (req, res) {
 
     res.send('Shut down server');
-    dataManager.cleanUpAndExit();
+    cleanUpAndExit();
 });
 
-module.exports.managementRouter = managementRouter;
+managementRouter.get('/saveExit', function (req, res) {
+
+    saveShutdown = true;
+    res.send(`Waiting for ${queue.length} downloads to complete and then shut down`);
+});
+
+managementRouter.get('/restoreDownloads', function (req, res) {
+
+    for (let video of restoreDownloads()) {
+
+        addToQueue(video);
+    }
+
+    tryDownload().catch();
+
+    res.redirect('/');
+});
+
+export {managementRouter, deleteRouter}

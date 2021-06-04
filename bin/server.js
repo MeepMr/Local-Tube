@@ -3,33 +3,39 @@
 /**
  * Module dependencies.
  */
-const app = require('./app');
-const http = require('http');
-const dataManager = require('./dataManager');
+import http from 'http';
+import express from "express";
 
-/**
- * Get port from environment and store in Express.
- */
-app.set('port', dataManager.port);
+import localTube from './web-server/local-tube.js';
 
-/**
- * Create HTTP server.
- */
-const server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(dataManager.port);
-server.on('listening', onListening);
+import {serverConfiguration} from './fileSysem/dataFiles.js';
+localTube.set('port', serverConfiguration.port);
+localTube.use(express.json());
 
 
-/**
- * Event listener for HTTP server "listening" event.
- */
+const LocalTubeServer = http.createServer(localTube);
 
-function onListening() {
 
-    console.log(`Listening to ${dataManager.domain}:${dataManager.port}`);
-}
+localTube.use('/stylesheets', express.static('./public/stylesheets'));
+localTube.use('/javascript', express.static('./public/javascript'));
+localTube.use('/thumbnails', express.static(serverConfiguration.videoDirectory));
+localTube.use('/videos', express.static(serverConfiguration.videoDirectory));
+
+LocalTubeServer.listen(serverConfiguration.port);
+LocalTubeServer.on('listening', function () {
+
+    console.log(`Listening to ${serverConfiguration.domain}:${serverConfiguration.port}`);
+});
+
+
+
+import feedbackServer from './feedback-server/feedback-server.js';
+
+const FeedBackServer = http.createServer(feedbackServer);
+feedbackServer.use('/stylesheets', express.static('./public/stylesheets'));
+
+FeedBackServer.listen(3090);
+FeedBackServer.on('listening', function () {
+
+    console.log('Feedback-Server started');
+});

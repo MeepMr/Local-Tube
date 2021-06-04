@@ -1,10 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const downloadManger = require('../bin/downloadManager');
-const dataManager = require('../bin/dataManager');
-const videoObject = require('../models/Video');
+import express from 'express';
+const registerRouter = express.Router();
+import {addToQueue, tryDownload} from '../bin/download/downloadManager.js';
+import {addVideo} from '../bin/fileSysem/dataManager.js';
+import {videoObject} from '../models/Video.js';
 
-router.get('/:videoId/:name?/', function (req, res) {
+registerRouter.get('/:videoId/:name?/', function (req, res) {
 
     let {videoId, name} = req.params;
     videoId = decodeURIComponent(videoId);
@@ -12,13 +12,13 @@ router.get('/:videoId/:name?/', function (req, res) {
 
     let video = new videoObject(name, videoId, new Date());
 
-    if (dataManager.addVideo(video)) {
+    if (addVideo(video)) {
 
-        downloadManger.addToQueue(video);
-        downloadManger.startDownload().catch();
+        addToQueue(video);
+        tryDownload().catch();
     }
 
-    res.send(`${dataManager.domain}/watch/${videoId}`);
+    res.redirect(`/#${videoId}`);
 });
 
-module.exports = router;
+export {registerRouter}

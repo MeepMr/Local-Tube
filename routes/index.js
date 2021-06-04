@@ -1,9 +1,17 @@
-const express = require('express');
-const router = express.Router();
+import express from 'express';
+const indexRouter = express.Router();
+import {getVideoList} from '../bin/fileSysem/dataManager.js';
 
 /* GET home page. */
-router.get('/', function (req, res) {
-    res.render('index', {title: 'Express'});
+indexRouter.get('/', function (req, res) {
+
+    let videoList = getVideoList();
+
+    res.render('index', {
+
+        title: 'Local-Tube',
+        videos: videoList
+    });
 });
 
-module.exports = router;
+export {indexRouter}

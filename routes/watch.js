@@ -1,24 +1,82 @@
-const express = require('express');
-const router = express.Router();
-const videoData = require('../bin/dataManager');
+import express from 'express';
+const watchRouter = express.Router();
+import {getVideo} from '../bin/fileSysem/dataManager.js';
 
-router.get('/:videoId/', function (req, res) {
+watchRouter.get('/:videoId/', function (req, res) {
 
     let {videoId} = req.params;
     videoId = decodeURIComponent(videoId);
 
-    let video = videoData.getVideo(videoId);
+    let video = getVideo(videoId);
 
     if (video === null) {
 
-        res.send('Video is not registered');
+        res.render('watch', {
+            error: true,
+            errorMessage: 'Video is not registered',
+            video: undefined,
+            videoId: videoId
+        });
     } else if (video.downloaded) {
 
-        res.sendFile(`${videoData.videoDirectory}/${videoId}.mp4`);
+        res.render('watch', {
+            error: false,
+            errorMessage: undefined,
+            video: video,
+            videoId: videoId
+        });
     } else {
 
-        res.send('Video is still being downloaded');
+        if(video.failed > 0) {
+
+            res.render('watch', {
+                error: true,
+                errorMessage: `Video is in the download-Queue. Download has failed ${video.failed} times`,
+                video: undefined,
+                videoId: videoId
+            });
+        } else {
+
+            res.render('watch', {
+                error: true,
+                errorMessage: 'Video is still the download-Queue.',
+                video: undefined,
+                videoId: videoId
+            });
+        }
     }
 });
 
-module.exports = router;
+watchRouter.get('/watchedTime/:videoId/:watchedSeconds', function (req, res) {
+
+    let {videoId, watchedSeconds} = req.params;
+    videoId = decodeURIComponent(videoId);
+    watchedSeconds = decodeURIComponent(watchedSeconds);
+
+    getVideo(videoId).watchedSeconds = watchedSeconds;
+    res.end();
+});
+
+watchRouter.get('/duration/:videoId/:videoDuration', function (req, res) {
+
+    let {videoId, videoDuration} = req.params;
+    videoId = decodeURIComponent(videoId);
+    videoDuration = decodeURIComponent(videoDuration);
+
+    getVideo(videoId).duration = videoDuration;
+    res.end();
+});
+
+watchRouter.get('/watchedTime/:videoId', function (req, res) {
+
+    let {videoId} = req.params;
+    videoId = decodeURIComponent(videoId);
+
+    let watchedSeconds = getVideo(videoId).watchedSeconds;
+    watchedSeconds = watchedSeconds === undefined ? 0 : watchedSeconds;
+
+    res.type('application/json');
+    res.json({watchedSeconds});
+});
+
+export {watchRouter}

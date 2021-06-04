@@ -11,6 +11,10 @@ function videoObject(title, identifier, date, downloaded = false) {
     this.identifier = identifier;
     this.date = date;
     this.downloaded = downloaded;
+    this.failed = 0;
+    this.lastDownload = undefined;
+    this.duration = 0;
+    this.watchedSeconds = 0;
 }
 
-module.exports = videoObject;
+export {videoObject}
