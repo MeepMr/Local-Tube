@@ -1,9 +1,16 @@
 const video = getVideoElement();
 const videoId = video.id;
-video.addEventListener('playing', TenSecondLoop);
 let duration;
 let seconds;
 let started = false;
+let pip = false;
+let fullscreen = false;
+
+video.addEventListener('playing', TenSecondLoop);
+video.addEventListener('enterpictureinpicture', () => {pip = true;});
+video.addEventListener('leavepictureinpicture', () => {pip = false;});
+document.addEventListener('webkitfullscreenchange', () => {fullscreen = !fullscreen;});
+document.addEventListener('fullscreenchange', () => {fullscreen = !fullscreen;});
 
 function getVideoElement () {
 
@@ -26,12 +33,10 @@ window.addEventListener('keypress', async function (key) {
             await video.pause();
     } else if (keySymbol === 'F') {
 
-        if (video.requestFullscreen) {
-            await video.requestFullscreen();
-        } else {
-            /* Safari */
-            video.webkitRequestFullscreen();
-        }
+        await toggleFullscreen();
+    } else if(keySymbol === 'P') {
+
+        await togglePip();
     }
 });
 
@@ -84,4 +89,29 @@ async function TenSecondLoop () {
         setTimeout(resolve, delay);
     });
 
+}
+
+async function toggleFullscreen () {
+
+    if (video.requestFullscreen) {
+        if(fullscreen)
+            await video.exitFullscreen();
+        else
+            await video.requestFullscreen();
+    } else {
+
+        /* Safari */
+        if (fullscreen)
+            await video.webkitExitFullscreen();
+        else
+            await video.webkitRequestFullscreen();
+    }
+}
+
+async function togglePip () {
+
+    if(pip)
+        await document.exitPictureInPicture();
+    else
+        await video.requestPictureInPicture();
 }
