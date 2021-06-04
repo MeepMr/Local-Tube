@@ -54,7 +54,6 @@ watchRouter.get('/watchedTime/:videoId/:watchedSeconds', function (req, res) {
     watchedSeconds = decodeURIComponent(watchedSeconds);
 
     getVideo(videoId).watchedSeconds = watchedSeconds;
-    console.log(`${new Date().toLocaleTimeString()}: Received Watched Seconds for: ${videoId} / ${watchedSeconds}`);
     res.end();
 });
 
@@ -65,7 +64,6 @@ watchRouter.get('/duration/:videoId/:videoDuration', function (req, res) {
     videoDuration = decodeURIComponent(videoDuration);
 
     getVideo(videoId).duration = videoDuration;
-    console.log(`${new Date().toLocaleTimeString()}: Received Duration for: ${videoId} / ${videoDuration}`);
     res.end();
 });
 
@@ -78,7 +76,6 @@ watchRouter.get('/watchedTime/:videoId', function (req, res) {
     watchedSeconds = watchedSeconds === undefined ? 0 : watchedSeconds;
 
     res.type('application/json');
-    console.log(`${new Date().toLocaleTimeString()}: Send Watched Seconds for: ${videoId} / ${watchedSeconds}`);
     res.json({watchedSeconds});
 });
 

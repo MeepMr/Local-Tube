@@ -1,6 +1,6 @@
 const video = getVideoElement();
 const videoId = video.id;
-video.addEventListener('play', TenSecondLoop);
+video.addEventListener('playing', TenSecondLoop);
 let duration;
 let seconds;
 let started = false;
@@ -50,7 +50,6 @@ async function logSecondsWatched () {
 
     seconds = video.currentTime;
     await fetch(`/watch/watchedTime/${videoId}/${seconds}`);
-    console.log('Curent time watched: ' + seconds);
 }
 
 async function TenSecondLoop () {
