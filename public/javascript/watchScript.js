@@ -51,7 +51,7 @@ window.addEventListener('keydown', function (key) {
         video.currentTime = video.currentTime+10;
     } else if(key.code === 'Delete' && key.ctrlKey) {
 
-        document.getElementsByClassName('download-button').item(0).click();
+        document.getElementsByClassName('delete-button').item(0).click();
     }
 });
 
