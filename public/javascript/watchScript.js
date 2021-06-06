@@ -49,7 +49,15 @@ window.addEventListener('keydown', function (key) {
     } else if (key.code === 'ArrowRight') { // Right-Arrow
 
         video.currentTime = video.currentTime+10;
+    } else if(key.code === 'Delete' && key.ctrlKey) {
+
+        document.getElementsByClassName('download-button').item(0).click();
     }
+});
+
+video.addEventListener('dblclick', async function () {
+
+    await toggleFullscreen();
 });
 
 async function logSecondsWatched () {
@@ -93,6 +101,9 @@ async function logMetaData() {
 }
 
 async function toggleFullscreen () {
+
+    if(pip)
+        await togglePip();
 
     if (video.requestFullscreen) {
         if(fullscreen)
