@@ -20,7 +20,6 @@ let saveAndClearLists = async function () {
         oldNewVideos.push(video);
 
     clearLists();
-    saveLists();
 };
 
 let restoreAndSaveLists = function () {

@@ -136,19 +136,10 @@ let deleteVideo = function (videoId) {
 
 let deleteAllVideos = function () {
 
-    let videoIds = [];
+    while (videoList.length > 0) {
 
-    for (let video of videoList) {
-
-        videoIds.push(video.identifier);
+        deleteVideo(videoList[0].identifier);
     }
-
-    for (let videoId of videoIds) {
-
-        deleteVideoFromFs(`${serverConfiguration.videoDirectory}/${videoId}.mp4`);
-    }
-
-    emptyList(videoList);
 };
 
 /**
