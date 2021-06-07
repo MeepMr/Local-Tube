@@ -13,7 +13,7 @@ import {spliceVideoId} from "../web-server/module-loader.js";
 import {cleanUpAndExit} from "../web-server/startup-exit.js";
 
 /** @type {Boolean} disable Downloads for development reasons*/
-const enableDownloads = true;
+let enableDownloads = true;
 
 /** @type {videoObject[]} */
 let queue = [];
@@ -39,9 +39,10 @@ let tryDownload = async function () {
         await startDownload();
     } else if(!enableDownloads) {
 
-        //Simulate a download of 30 Seconds
+        //Simulate a download of 10 Seconds
         console.log('Download Started');
-        await delay(30*1000);
+        queue.pop();
+        await delay(10*1000);
         console.log('Download Completed');
     }
 };
@@ -146,5 +147,10 @@ let youTubeDl = async function (url, output, options = '') {
     });
 };
 
-export {queue, saveShutdown}
+let disableDownloads = function () {
+
+    enableDownloads = false;
+};
+
+export {queue, saveShutdown, disableDownloads}
 export {tryDownload, addToQueue, youTubeDl}

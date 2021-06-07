@@ -3,11 +3,23 @@ const localTube = express();
 
 //Exit and Restart-Management
 import {cleanUpAndExit, restoreProgress} from './startup-exit.js';
+import {serverConfiguration} from "../fileSystem/dataFiles.js";
+import {moduleRegEx} from "./module-loader.js";
 process.on('exit', cleanUpAndExit);
 process.on('uncaughtException', cleanUpAndExit);
 process.on('SIGINT', cleanUpAndExit);
 process.on('SIGTERM', cleanUpAndExit);
-restoreProgress().catch();
+restoreProgress().then( () => {
+
+    localTube.locals = {
+        server: {
+            title: serverConfiguration.title,
+            description: serverConfiguration.description
+        },
+        author: serverConfiguration.author,
+        moduleRegularExpression: moduleRegEx
+    };
+});
 
 // view engine setup
 localTube.set('views', './views');

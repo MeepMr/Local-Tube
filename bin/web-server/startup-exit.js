@@ -1,8 +1,7 @@
 import fs from "fs";
 import {failedDownloads, newVideos, videoList} from "../fileSystem/dataFiles.js";
 import {addToQueue, tryDownload} from "../download/downloadManager.js";
-import {loadModules, moduleRegEx} from "./module-loader.js";
-import localTube from "./local-tube.js";
+import {loadModules} from "./module-loader.js";
 
 let cleanUpAndExit = function () {
 
@@ -25,15 +24,6 @@ let restoreProgress = async function () {
     await loadModules();
 
     tryDownload().catch();
-
-    localTube.locals = {
-        server: {
-            title: serverConfiguration.title,
-            description: serverConfiguration.description
-        },
-        author: serverConfiguration.author,
-        moduleRegularExpression: moduleRegEx
-    };
 };
 
 export {restoreProgress, cleanUpAndExit}
