@@ -1,7 +1,7 @@
 /** @type {Array.<videoObject>} */
-import {removeVideoFromList} from "../fileSysem/dataManager.js";
+import {removeVideoFromList} from "../fileSystem/dataManager.js";
 
-import {failedDownloads} from '../fileSysem/dataFiles.js';
+import {failedDownloads} from '../fileSystem/dataFiles.js';
 import {daysSinceDate, weeksSinceDate} from '../meep-utils.js';
 
 

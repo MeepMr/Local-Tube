@@ -2,15 +2,15 @@ import {exec} from 'child_process';
 import {delay} from '../meep-utils.js';
 import {
     addVideoToList,
-    cleanUpAndExit,
     configurationFile,
     formatString,
     saveLists,
     serverConfiguration
-} from '../fileSysem/dataManager.js';
+} from '../fileSystem/dataManager.js';
 import {addToFailedList, getReadyVideos} from "./failedDownloads.js";
-import {failedDownloads, newVideos} from "../fileSysem/dataFiles.js";
+import {failedDownloads, newVideos} from "../fileSystem/dataFiles.js";
 import {spliceVideoId} from "../web-server/module-loader.js";
+import {cleanUpAndExit} from "../web-server/startup-exit.js";
 
 /** @type {Boolean} disable Downloads for development reasons*/
 const enableDownloads = true;

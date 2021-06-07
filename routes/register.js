@@ -1,7 +1,7 @@
 import express from 'express';
 const registerRouter = express.Router();
 import {addToQueue, tryDownload} from '../bin/download/downloadManager.js';
-import {addVideo} from '../bin/fileSysem/dataManager.js';
+import {addVideo} from '../bin/fileSystem/dataManager.js';
 import {videoObject} from '../models/Video.js';
 
 registerRouter.get('/:videoId/:name?/', function (req, res) {

@@ -1,5 +1,5 @@
 import fs from "fs";
-import {failedDownloads, newVideos, serverConfiguration, videoList} from "../fileSysem/dataFiles.js";
+import {failedDownloads, newVideos, videoList} from "../fileSystem/dataFiles.js";
 import {addToQueue, tryDownload} from "../download/downloadManager.js";
 import {loadModules, moduleRegEx} from "./module-loader.js";
 import localTube from "./local-tube.js";

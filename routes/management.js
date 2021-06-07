@@ -1,7 +1,8 @@
 import express from 'express';
-import {cleanUpAndExit, deleteAllVideos, deleteOldVideos, deleteVideo, getNewVideosList} from '../bin/fileSysem/dataManager.js';
+import {deleteAllVideos, deleteOldVideos, deleteVideo, getNewVideosList} from '../bin/fileSystem/dataManager.js';
 import {addToQueue, queue, saveShutdown, tryDownload} from '../bin/download/downloadManager.js';
 import {restoreDownloads} from "../bin/download/failedDownloads.js";
+import {cleanUpAndExit} from "../bin/web-server/startup-exit.js";
 
 const deleteRouter = express.Router();
 

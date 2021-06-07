@@ -2,7 +2,7 @@ import express from 'express';
 const downloadRouter = express.Router();
 
 import {youTubeDl} from '../bin/download/downloadManager.js';
-import {configurationFile, findVideo, serverConfiguration} from '../bin/fileSysem/dataManager.js';
+import {configurationFile, findVideo, serverConfiguration} from '../bin/fileSystem/dataManager.js';
 import fs from 'fs'
 import {spliceVideoId} from "../bin/web-server/module-loader.js";
 import {videoObject} from "../models/Video.js";

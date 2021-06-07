@@ -4,10 +4,10 @@ import {
     serverConfiguration,
     videoList,
     newVideos,
-    deleteVideoFromFs,
-    failedDownloads
+    failedDownloads,
+    writeListToFs,
+    deleteVideoFromFs
 } from './dataFiles.js';
-import {writeListToFs} from "./dataFiles.js";
 
 const formatString = configurationFile.allowEncoding ? `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${configurationFile.videoHeight}]+bestaudio/best[ext=mp4]/best`
                                                      : `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`;
@@ -191,6 +191,5 @@ let findOldVideos = function (interval, days) {
 export {addVideo}
 export {findVideo, getVideo, getVideoList, getNewVideosList}
 export {writeListToFs, saveLists, removeVideoFromList, addVideoToList}
-export {restoreProgress, cleanUpAndExit} from '../web-server/startup-exit.js';
 export {deleteVideo, deleteOldVideos, deleteAllVideos}
 export {serverConfiguration, configurationFile, formatString}

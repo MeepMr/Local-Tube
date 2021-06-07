@@ -8,7 +8,7 @@ import express from "express";
 
 import localTube from './web-server/local-tube.js';
 
-import {serverConfiguration} from './fileSysem/dataFiles.js';
+import {serverConfiguration} from './fileSystem/dataFiles.js';
 localTube.set('port', serverConfiguration.port);
 localTube.use(express.json());
 
@@ -39,3 +39,5 @@ FeedBackServer.on('listening', function () {
 
     console.log('Feedback-Server started');
 });
+
+export {localTube}
