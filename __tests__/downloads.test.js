@@ -21,11 +21,11 @@ test('Download a Video', async function () {
 
 test('Register a Video', function () {
 
-    expect(videoList).toStrictEqual([]);
+    expect(videoList.size).toEqual(0);
     const testVideo = getTestVideo('youtube-gxPmvXKPqR8');
     expect(addVideo(testVideo)).toBe(true);
     expect(addVideo(testVideo)).toBe(false);
-    expect(videoList).toStrictEqual([testVideo]);
+    expect(videoList).toStrictEqual(new Map().set(testVideo.identifier, testVideo));
 });
 
 test('Add Video to download Queue', async function () {

@@ -18,7 +18,7 @@ const formatString = configurationFile.allowEncoding ? `bestvideo[height<=${conf
  */
 let addVideo = function (video) {
 
-    if (findVideo(video.identifier) === -1) {
+    if (!findVideo(video.identifier)) {
 
         addVideoToList(video, videoList);
         addVideoToList(video, newVideos);
@@ -31,13 +31,11 @@ let addVideo = function (video) {
 
 /**
  * @param videoId {String}
- * @returns {videoObject | null}
+ * @returns {videoObject | undefined}
  */
 let getVideo = function (videoId) {
 
-    let videoIndex = findVideo(videoId);
-
-    return videoIndex !== -1 ? videoList[videoIndex] : null;
+    return videoList.get(videoId);
 };
 
 /**
@@ -47,21 +45,13 @@ let getNewVideosList = function () {
 
     let allVideosString = '';
 
-    for (let video of newVideos) {
+    for (let video of newVideos.values()) {
 
         allVideosString += `<p>${serverConfiguration.domain}/watch/${video.identifier}</p>`;
     }
 
     emptyList(newVideos);
     return allVideosString;
-};
-
-/**
- * @returns {Array<videoObject>}
- */
-let getVideoList = function () {
-
-    return videoList;
 };
 
 let saveLists = function () {
@@ -73,52 +63,40 @@ let saveLists = function () {
 
 /**
  * @param video {videoObject}
- * @param list {Array.<videoObject>}
+ * @param list {Map.<String, videoObject>}
  */
 let addVideoToList = function (video, list) {
 
-    list.push(video);
-    saveLists();
-};
-
-/**
- * @param index {Number}
- * @param list {Array.<videoObject>}
- */
-let removeVideoFromList = function (index, list) {
-
-    list.splice(index, 1);
-    saveLists();
-};
-
-/**
- * @param list {Array.<videoObject>}
- */
-let emptyList = function (list) {
-
-    list.splice(0, list.length);
+    list.set(video.identifier, video);
     saveLists();
 };
 
 /**
  * @param videoId {String}
- * @returns {number}
+ * @param list {Map.<String, videoObject>}
+ */
+let removeVideoFromList = function (videoId, list) {
+
+    list.delete(videoId);
+    saveLists();
+};
+
+/**
+ * @param list {Map.<String, videoObject>}
+ */
+let emptyList = function (list) {
+
+    list.clear();
+    saveLists();
+};
+
+/**
+ * @param videoId {String}
+ * @returns {boolean}
  */
 let findVideo = function (videoId) {
 
-    let index = 0;
-
-    for (let video of videoList) {
-
-        if (video.identifier === videoId) {
-
-            return index;
-        }
-
-        index++;
-    }
-
-    return -1;
+    return videoList.get(videoId) !== undefined;
 };
 
 /**
@@ -126,20 +104,16 @@ let findVideo = function (videoId) {
  */
 let deleteVideo = function (videoId) {
 
-    let index = findVideo(videoId);
-    if (index !== -1) {
+    if (findVideo(videoId)) {
 
         deleteVideoFromFs(videoId);
-        removeVideoFromList(index, videoList);
+        removeVideoFromList(videoId, videoList);
     }
 };
 
 let deleteAllVideos = function () {
 
-    while (videoList.length > 0) {
-
-        deleteVideo(videoList[0].identifier);
-    }
+    videoList.forEach(video => deleteVideo(video.identifier));
 };
 
 /**
@@ -168,7 +142,7 @@ let findOldVideos = function (interval, days) {
 
     let foundOldVideoIds = [];
 
-    for(let video of videoList) {
+    for(let video of videoList.values()) {
 
         if(weeksSinceDate(video.date) >= interval && daysSinceDate(video.date) % 7 >= days) {
 
@@ -180,7 +154,7 @@ let findOldVideos = function (interval, days) {
 };
 
 export {addVideo}
-export {findVideo, getVideo, getVideoList, getNewVideosList}
-export {writeListToFs, saveLists, removeVideoFromList, addVideoToList}
+export {findVideo, getVideo, getNewVideosList}
+export {writeListToFs, saveLists, removeVideoFromList, addVideoToList, emptyList}
 export {deleteVideo, deleteOldVideos, deleteAllVideos}
 export {serverConfiguration, configurationFile, formatString}

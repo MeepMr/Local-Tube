@@ -1,11 +1,9 @@
 import express from 'express';
+import {videoList} from "../bin/fileSystem/dataFiles.js";
 const indexRouter = express.Router();
-import {getVideoList} from '../bin/fileSystem/dataManager.js';
 
 /* GET home page. */
 indexRouter.get('/', function (req, res) {
-
-    let videoList = getVideoList();
 
     res.render('index', {
 

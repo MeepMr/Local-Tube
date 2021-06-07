@@ -6,14 +6,13 @@ import {daysSinceDate, weeksSinceDate} from '../meep-utils.js';
 
 
 /**
- * @returns {Array.<videoObject>}
+ * @returns {Map.<String, videoObject>}
  */
 let getReadyVideos = function () {
 
-    let readyVideos = [];
-    let index = 0;
+    let readyVideos = new Map();
 
-    for(let video of failedDownloads) {
+    for(let video of failedDownloads.values()) {
 
         let weeks = weeksSinceDate(video.date);
         let day = daysSinceDate(video.lastDownload) % 7;
@@ -22,20 +21,14 @@ let getReadyVideos = function () {
 
             if (weeks < 1 && video.failed < 17 || video.identifier.startsWith('twitch')) {
 
-                readyUpVideo(readyVideos, video, index);
+                readyUpVideo(readyVideos, video);
             } else if (weeks < 2 && video.failed < 21 && day > 7) {
 
-                readyUpVideo(readyVideos, video, index);
-            } else {
-
-                index++;
+                readyUpVideo(readyVideos, video);
             }
         } else if(video.identifier.startsWith('twitch') && video.failed < 50) {
 
-            readyUpVideo(readyVideos, video, index);
-        } else {
-
-            index++;
+            readyUpVideo(readyVideos, video);
         }
     }
 
@@ -43,14 +36,13 @@ let getReadyVideos = function () {
 };
 
 /**
- * @param readyVideos {Array.<videoObject>}
+ * @param readyVideos {Map.<String, videoObject>}
  * @param video {videoObject}
- * @param index {Number}
  */
-let readyUpVideo = function (readyVideos, video, index) {
+let readyUpVideo = function (readyVideos, video) {
 
-    removeVideoFromList(index, failedDownloads);
-    readyVideos.push(video);
+    removeVideoFromList(video.identifier, failedDownloads);
+    readyVideos.set(video.identifier, video);
 };
 
 /**
@@ -59,19 +51,19 @@ let readyUpVideo = function (readyVideos, video, index) {
 let addToFailedList = function (video) {
 
     video.lastDownload = new Date();
-    failedDownloads.push(video);
+    failedDownloads.set(video.identifier, video);
 };
 
 /**
- * @returns {Array.<videoObject>}
+ * @returns {Map.<String, videoObject>}
  */
 let restoreDownloads = function () {
 
-    let failedVideos = [];
+    let failedVideos = new Map();
 
-    for(let video of failedDownloads) {
+    for(let video of failedDownloads.values()) {
 
-        readyUpVideo(failedVideos, video, 0);
+        readyUpVideo(failedVideos, video);
         video.failed = 0;
     }
 

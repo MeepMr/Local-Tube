@@ -14,31 +14,36 @@ beforeEach(clearLists);
 
 test('Delete a Video', async function () {
 
-    expect(videoList).toStrictEqual([]);
+    expect(videoList.size).toEqual(0);
     const testVideo = getTestVideo('youtube-gxPmvXKPqR8');
     addToQueue(testVideo);
     await tryDownload();
 
     expect(fs.existsSync(`${serverConfiguration.videoDirectory}/${testVideo.identifier}.mp4`)).toBe(true);
 
+    console.log(videoList);
+
     expect(addVideo(testVideo)).toBe(true);
-    expect(videoList).toStrictEqual([testVideo]);
+    const testMap = new Map().set(testVideo.identifier, testVideo);
+    expect(videoList).toStrictEqual(testMap);
 
     deleteVideo(testVideo.identifier);
+    await delay(1000);
     expect(fs.existsSync(`${serverConfiguration.videoDirectory}/${testVideo.identifier}.mp4`)).toBe(false);
-    expect(videoList).toStrictEqual([]);
+    expect(videoList.size).toEqual(0);
 
-}, 10*1000);
+}, 60*1000);
 
 test('Delete All Registered Videos', async function () {
 
-    expect(videoList).toStrictEqual([]);
+    expect(videoList.size).toEqual(0);
     const testVideo1 = getTestVideo('youtube-gxPmvXKPqR8');
     const testVideo2 = getTestVideo('youtube-32qEgJPT6bs');
 
     expect(addVideo(testVideo1)).toBe(true);
     expect(addVideo(testVideo2)).toBe(true);
-    expect(videoList).toStrictEqual([testVideo1,testVideo2]);
+    const testMap = new Map().set(testVideo1.identifier, testVideo1).set(testVideo2.identifier, testVideo2);
+    expect(videoList).toStrictEqual(testMap);
 
     addToQueue(testVideo1);
     addToQueue(testVideo2);
@@ -54,5 +59,5 @@ test('Delete All Registered Videos', async function () {
 
     expect(fs.existsSync(`${serverConfiguration.videoDirectory}/${testVideo1.identifier}.mp4`)).toBe(false);
     expect(fs.existsSync(`${serverConfiguration.videoDirectory}/${testVideo2.identifier}.mp4`)).toBe(false);
-    expect(videoList).toStrictEqual([]);
+    expect(videoList.size).toEqual(0);
 }, 2*60*1000);

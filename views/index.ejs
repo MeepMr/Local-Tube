@@ -8,7 +8,7 @@
     <body>
     <%- include('header.ejs') %>
     <main id="index">
-    <% for (let video of videos) { %>
+    <% for (let video of videos.values()) { %>
         <div class="videoContainer" id="<%=video.identifier;%>">
             <a class="videoLink" href="/watch/<%=video.identifier;%>"
                     style="background-image: url('/thumbnails/<%=video.identifier;%>.webp'), url('/thumbnails/<%=video.identifier;%>.jpg');

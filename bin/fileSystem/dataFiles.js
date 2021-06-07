@@ -1,13 +1,17 @@
 import fs from "fs";
 
-/** @type {Array.<videoObject>} */
-const videoList = JSON.parse(fs.readFileSync('./data/videoData.json').toString());
+const videoListString = JSON.parse(fs.readFileSync('./data/videoData.json').toString());
+/** @type {Map.<String, videoObject>} */
+const videoList = new Map(videoListString);
 
-/** @type {Array.<videoObject>} */
-const newVideos = JSON.parse(fs.readFileSync('./data/newVideos.json').toString());
 
-/** @type {Array.<videoObject>} */
-const failedDownloads = JSON.parse(fs.readFileSync('./data/failedDownloads.json').toString());
+const newVideosString = JSON.parse(fs.readFileSync('./data/newVideos.json').toString());
+/** @type {Map.<String, videoObject>} */
+const newVideos = new Map(newVideosString);
+
+const failedDownloadsString= JSON.parse(fs.readFileSync('./data/failedDownloads.json').toString());
+/** @type {Map.<String, videoObject>} */
+const failedDownloads = new Map(failedDownloadsString);
 
 /** @type {{videoHeight:Number, temporaryDuration:Number, allowEncoding:Boolean, downloadTimeout:Number, bitrate:String}}*/
 const configurationFile = JSON.parse(fs.readFileSync('./data/configuration.json').toString());
@@ -16,12 +20,12 @@ const configurationFile = JSON.parse(fs.readFileSync('./data/configuration.json'
 const serverConfiguration = JSON.parse(fs.readFileSync('./data/serverConfiguration.json').toString());
 
 /**
- * @param list {Array.<videoObject>}
+ * @param list {Map.<String, videoObject>}
  * @param filename {String}
  */
 let writeListToFs = function (list, filename) {
 
-    fs.writeFile(`./data/${filename}.json`, JSON.stringify(list), () => {});
+    fs.writeFileSync(`./data/${filename}.json`, JSON.stringify([...list]));
 };
 
 /**

@@ -13,7 +13,7 @@ downloadRouter.get('/:videoId/:name?/', async function (req, res) {
     videoId = decodeURIComponent(videoId);
     name = name ? decodeURIComponent(name) : videoId;
 
-    if (findVideo(videoId) !== -1) {
+    if (findVideo(videoId)) {
 
         sendDownloadedVideo(res, videoId, name, true);
 

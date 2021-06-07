@@ -1,49 +1,41 @@
 import {failedDownloads, newVideos, videoList} from "../bin/fileSystem/dataFiles.js";
-import {saveLists} from "../bin/fileSystem/dataManager.js";
+import {emptyList, saveLists} from "../bin/fileSystem/dataManager.js";
 import {videoObject} from '../models/Video.js';
 
-const oldVideoList = [];
-let oldFailedDownloads = [];
-let oldNewVideos = [];
+/** @type {Map.<String, videoObject>} */
+let oldVideoList = new Map();
+
+/** @type {Map.<String, videoObject>} */
+let oldFailedDownloads = new Map();
+
+/** @type {Map.<String, videoObject>} */
+let oldNewVideos = new Map();
 
 let saveAndClearLists = async function () {
 
-    let video;
-
-    for (video of videoList)
-        oldVideoList.push(video);
-
-    for (video of failedDownloads)
-        oldFailedDownloads.push(video);
-
-    for (video of newVideos)
-        oldNewVideos.push(video);
+    videoList.forEach((video, key) => oldVideoList.set(key, video));
+    failedDownloads.forEach((video, key) => oldFailedDownloads.set(key, video));
+    newVideos.forEach((video, key) => oldNewVideos.set(key, video));
 
     clearLists();
 };
 
 let restoreAndSaveLists = function () {
 
-    let video;
     clearLists();
 
-    for (video of oldVideoList)
-        videoList.push(video);
-
-    for (video of oldFailedDownloads)
-        failedDownloads.push(video);
-
-    for (video of oldNewVideos)
-        newVideos.push(video);
+    oldVideoList.forEach((video, key) => videoList.set(key, video));
+    oldFailedDownloads.forEach((video, key) => failedDownloads.set(key, video));
+    oldNewVideos.forEach((video, key) => newVideos.set(key, video));
 
     saveLists();
 };
 
 let clearLists = function () {
 
-    videoList.splice(0, videoList.length);
-    failedDownloads.splice(0, failedDownloads.length);
-    newVideos.splice(0, newVideos.length);
+    emptyList(videoList);
+    emptyList(failedDownloads);
+    emptyList(newVideos);
 };
 
 

@@ -78,10 +78,7 @@ let startDownload = async function () {
 
         if(queue.length === 0 && failedDownloads.length > 0 ) {
 
-            for(let video of getReadyVideos()) {
-
-                queue.push(video);
-            }
+            getReadyVideos().forEach(addToQueue);
         }
     }
 

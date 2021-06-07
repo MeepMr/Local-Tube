@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedFunction
+
 const video = getVideoElement();
 const videoId = video.id;
 let duration;

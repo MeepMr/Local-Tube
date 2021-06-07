@@ -55,7 +55,7 @@ managementRouter.get('/saveExit', function (req, res) {
 
 managementRouter.get('/restoreDownloads', function (req, res) {
 
-    for (let video of restoreDownloads()) {
+    for (let video of restoreDownloads().values()) {
 
         addToQueue(video);
     }

@@ -9,7 +9,7 @@ watchRouter.get('/:videoId/', function (req, res) {
 
     let video = getVideo(videoId);
 
-    if (video === null) {
+    if (video === undefined) {
 
         res.render('watch', {
             error: true,
