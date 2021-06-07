@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <title>Login <%=server.title;%></title>
+        <link rel='stylesheet' href='/stylesheets/style.css'/>
+    </head>
+    <body>
+    <%- include('header.ejs') %>
+        <form method="get" action="/login" class="center">
+            <label for="account-name">User-Name<br/></label>
+            <input type="text" id="account-name" name="accountName">
+            <br/>
+            <label for="account-token">User-Token<br/></label>
+            <input type="password" id="account-token" name="token">
+            <br/>
+            <button type="submit">Login</button>
+        </form>
+    <%- include('footer.ejs') %>
+    </body>
+</html>

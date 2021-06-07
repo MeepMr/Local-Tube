@@ -1,4 +1,5 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 const localTube = express();
 
 //Exit and Restart-Management
@@ -28,8 +29,11 @@ localTube.set('view engine', 'ejs');
 localTube.use(express.json());
 localTube.use(express.urlencoded({extended: true}));
 
+localTube.use(cookieParser());
+
 //Manage Routers
-import {indexRouter, deleteRouter, downloadRouter, watchRouter, registerRouter, managementRouter} from './routerManager.js';
+import {indexRouter, deleteRouter, downloadRouter, watchRouter, registerRouter, managementRouter, loginRouter} from './routerManager.js';
+localTube.use('/', loginRouter);
 localTube.use('/', indexRouter);
 localTube.use('/register', registerRouter);
 localTube.use('/watch', watchRouter);

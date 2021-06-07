@@ -13,6 +13,10 @@ const failedDownloadsString= JSON.parse(fs.readFileSync('./data/failedDownloads.
 /** @type {Map.<String, videoObject>} */
 const failedDownloads = new Map(failedDownloadsString);
 
+const accountTokensString= JSON.parse(fs.readFileSync('./data/accountTokens.json').toString());
+/** @type {Map.<String, String>} */
+const accountTokens = new Map(accountTokensString);
+
 /** @type {{videoHeight:Number, temporaryDuration:Number, allowEncoding:Boolean, downloadTimeout:Number, bitrate:String}}*/
 const configurationFile = JSON.parse(fs.readFileSync('./data/configuration.json').toString());
 
@@ -20,10 +24,10 @@ const configurationFile = JSON.parse(fs.readFileSync('./data/configuration.json'
 const serverConfiguration = JSON.parse(fs.readFileSync('./data/serverConfiguration.json').toString());
 
 /**
- * @param list {Map.<String, videoObject>}
+ * @param list {Map.<String, any>}
  * @param filename {String}
  */
-let writeListToFs = function (list, filename) {
+let writeMapToFs = function (list, filename) {
 
     fs.writeFileSync(`./data/${filename}.json`, JSON.stringify([...list]));
 };
@@ -43,5 +47,5 @@ let deleteVideoFromFs = function (videoId) {
     }
 };
 
-export {videoList, newVideos, failedDownloads, configurationFile, serverConfiguration}
-export {writeListToFs, deleteVideoFromFs}
+export {videoList, newVideos, failedDownloads, configurationFile, serverConfiguration, accountTokens}
+export {writeMapToFs, deleteVideoFromFs}

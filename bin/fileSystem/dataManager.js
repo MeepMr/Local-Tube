@@ -5,7 +5,7 @@ import {
     videoList,
     newVideos,
     failedDownloads,
-    writeListToFs,
+    writeMapToFs as writeListToFs,
     deleteVideoFromFs
 } from './dataFiles.js';
 
