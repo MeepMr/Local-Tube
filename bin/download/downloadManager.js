@@ -115,7 +115,7 @@ let downloadThumbnail = async function (url, outPut) {
 
     try {
 
-        await Promise.race([youTubeDl(url, `${serverConfiguration.videoDirectory}/${outPut}`, `--write-thumbnail --skip-download -f 'best[ext=jpg]/best[ext=webp]/best'`),
+        await Promise.race([youTubeDl(url, `${serverConfiguration.videoDirectory}/${outPut}`, `--write-thumbnail --skip-download -f 'best[ext=webp]/best[ext=jpg]'`),
             delay(configurationFile.downloadTimeout*60*1000, true, 'Download timed out')]);
         return true;
     } catch (error) {
