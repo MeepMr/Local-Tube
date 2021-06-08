@@ -9,9 +9,6 @@ let pip = false;
 let fullscreen = false;
 
 video.addEventListener('playing', TenSecondLoop);
-video.addEventListener('canplaythrough', () => {
-    video.currentTime = seconds;
-});
 video.addEventListener('loadedmetadata', logMetaData);
 video.addEventListener('enterpictureinpicture', () => {pip = true;});
 video.addEventListener('leavepictureinpicture', () => {pip = false;});
@@ -95,6 +92,8 @@ async function logMetaData() {
     seconds = responseJSON.watchedSeconds;
     await fetch(`/watch/duration/${videoId}/${duration}`);
     video.controls = true;
+    await delay(2000);
+    video.currentTime = seconds;
 }
 
 function delay (delay) {
