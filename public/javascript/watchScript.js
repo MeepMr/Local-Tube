@@ -89,11 +89,14 @@ async function logMetaData() {
     duration = video.duration;
     let response = await fetch(`/watch/watchedTime/${videoId}`);
     let responseJSON = await response.json();
-    video.currentTime = seconds = responseJSON.watchedSeconds;
+    seconds = responseJSON.watchedSeconds;
     await fetch(`/watch/duration/${videoId}/${duration}`);
+    video.controls = true;
+    await delay(2000);
+    video.currentTime = seconds;
 }
 
- function delay (delay) {
+function delay (delay) {
 
     return new Promise( function (resolve) {
 
