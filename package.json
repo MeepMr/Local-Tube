@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node bin/server.js",
+    "start": "node ./bin/server.js",
+    "migrate": "node ./bin/migrate.js",
     "test": "jest"
   },
   "dependencies": {
