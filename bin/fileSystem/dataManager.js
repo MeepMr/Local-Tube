@@ -1,4 +1,4 @@
-import {daysSinceDate, weeksSinceDate} from '../meep-utils.js';
+import {daysSinceDate, weeksSinceDate, delay} from '../meep-utils.js';
 import {
     configurationFile,
     serverConfiguration,
@@ -54,11 +54,21 @@ let getNewVideosList = function () {
     return allVideosString;
 };
 
-let saveLists = function () {
+let saving = false;
+let saveLists = async function () {
 
-    writeListToFs(videoList, 'videoData');
-    writeListToFs(newVideos, 'newVideos');
-    writeListToFs(failedDownloads, 'failedDownloads');
+    if(!saving) {
+
+        saving = true;
+        while (saving) {
+
+            console.log('Saving current State to FileSystem');
+            await delay(5 * 60 * 1000);
+            writeListToFs(videoList, 'videoData');
+            writeListToFs(newVideos, 'newVideos');
+            writeListToFs(failedDownloads, 'failedDownloads');
+        }
+    }
 };
 
 /**
@@ -68,7 +78,6 @@ let saveLists = function () {
 let addVideoToList = function (video, list) {
 
     list.set(video.identifier, video);
-    saveLists();
 };
 
 /**
@@ -78,7 +87,6 @@ let addVideoToList = function (video, list) {
 let removeVideoFromList = function (videoId, list) {
 
     list.delete(videoId);
-    saveLists();
 };
 
 /**
@@ -87,7 +95,6 @@ let removeVideoFromList = function (videoId, list) {
 let emptyList = function (list) {
 
     list.clear();
-    saveLists();
 };
 
 /**
@@ -155,6 +162,6 @@ let findOldVideos = function (interval, days) {
 
 export {addVideo}
 export {findVideo, getVideo, getNewVideosList}
-export {writeListToFs, saveLists, removeVideoFromList, addVideoToList, emptyList}
+export {writeListToFs, removeVideoFromList, saveLists, addVideoToList, emptyList}
 export {deleteVideo, deleteOldVideos, deleteAllVideos}
 export {serverConfiguration, configurationFile, formatString}

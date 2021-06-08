@@ -4,7 +4,6 @@ import {
     addVideoToList,
     configurationFile,
     formatString,
-    saveLists,
     serverConfiguration
 } from '../fileSystem/dataManager.js';
 import {addToFailedList, getReadyVideos} from "./failedDownloads.js";
@@ -74,7 +73,6 @@ let startDownload = async function () {
              else
                 addToFailedList(nextVideo);
         }
-        saveLists();
 
         if(queue.length === 0 && failedDownloads.length > 0 ) {
 

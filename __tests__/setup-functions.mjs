@@ -1,5 +1,5 @@
 import {failedDownloads, newVideos, videoList} from "../bin/fileSystem/dataFiles.js";
-import {emptyList, saveLists} from "../bin/fileSystem/dataManager.js";
+import {emptyList} from "../bin/fileSystem/dataManager.js";
 import {videoObject} from '../models/Video.js';
 
 /** @type {Map.<String, videoObject>} */
@@ -27,8 +27,6 @@ let restoreAndSaveLists = function () {
     oldVideoList.forEach((video, key) => videoList.set(key, video));
     oldFailedDownloads.forEach((video, key) => failedDownloads.set(key, video));
     oldNewVideos.forEach((video, key) => newVideos.set(key, video));
-
-    saveLists();
 };
 
 let clearLists = function () {

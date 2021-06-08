@@ -2,6 +2,7 @@ import fs from "fs";
 import {failedDownloads, newVideos, videoList} from "../fileSystem/dataFiles.js";
 import {addToQueue, tryDownload} from "../download/downloadManager.js";
 import {loadModules} from "./module-loader.js";
+import {saveLists} from "../fileSystem/dataManager.js";
 
 let cleanUpAndExit = function () {
 
@@ -24,6 +25,7 @@ let restoreProgress = async function () {
     await loadModules();
 
     tryDownload().catch();
+    saveLists().catch();
 };
 
 export {restoreProgress, cleanUpAndExit}
