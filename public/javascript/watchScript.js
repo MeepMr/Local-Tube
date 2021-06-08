@@ -79,8 +79,8 @@ async function TenSecondLoop () {
             await logSecondsWatched();
         }
 
-        await logSecondsWatched();
         started = false;
+        await logSecondsWatched();
     }
 }
 
@@ -89,11 +89,9 @@ async function logMetaData() {
     duration = video.duration;
     let response = await fetch(`/watch/watchedTime/${videoId}`);
     let responseJSON = await response.json();
-    seconds = responseJSON.watchedSeconds;
     await fetch(`/watch/duration/${videoId}/${duration}`);
-    video.controls = true;
-    await delay(2000);
-    video.currentTime = seconds;
+    await delay(1000);
+    video.currentTime = seconds = responseJSON.watchedSeconds;
 }
 
 function delay (delay) {
