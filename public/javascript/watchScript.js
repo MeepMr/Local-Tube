@@ -3,12 +3,11 @@
 const video = getVideoElement();
 const videoId = video.id;
 let duration;
-let seconds;
 let started = false;
 let pip = false;
 let fullscreen = false;
 
-video.addEventListener('playing', TenSecondLoop);
+video.addEventListener('playing', Loop);
 video.addEventListener('loadedmetadata', logMetaData);
 video.addEventListener('enterpictureinpicture', () => {pip = true;});
 video.addEventListener('leavepictureinpicture', () => {pip = false;});
@@ -64,11 +63,10 @@ video.addEventListener('dblclick', async function () {
 
 async function logSecondsWatched () {
 
-    seconds = video.currentTime;
-    await fetch(`/watch/watchedTime/${videoId}/${seconds}`);
+    await fetch(`/watch/watchedTime/${videoId}/${video.currentTime}`);
 }
 
-async function TenSecondLoop () {
+async function Loop () {
 
     if(!started) {
 
@@ -87,11 +85,7 @@ async function TenSecondLoop () {
 async function logMetaData() {
 
     duration = video.duration;
-    let response = await fetch(`/watch/watchedTime/${videoId}`);
-    let responseJSON = await response.json();
     await fetch(`/watch/duration/${videoId}/${duration}`);
-    await delay(1000);
-    video.currentTime = seconds = responseJSON.watchedSeconds;
 }
 
 function delay (delay) {
