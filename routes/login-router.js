@@ -9,7 +9,7 @@ loginRouter.use(function (req, res, next) {
     const accountName = cookies['Account'];
     const accountToken = cookies[accountName];
 
-    if(url.match('^[/](stylesheets|javascript|thumbnails|login|register|images)')) {
+    if(url.match('^[/](stylesheets|javascript|thumbnails|login|register|images|favicons)')) {
 
         next();
     } else {
