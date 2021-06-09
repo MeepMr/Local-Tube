@@ -18,6 +18,8 @@ const LocalTubeServer = http.createServer(localTube);
 
 localTube.use('/stylesheets', express.static('./public/stylesheets'));
 localTube.use('/javascript', express.static('./public/javascript'));
+localTube.use('/images', express.static('./public/images'));
+localTube.use('/favicons', express.static('./public/images/favicons'));
 localTube.use('/thumbnails', express.static(serverConfiguration.videoDirectory));
 localTube.use('/videos', express.static(serverConfiguration.videoDirectory));
 

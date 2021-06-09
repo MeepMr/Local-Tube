@@ -83,7 +83,28 @@ header {
   position: sticky;
   position: -webkit-sticky;
   top: 0;
-  background-color: rgba(7, 7, 7, 0.7);
+  background-color: rgba(7, 7, 7, 0.85);
+}
+
+#header-div {
+
+  display: flex;
+  flex-direction: row;
+}
+
+#header-div:hover {
+
+  cursor: pointer;
+}
+
+#header-image-div {
+
+  height: 50px;
+  width: 50px;
+  background-position: center;
+  background-size: contain;
+  align-self: center;
+  margin-right: 10px;
 }
 
 #register-form {
@@ -92,6 +113,7 @@ header {
   justify-content: flex-end;
   justify-items: flex-end;
   justify-self: right;
+  align-self: center;
   float: right;
   width: 70%;
   height: 80px;

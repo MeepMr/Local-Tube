@@ -1,7 +1,13 @@
 <header>
-    <div id="header-div">
-        <h1 id="title"><a href="/"><%=server.title;%></a></h1>
-        <p><%=server.description;%></p>
+    <div id="header-div"
+        onclick="window.location.href='/'">
+        <div id="header-image-div"
+            style="background-image: url('/favicons/LocalTube-FavIcon.png');">
+        </div>
+        <div id="header-text-div">
+            <h1 id="title"><%=server.title;%></h1>
+            <p><%=server.description;%></p>
+        </div>
     </div>
     <div id="register-form">
         <div class="register-form-element register-text">
