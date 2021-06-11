@@ -161,27 +161,3 @@ footer {
   height: 20px;
   margin: 5px 10px;
 }
-
-@keyframes flashGreen {
-  0% {
-    background:#312f2f;
-  }
-  50% {
-    background:green;
-  }
-  100% {
-    background:#312f2f;
-  }
-}
-
-@keyframes flashRed {
-  0% {
-    background:#312f2f;
-  }
-  50% {
-    background:red;
-  }
-  100% {
-    background:#312f2f;
-  }
-}

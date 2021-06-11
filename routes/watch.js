@@ -1,6 +1,7 @@
 import express from 'express';
 const watchRouter = express.Router();
 import {getVideo} from '../bin/fileSystem/dataManager.js';
+import {videoList} from "../bin/fileSystem/dataFiles.js";
 
 watchRouter.get('/:videoId/', function (req, res) {
 
@@ -15,7 +16,8 @@ watchRouter.get('/:videoId/', function (req, res) {
             error: true,
             errorMessage: 'Video is not registered',
             video: undefined,
-            videoId: videoId
+            videoId: videoId,
+            videoList: videoList
         });
     } else if (video.downloaded) {
 
@@ -23,7 +25,8 @@ watchRouter.get('/:videoId/', function (req, res) {
             error: false,
             errorMessage: undefined,
             video: video,
-            videoId: videoId
+            videoId: videoId,
+            videoList: videoList
         });
     } else {
 
@@ -33,7 +36,8 @@ watchRouter.get('/:videoId/', function (req, res) {
                 error: true,
                 errorMessage: `Video is in the download-Queue. Download has failed ${video.failed} times`,
                 video: undefined,
-                videoId: videoId
+                videoId: videoId,
+                videoList: videoList
             });
         } else {
 
@@ -41,7 +45,8 @@ watchRouter.get('/:videoId/', function (req, res) {
                 error: true,
                 errorMessage: 'Video is still the download-Queue.',
                 video: undefined,
-                videoId: videoId
+                videoId: videoId,
+                videoList: videoList
             });
         }
     }
