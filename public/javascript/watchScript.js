@@ -1,6 +1,7 @@
 // noinspection JSUnresolvedFunction
 
 const video = getVideoElement();
+const nextVideoLink = getNextVideo();
 const videoId = video.id;
 let duration;
 let started = false;
@@ -14,10 +15,26 @@ video.addEventListener('leavepictureinpicture', () => {pip = false;});
 document.addEventListener('webkitfullscreenchange', () => {fullscreen = !fullscreen;});
 document.addEventListener('fullscreenchange', () => {fullscreen = !fullscreen;});
 
+/**
+ * @returns {HTMLVideoElement}
+ */
 function getVideoElement () {
 
     let videos = document.getElementsByTagName('video');
     return videos.item(0);
+}
+
+/**
+ * @returns {HTMLLinkElement | Boolean}
+ */
+function getNextVideo () {
+
+    const videoElementCollection = document.getElementById('aside-video-list').children;
+    if(videoElementCollection === null)
+        return false;
+
+    const firstVideoElement = videoElementCollection.item(0);
+    return firstVideoElement.children.item(0);
 }
 
 window.addEventListener('keypress', async function (key) {
@@ -36,9 +53,13 @@ window.addEventListener('keypress', async function (key) {
     } else if (keySymbol === 'F') {
 
         await toggleFullscreen();
-    } else if(keySymbol === 'P') {
+    } else if (keySymbol === 'P') {
 
         await togglePip();
+    } else if (keySymbol === 'N') {
+
+        if (key.shiftKey)
+            nextVideoLink.click();
     }
 });
 

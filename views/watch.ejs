@@ -34,7 +34,7 @@
             </div>
         <% } %>
     </main>
-    <aside>
+    <aside id="aside-video-list">
         <% let counter = 0; for (let videoItem of videoList.values()) { %>
             <% if(counter < 6 && videoItem.identifier !== video.identifier) { %>
                 <div class="video-list-container">
