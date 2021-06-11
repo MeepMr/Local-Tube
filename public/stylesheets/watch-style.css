@@ -39,8 +39,9 @@
 
 main {
 
-    width: 70%;
-    flex-shrink: 0;
+    display: flex;
+    align-content: flex-start;
+    flex: 1 0 74%;
 }
 
 aside {
@@ -49,9 +50,8 @@ aside {
     flex-direction: column;
     flex-wrap: nowrap;
     margin-left: 10px;
-    flex: 0 0 25%;
+    flex: 1 0 25%;
     row-gap: 10px;
-
 }
 
 .video-list-container {
