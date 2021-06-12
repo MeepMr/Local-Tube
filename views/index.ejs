@@ -21,14 +21,16 @@
                     <p class="center">Downloaded on: <%=date.getDate();%>.<%=date.getMonth()+1;%>.<%=date.getFullYear();%></p>
                 </div>
                 <div class="video-management">
-                    <div class="video-management-container download-button"
-                         onclick="window.location.href='/download/<%=video.identifier;%>/<%=video.title;%>';">
-                        <p class="center">Download Video</p>
-                    </div>
-                    <div class="video-management-container delete-button"
-                         onclick="window.location.href='/delete/<%=video.identifier;%>';">
-                        <p class="center">Delete Video</p>
-                    </div>
+                    <button class="video-management-container download-button"
+                         onclick="window.location.href='/download/<%=video.identifier;%>/<%=video.title;%>';"
+                    >
+                        Download Video
+                    </button>
+                    <button class="video-management-container delete-button"
+                         onclick="window.location.href='/delete/<%=video.identifier;%>';"
+                    >
+                        Delete Video
+                    </button>
                 </div>
             </section>
         </div>

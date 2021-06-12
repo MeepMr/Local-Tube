@@ -41,6 +41,13 @@ h1 #title {
   background-color: rgba(48, 125, 220, 0.33);
 }
 
+button {
+
+  border: none;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: var(--textColor);
+}
+
 .download-button:hover {
 
   background-color: rgba(48, 125, 220, 0.7);
@@ -60,7 +67,6 @@ h1 #title {
 
 .submit-button {
 
-  display: flex;
   background-color: rgba(65, 48, 220, 0.33);
   border-radius: 20px;
   height: 45px;
