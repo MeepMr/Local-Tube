@@ -99,3 +99,11 @@ footer {
   height: 20px;
   margin: 5px 10px;
 }
+
+@media screen and (max-width: 635px) {
+
+  body {
+    padding: unset;
+    margin: unset;
+  }
+}

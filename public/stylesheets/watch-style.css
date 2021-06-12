@@ -88,3 +88,23 @@ aside {
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+@media screen and (max-width: 1129px) {
+
+    .video-list-container {
+        flex: 1 1 49%;
+    }
+
+    #watch {
+
+        flex: 1 1 100%;
+    }
+
+    aside {
+        flex-wrap: wrap;
+        flex-direction: row;
+        margin: unset;
+        flex: 1 1 100%;
+        column-gap: 10px;
+    }
+}

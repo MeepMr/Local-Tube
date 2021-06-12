@@ -72,3 +72,21 @@ header {
 
     flex: 0 0 200px;
 }
+
+@media screen and (max-width: 1115px) {
+
+    #header-image-div {display: none;}
+    #header-text-div>p {display: none;}
+    #title {margin: unset;}
+}
+
+@media screen and (max-width: 635px) {
+
+    #register-form {display: none;}
+    #header-anchor {width: 100%;}
+    header {
+        width: 50%;
+        margin: unset;
+    }
+    footer {display: none;}
+}

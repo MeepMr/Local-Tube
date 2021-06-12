@@ -65,3 +65,14 @@
     margin-right: 5px;
     margin-left: 5px;
 }
+
+@media screen and (max-width: 635px){
+
+    .videoContainer {
+        width: 100%;
+
+    }
+
+    .video-info-text {display: none;}
+    .video-management-container {width: 49%;}
+}
