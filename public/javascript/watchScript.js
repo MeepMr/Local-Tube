@@ -58,8 +58,17 @@ window.addEventListener('keypress', async function (key) {
         await togglePip();
     } else if (keySymbol === 'N') {
 
-        if (key.shiftKey)
-            nextVideoLink.click();
+        if (key.shiftKey && !key.metaKey) {
+
+            if(key.ctrlKey) {
+
+                await fetch(`/delete/${videoId}`);
+                nextVideoLink.click();
+            } else {
+
+                nextVideoLink.click();
+            }
+        }
     }
 });
 
