@@ -62,7 +62,6 @@ let saveLists = async function () {
         saving = true;
         while (saving) {
 
-            console.log('Saving current State to FileSystem');
             await delay(5 * 60 * 1000);
             writeListToFs(videoList, 'videoData');
             writeListToFs(newVideos, 'newVideos');

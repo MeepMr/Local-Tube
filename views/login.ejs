@@ -3,18 +3,26 @@
     <head>
         <title>Login <%=server.title;%></title>
         <%- include('html-head.ejs')%>
+        <link rel='stylesheet' href='/stylesheets/login-style.css'/>
     </head>
     <body>
     <%- include('header.ejs') %>
-        <form method="get" action="/login" class="center">
-            <label for="account-name">User-Name<br/></label>
-            <input type="text" id="account-name" name="accountName">
-            <br/>
-            <label for="account-token">User-Token<br/></label>
-            <input type="password" id="account-token" name="token">
-            <br/>
-            <button type="submit">Login</button>
+    <main>
+        <form method="get" action="/login">
+            <label for="account-name">
+            <input type="text" id="account-name" name="accountName"
+                   autofocus
+                   autocomplete="username"
+                   placeholder="Username">
+            </label>
+            <label for="account-token">
+            <input type="password" id="account-token" name="token"
+                   autocomplete="current-password"
+                   placeholder="Login-Token">
+            </label>
+            <button type="submit" class="submit-button">Login</button>
         </form>
+    </main>
     <%- include('footer.ejs') %>
     </body>
 </html>
