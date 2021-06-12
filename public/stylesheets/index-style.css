@@ -1,11 +1,15 @@
 .videoContainer {
 
-    height: 300px;
-    width: 500px;
-    margin-right: 20px;
-    margin-bottom: 20px;
     background-color: var(--itemBackground);
     border-radius: 15px;
+    flex: 1 1 450px;
+}
+
+.videoContainer:before {
+
+    content: "";
+    float: left;
+    padding-top: 60%;
 }
 
 #index {
@@ -13,12 +17,14 @@
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
+    row-gap: 20px;
+    column-gap: 20px;
 }
 
 .videoLink {
 
     display: flex;
-    height: 80%;
+    height: calc(100% - 60px);
     width: 100%;
     background-repeat: no-repeat;
     background-color: var(--itemBackground);
@@ -28,7 +34,7 @@
 }
 .video-info {
 
-    height: 20%;
+    height: 60px;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -37,18 +43,17 @@
 .video-info-text {
 
     display: flex;
-    height: 50px;
+    height: 100%;
     width: 140px;
-    margin: 5px;
 }
 
 .video-management {
 
     display: flex;
-
     height: 50px;
-    width: 340px;
-    margin: 5px;
+    justify-content: flex-end;
+    align-self: center;
+    flex: 1 1 200px;
 }
 
 .video-management-container {
@@ -56,7 +61,7 @@
     border-radius: 20px;
     border-collapse: separate;
     height: 100%;
-    width: 340px;
+    width: 140px;
     margin-right: 5px;
     margin-left: 5px;
 }
