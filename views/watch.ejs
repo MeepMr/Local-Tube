@@ -33,21 +33,22 @@
                     Delete Video
                 </button>
             </div>
+        </main>
+        <aside id="aside-video-list">
+            <% let counter = 0; for (let videoItem of videoList.values()) { %>
+                <% if(counter < 6 && videoItem.identifier !== video.identifier) { %>
+                    <div class="video-list-container">
+                        <a class="videoLink" href="/watch/<%=videoItem.identifier;%>"
+                           style="background-image: url('/thumbnails/<%=videoItem.identifier;%>.webp'), url('/thumbnails/<%=videoItem.identifier;%>.jpg');
+                           <%if(!videoItem.downloaded) {%> background-color: var(--neonRed); <%}%>
+                                   ">
+                        </a>
+                    </div>
+                <% counter++; } %>
+            <% } %>
+        </aside>
         <% } %>
-    </main>
-    <aside id="aside-video-list">
-        <% let counter = 0; for (let videoItem of videoList.values()) { %>
-            <% if(counter < 6 && videoItem.identifier !== video.identifier) { %>
-                <div class="video-list-container">
-                    <a class="videoLink" href="/watch/<%=videoItem.identifier;%>"
-                       style="background-image: url('/thumbnails/<%=videoItem.identifier;%>.webp'), url('/thumbnails/<%=videoItem.identifier;%>.jpg');
-                       <%if(!videoItem.downloaded) {%> background-color: var(--neonRed); <%}%>
-                               ">
-                    </a>
-                </div>
-            <% counter++; } %>
-        <% } %>
-    </aside>
+
     </div>
     <%- include('footer.ejs') %>
     <script src="/javascript/watchScript.js"></script>
