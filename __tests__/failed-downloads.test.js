@@ -3,7 +3,6 @@ import {loadModules} from "../bin/web-server/module-loader.js";
 import {addToQueue, tryDownload} from "../bin/download/downloadManager.js";
 import {failedDownloads} from "../bin/fileSystem/dataFiles";
 import {addToFailedList, getReadyVideos} from "../bin/download/failedDownloads";
-import {daysSinceDate} from "../bin/meep-utils";
 
 beforeAll(saveAndClearLists);
 beforeAll(loadModules);
