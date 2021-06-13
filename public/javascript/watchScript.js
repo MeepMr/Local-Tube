@@ -29,12 +29,17 @@ function getVideoElement () {
  */
 function getNextVideo () {
 
-    const videoElementCollection = document.getElementById('aside-video-list').children;
-    if(videoElementCollection === null)
-        return false;
+    try {
+        const videoElementCollection = document.getElementById('aside-video-list').children;
+        if (videoElementCollection.length > 0)
+            return false;
 
-    const firstVideoElement = videoElementCollection.item(0);
-    return firstVideoElement.children.item(0);
+        const firstVideoElement = videoElementCollection.item(0);
+        return firstVideoElement.children.item(0);
+    } catch (e) {
+
+        return false;
+    }
 }
 
 window.addEventListener('keypress', async function (key) {
@@ -58,7 +63,7 @@ window.addEventListener('keypress', async function (key) {
         await togglePip();
     } else if (keySymbol === 'N') {
 
-        if (key.shiftKey && !key.metaKey) {
+        if (key.shiftKey && !key.metaKey && nextVideoLink) {
 
             if(key.ctrlKey) {
 
