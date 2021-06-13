@@ -17,6 +17,8 @@ let getReadyVideos = function () {
         let weeks = weeksSinceDate(video.date);
         let day = daysSinceDate(video.lastDownload) % 7;
 
+        console.log();
+
         if (day > 0) {
 
             if (weeks < 1 && video.failed < 17 || video.identifier.startsWith('twitch')) {

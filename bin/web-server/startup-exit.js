@@ -16,7 +16,7 @@ let restoreProgress = async function () {
 
     for(let video of videoList.values()) {
 
-        if(!video.downloaded) {
+        if(!video.downloaded && !failedDownloads.has(video.identifier)) {
 
             addToQueue(video);
         }
