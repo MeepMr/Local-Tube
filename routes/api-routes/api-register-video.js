@@ -3,7 +3,7 @@ import registerVideo from "../../bin/video-management/registration.js";
 
 const apiRegisterRouter = express.Router();
 
-apiRegisterRouter.get('/register/:videoId', function (req, res) {
+apiRegisterRouter.get('/:videoId', function (req, res) {
 
     let {videoId} = req.params;
     videoId = decodeURIComponent(videoId);
