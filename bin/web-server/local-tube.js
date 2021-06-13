@@ -32,7 +32,16 @@ localTube.use(express.urlencoded({extended: true}));
 localTube.use(cookieParser());
 
 //Manage Routers
-import {indexRouter, deleteRouter, downloadRouter, watchRouter, registerRouter, managementRouter, loginRouter} from './routerManager.js';
+import {
+    indexRouter,
+    deleteRouter,
+    downloadRouter,
+    watchRouter,
+    registerRouter,
+    managementRouter,
+    loginRouter
+} from './routerManager.js';
+
 localTube.use('/', loginRouter);
 localTube.use('/', indexRouter);
 localTube.use('/register', registerRouter);

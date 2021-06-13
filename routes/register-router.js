@@ -1,8 +1,6 @@
 import express from 'express';
+import registerVideo from "../bin/video-management/registration.js";
 const registerRouter = express.Router();
-import {addToQueue, tryDownload} from '../bin/download/downloadManager.js';
-import {addVideo} from '../bin/fileSystem/dataManager.js';
-import {videoObject} from '../models/Video.js';
 
 registerRouter.get('/:videoId/:name?/', function (req, res) {
 
@@ -10,13 +8,7 @@ registerRouter.get('/:videoId/:name?/', function (req, res) {
     videoId = decodeURIComponent(videoId);
     name = name ? decodeURIComponent(name) : videoId;
 
-    let video = new videoObject(name, videoId, new Date());
-
-    if (addVideo(video)) {
-
-        addToQueue(video);
-        tryDownload().catch();
-    }
+    registerVideo(name, videoId);
 
     res.redirect(`/#${videoId}`);
 });

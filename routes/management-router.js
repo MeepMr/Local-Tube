@@ -1,27 +1,8 @@
 import express from 'express';
-import {deleteAllVideos, deleteOldVideos, deleteVideo, getNewVideosList} from '../bin/fileSystem/dataManager.js';
+import {deleteOldVideos, getNewVideosList} from '../bin/fileSystem/dataManager.js';
 import {addToQueue, queue, saveShutdown, tryDownload} from '../bin/download/downloadManager.js';
 import {restoreDownloads} from "../bin/download/failedDownloads.js";
 import {cleanUpAndExit} from "../bin/web-server/startup-exit.js";
-
-const deleteRouter = express.Router();
-
-deleteRouter.get('/all/', function (req, res) {
-
-    deleteAllVideos();
-
-    res.redirect('/');
-});
-
-deleteRouter.get('/:vid/', function (req, res) {
-
-    let {vid: videoId} = req.params;
-    videoId = decodeURIComponent(videoId);
-
-    deleteVideo(videoId);
-
-    res.redirect('/');
-});
 
 const managementRouter = express.Router();
 
@@ -65,4 +46,4 @@ managementRouter.get('/restoreDownloads', function (req, res) {
     res.redirect('/');
 });
 
-export {managementRouter, deleteRouter}
+export {managementRouter}
