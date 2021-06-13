@@ -1,5 +1,5 @@
 import express from 'express';
-import registerVideo from "../bin/video-management/registration.js";
+import registerVideo from "../../bin/video-management/registration.js";
 const registerRouter = express.Router();
 
 registerRouter.get('/:videoId/:name?/', function (req, res) {

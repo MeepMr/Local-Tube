@@ -1,5 +1,5 @@
 import express from "express";
-import {deleteAllVideos, deleteVideo} from "../bin/fileSystem/dataManager.js";
+import {deleteAllVideos, deleteVideo} from "../../bin/fileSystem/dataManager.js";
 
 const deleteRouter = express.Router();
 

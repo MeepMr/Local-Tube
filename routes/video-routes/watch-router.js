@@ -1,7 +1,7 @@
 import express from 'express';
 const watchRouter = express.Router();
-import {getVideo} from '../bin/fileSystem/dataManager.js';
-import {videoList} from "../bin/fileSystem/dataFiles.js";
+import {getVideo} from '../../bin/fileSystem/dataManager.js';
+import {videoList} from "../../bin/fileSystem/dataFiles.js";
 
 watchRouter.get('/:videoId/', function (req, res) {
 
