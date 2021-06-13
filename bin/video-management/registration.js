@@ -2,7 +2,7 @@ import {videoObject} from "../../models/Video.js";
 import {addVideo} from "../fileSystem/dataManager.js";
 import {addToQueue, tryDownload} from "../download/downloadManager.js";
 import {moduleRegEx} from "../web-server/module-loader.js";
-import {allDownloadedVideos} from "../fileSystem/dataFiles";
+import {allDownloadedVideos} from "../fileSystem/dataFiles.js";
 
 /**
  *

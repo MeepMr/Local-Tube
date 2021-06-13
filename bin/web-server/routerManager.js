@@ -5,3 +5,4 @@ export {downloadRouter} from '../../routes/download-router.js';
 export {managementRouter} from '../../routes/management-router.js';
 export {deleteRouter} from '../../routes/delete-router.js';
 export {loginRouter} from '../../routes/login-router.js';
+export {apiRouter} from '../../routes/api-router.js'

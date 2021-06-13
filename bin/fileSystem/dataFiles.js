@@ -17,6 +17,10 @@ const accountTokensString= JSON.parse(fs.readFileSync('./data/accountTokens.json
 /** @type {Map.<String, String>} */
 const accountTokens = new Map(accountTokensString);
 
+const allDownloadedVideosString= JSON.parse(fs.readFileSync('./data/allDownloadedVideos.json').toString());
+/** @type {Map.<String, Boolean>} */
+const allDownloadedVideos = new Map(allDownloadedVideosString);
+
 /** @type {{videoHeight:Number, temporaryDuration:Number, allowEncoding:Boolean, downloadTimeout:Number, bitrate:String}}*/
 const configurationFile = JSON.parse(fs.readFileSync('./data/configuration.json').toString());
 
@@ -45,7 +49,8 @@ let deleteVideoFromFs = function (videoId) {
 
         fs.unlink(`${serverConfiguration.videoDirectory}/${videoId}.webp`, () => { });
     }
+    allDownloadedVideos.set(videoId, false);
 };
 
-export {videoList, newVideos, failedDownloads, configurationFile, serverConfiguration, accountTokens}
+export {videoList, newVideos, failedDownloads, configurationFile, serverConfiguration, accountTokens, allDownloadedVideos}
 export {writeMapToFs, deleteVideoFromFs}

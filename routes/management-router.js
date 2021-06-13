@@ -1,17 +1,10 @@
 import express from 'express';
-import {deleteOldVideos, getNewVideosList} from '../bin/fileSystem/dataManager.js';
+import {deleteOldVideos} from '../bin/fileSystem/dataManager.js';
 import {addToQueue, queue, saveShutdown, tryDownload} from '../bin/download/downloadManager.js';
 import {restoreDownloads} from "../bin/download/failedDownloads.js";
 import {cleanUpAndExit} from "../bin/web-server/startup-exit.js";
 
 const managementRouter = express.Router();
-
-managementRouter.get('/newVideos', function (req, res) {
-
-    let newVideosString = getNewVideosList();
-
-    res.send(newVideosString);
-});
 
 managementRouter.get('/cleanUp/:interval?/:days?', function (req, res) {
 

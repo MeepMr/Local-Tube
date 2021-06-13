@@ -28,7 +28,6 @@ localTube.set('view engine', 'ejs');
 
 localTube.use(express.json());
 localTube.use(express.urlencoded({extended: true}));
-
 localTube.use(cookieParser());
 
 //Manage Routers
@@ -39,7 +38,8 @@ import {
     watchRouter,
     registerRouter,
     managementRouter,
-    loginRouter
+    loginRouter,
+    apiRouter
 } from './routerManager.js';
 
 localTube.use('/', loginRouter);
@@ -49,5 +49,6 @@ localTube.use('/watch', watchRouter);
 localTube.use('/download', downloadRouter);
 localTube.use('/delete', deleteRouter);
 localTube.use('/man', managementRouter);
+localTube.use('/api', apiRouter);
 
 export default localTube;

@@ -6,7 +6,8 @@ import {
     newVideos,
     failedDownloads,
     writeMapToFs as writeListToFs,
-    deleteVideoFromFs
+    deleteVideoFromFs,
+    allDownloadedVideos
 } from './dataFiles.js';
 
 const formatString = configurationFile.allowEncoding ? `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${configurationFile.videoHeight}]+bestaudio/best[ext=mp4]/best`
@@ -22,6 +23,7 @@ let addVideo = function (video) {
 
         addVideoToList(video, videoList);
         addVideoToList(video, newVideos);
+        allDownloadedVideos.set(video.identifier, true);
         return true;
     } else {
 
@@ -66,6 +68,7 @@ let saveLists = async function () {
             writeListToFs(videoList, 'videoData');
             writeListToFs(newVideos, 'newVideos');
             writeListToFs(failedDownloads, 'failedDownloads');
+            writeListToFs(allDownloadedVideos, 'allDownloadedVideos');
         }
     }
 };
