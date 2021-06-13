@@ -16,7 +16,7 @@ let registerVideoRequest = function () {
 
     const input = textField.value;
 
-    if(input.match(`(${moduleRegex})-[a-zA-Z0-9]+`)) {
+    if(input.match(`^(${moduleRegex})-`)) {
 
         textField.value = '';
         fetch(`/register/${input}`).then( () => {textField.style.animation = 'flashGreen 0.5s forwards linear normal';});

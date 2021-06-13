@@ -34,6 +34,7 @@
                 </button>
             </div>
         </main>
+        <% if(videoList.size > 1) { %>
         <aside id="aside-video-list">
             <% let counter = 0; for (let videoItem of videoList.values()) { %>
                 <% if(counter < 6 && videoItem.identifier !== video.identifier) { %>
@@ -47,6 +48,7 @@
                 <% counter++; } %>
             <% } %>
         </aside>
+        <% } %>
         <% } %>
 
     </div>
