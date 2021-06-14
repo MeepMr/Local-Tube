@@ -4,7 +4,6 @@ const videoListString = JSON.parse(fs.readFileSync('./data/videoData.json').toSt
 /** @type {Map.<String, videoObject>} */
 const videoList = new Map(videoListString);
 
-
 const newVideosString = JSON.parse(fs.readFileSync('./data/newVideos.json').toString());
 /** @type {Map.<String, videoObject>} */
 const newVideos = new Map(newVideosString);
@@ -28,7 +27,7 @@ const allDownloadedVideos = new Map(allDownloadedVideosString);
 /** @type {{videoHeight:Number, temporaryDuration:Number, allowEncoding:Boolean, downloadTimeout:Number, bitrate:String}}*/
 const configurationFile = JSON.parse(fs.readFileSync('./data/configuration.json').toString());
 
-/** @type {{domain:String, port:String, videoDirectory:String, author:String, title:String, description:String}} */
+/** @type {{domain:String, httpPort:String, httpsPort:String, videoDirectory:String, author:String, title:String, description:String}} */
 const serverConfiguration = JSON.parse(fs.readFileSync('./data/serverConfiguration.json').toString());
 
 /**
