@@ -17,6 +17,10 @@ const accountTokensString= JSON.parse(fs.readFileSync('./data/accountTokens.json
 /** @type {Map.<String, String>} */
 const accountTokens = new Map(accountTokensString);
 
+const apiTokensString= JSON.parse(fs.readFileSync('./data/apiKeys.json').toString());
+/** @type {Map.<String, ApiToken>} */
+const apiTokens = new Map(apiTokensString);
+
 const allDownloadedVideosString= JSON.parse(fs.readFileSync('./data/allDownloadedVideos.json').toString());
 /** @type {Map.<String, Boolean>} */
 const allDownloadedVideos = new Map(allDownloadedVideosString);
@@ -52,5 +56,6 @@ let deleteVideoFromFs = function (videoId) {
     allDownloadedVideos.set(videoId, false);
 };
 
-export {videoList, newVideos, failedDownloads, configurationFile, serverConfiguration, accountTokens, allDownloadedVideos}
+export {videoList, newVideos, failedDownloads, configurationFile, serverConfiguration, allDownloadedVideos}
+export {accountTokens, apiTokens}
 export {writeMapToFs, deleteVideoFromFs}

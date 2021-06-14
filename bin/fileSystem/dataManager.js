@@ -7,7 +7,8 @@ import {
     failedDownloads,
     writeMapToFs as writeListToFs,
     deleteVideoFromFs,
-    allDownloadedVideos
+    allDownloadedVideos,
+    apiTokens
 } from './dataFiles.js';
 
 const formatString = configurationFile.allowEncoding ? `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${configurationFile.videoHeight}]+bestaudio/best[ext=mp4]/best`
@@ -69,6 +70,7 @@ let saveLists = async function () {
             writeListToFs(newVideos, 'newVideos');
             writeListToFs(failedDownloads, 'failedDownloads');
             writeListToFs(allDownloadedVideos, 'allDownloadedVideos');
+            writeListToFs(apiTokens, 'apiKeys');
         }
     }
 };

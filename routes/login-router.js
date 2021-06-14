@@ -1,5 +1,5 @@
 import express from 'express';
-import {accountTokens} from "../bin/fileSystem/dataFiles.js";
+import {verifyIdentity} from "../bin/authentication/user-authentication.js";
 const loginRouter = express.Router();
 
 loginRouter.use(function (req, res, next) {
@@ -35,16 +35,5 @@ loginRouter.get('/login', function (req, res) {
         res.render('login');
     }
 });
-
-
-/**
- * @param name {String}
- * @param token {String}
- * @returns {Boolean}
- */
-let verifyIdentity = function (name, token) {
-
-    return name && accountTokens.get(name) === token;
-};
 
 export {loginRouter}
