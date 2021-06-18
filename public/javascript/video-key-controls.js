@@ -27,7 +27,7 @@ window.addEventListener('keypress', async function (key) {
         await togglePip();
     } else if (keySymbol === 'N') {
 
-        if (key.shiftKey && !key.metaKey && nextVideoLink) {
+        if (key.shiftKey && !key.metaKey && nextVideoLink !== false) {
 
             if(key.ctrlKey) {
 

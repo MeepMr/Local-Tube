@@ -2,6 +2,7 @@
   "domain": "127.0.0.1:3085",
   "httpPort": 3080,
   "httpsPort": 3085,
+  "useHttps": false,
   "videoDirectory": "/Local-Tube/public/videos",
   "title": "Local-Tube",
   "description": "A YouTube-Dl Implementation",
