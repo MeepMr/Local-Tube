@@ -45,7 +45,7 @@
                                    ">
                         </a>
                         <div class="video-progress-bar"
-                             style="width: <%=(videoItem.watchedSeconds/videoItem.duration)*100;%>%;">
+                             style="width: <% if (videoItem.duration > 0) { %> <%=(videoItem.watchedSeconds/videoItem.duration)*100;%>%; <% } else { %> <%= 0 %>; <% } %>">
                         </div>
                     </div>
                 <% counter++; } %>
