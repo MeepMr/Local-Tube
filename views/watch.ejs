@@ -44,6 +44,9 @@
                            <%if(!videoItem.downloaded) {%> background-color: var(--neonRed); <%}%>
                                    ">
                         </a>
+                        <div class="video-progress-bar"
+                             style="width: <%=(videoItem.watchedSeconds/videoItem.duration)*100;%>%;">
+                        </div>
                     </div>
                 <% counter++; } %>
             <% } %>

@@ -15,7 +15,10 @@
                             <%if(!video.downloaded) {%> background-color: var(--neonRed); <%}%>
             ">
             </a>
+            <div class="video-progress-bar" style=" width: <% if (video.duration > 0) { %> <%=(video.watchedSeconds/video.duration)*100;%>%; <% } else { %>  <%=0%>; <% } %>">
+            </div>
             <section class="video-info">
+
                 <div class="video-info-text">
                     <%let date = new Date(video.date);%>
                     <p class="center">Downloaded on: <%=date.getDate();%>.<%=date.getMonth()+1;%>.<%=date.getFullYear();%></p>

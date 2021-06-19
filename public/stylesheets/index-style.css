@@ -30,7 +30,7 @@
     background-color: var(--itemBackground);
     background-size: cover;
     background-blend-mode: darken;
-    border-radius: 15px;
+    border-radius: 15px 15px 0 0;
 }
 .video-info {
 
@@ -38,6 +38,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+    margin-top: -10px;
 }
 
 .video-info-text {
@@ -64,6 +65,16 @@
     width: 140px;
     margin-right: 5px;
     margin-left: 5px;
+}
+
+.video-progress-bar {
+
+    height: 10px;
+    background-color: var(--neonRed);
+    position: relative;
+    bottom: 10px;
+    left: 0;
+    border-radius: 15px 15px 0 0;
 }
 
 @media screen and (max-width: 635px){
