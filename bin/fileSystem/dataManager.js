@@ -10,9 +10,18 @@ import {
     allDownloadedVideos,
     apiTokens
 } from './dataFiles.js';
+import {generateRsaKeyPair} from "../authentication/rsa-keygen.js";
 
 const formatString = configurationFile.allowEncoding ? `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=${configurationFile.videoHeight}]+bestaudio/best[ext=mp4]/best`
                                                      : `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`;
+
+
+let rsaKey = {privateKey: null, publicKey: null};
+generateRsaKeyPair().then(keyPair => {
+
+    rsaKey.publicKey = keyPair.publicKey;
+    rsaKey.privateKey = keyPair.privateKey;
+});
 
 /**
  * @param video {videoObject}
@@ -168,4 +177,4 @@ export {addVideo}
 export {findVideo, getVideo, getNewVideosList}
 export {writeListToFs, removeVideoFromList, saveLists, addVideoToList, emptyList}
 export {deleteVideo, deleteOldVideos, deleteAllVideos}
-export {serverConfiguration, configurationFile, formatString}
+export {serverConfiguration, configurationFile, formatString, rsaKey}
