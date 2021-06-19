@@ -11,7 +11,7 @@
  */
 function videoObject(title, identifier, date,
                      downloaded = false, failed = 0,
-                     lastDownload = undefined, duration = 0, watchedSeconds = 0) {
+                     lastDownload = null, duration = 0, watchedSeconds = 0) {
 
     this.title = title;
     this.identifier = identifier;

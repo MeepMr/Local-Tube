@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedFunction
+
 let pip = false;
 let fullscreen = false;
 

@@ -47,7 +47,7 @@ const getNewApiToken = function (name) {
  * @param expirationDate {Date}
  * @returns {ApiToken}
  */
-const generateNewApiToken = function (name, expirationDate= undefined) {
+const generateNewApiToken = function (name, expirationDate= null) {
 
     const token = crypto.randomBytes(64).toString('hex');
     return new ApiToken(name, token, new Date(), expirationDate);

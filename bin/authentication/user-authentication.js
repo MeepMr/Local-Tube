@@ -7,7 +7,7 @@ import {rsaKey} from "../fileSystem/dataManager.js";
  * @param token {String}
  * @returns {Boolean}
  */
-let verifyIdentity = function (name, token) {
+const verifyIdentity = function (name, token) {
 
     try {
 

@@ -16,7 +16,6 @@ downloadRouter.get('/:videoId/:name?/', async function (req, res) {
     if (findVideo(videoId)) {
 
         sendDownloadedVideo(res, videoId, name, true);
-
     } else {
 
         res.render('download', {
@@ -26,8 +25,8 @@ downloadRouter.get('/:videoId/:name?/', async function (req, res) {
             name: name,
         });
 
-        let video = new videoObject(name, videoId, new Date());
-        let {module, identifier} = spliceVideoId(videoId);
+        const video = new videoObject(name, videoId, new Date());
+        const {module, identifier} = spliceVideoId(videoId);
 
         await youTubeDl(module.getUrl(video, identifier), `${serverConfiguration.videoDirectory}/temp/${module.getOutPut(videoId)}`).catch(error => `YouTube-Dl errored with ${error}`);
 

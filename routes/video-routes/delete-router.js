@@ -6,7 +6,6 @@ const deleteRouter = express.Router();
 deleteRouter.get('/all/', function (req, res) {
 
     deleteAllVideos();
-
     res.redirect('/');
 });
 
@@ -16,7 +15,6 @@ deleteRouter.get('/:vid/', function (req, res) {
     videoId = decodeURIComponent(videoId);
 
     deleteVideo(videoId);
-
     res.redirect('/');
 });
 

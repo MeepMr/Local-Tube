@@ -1,6 +1,5 @@
 /** @type {Array.<videoObject>} */
 import {removeVideoFromList} from "../fileSystem/dataManager.js";
-
 import {failedDownloads} from '../fileSystem/dataFiles.js';
 import {daysSinceDate, weeksSinceDate} from '../meep-utils.js';
 
@@ -8,28 +7,25 @@ import {daysSinceDate, weeksSinceDate} from '../meep-utils.js';
 /**
  * @returns {Map.<String, videoObject>}
  */
-let getReadyVideos = function () {
+const getReadyVideos = function () {
 
-    let readyVideos = new Map();
+    const readyVideos = new Map();
 
     for(let video of failedDownloads.values()) {
 
-        let weeks = weeksSinceDate(video.date);
-        let day = daysSinceDate(video.lastDownload) % 7;
+        const weeks = weeksSinceDate(video.date);
+        const day = daysSinceDate(video.lastDownload) % 7;
 
         if (day > 0) {
 
-            if (weeks < 1 && video.failed < 17 || video.identifier.startsWith('twitch')) {
-
+            if (weeks < 1 && video.failed < 17 || video.identifier.startsWith('twitch'))
                 readyUpVideo(readyVideos, video);
-            } else if (weeks < 2 && video.failed < 21 && day > 7) {
 
+            else if (weeks < 2 && video.failed < 21 && day > 7)
                 readyUpVideo(readyVideos, video);
-            }
-        } else if(video.identifier.startsWith('twitch') && video.failed < 50) {
 
+        } else if(video.identifier.startsWith('twitch') && video.failed < 50)
             readyUpVideo(readyVideos, video);
-        }
     }
 
     return readyVideos;
@@ -39,7 +35,7 @@ let getReadyVideos = function () {
  * @param readyVideos {Map.<String, videoObject>}
  * @param video {videoObject}
  */
-let readyUpVideo = function (readyVideos, video) {
+const readyUpVideo = function (readyVideos, video) {
 
     removeVideoFromList(video.identifier, failedDownloads);
     readyVideos.set(video.identifier, video);
@@ -48,7 +44,7 @@ let readyUpVideo = function (readyVideos, video) {
 /**
  * @param video {videoObject}
  */
-let addToFailedList = function (video) {
+const addToFailedList = function (video) {
 
     video.lastDownload = new Date();
     failedDownloads.set(video.identifier, video);
@@ -57,9 +53,9 @@ let addToFailedList = function (video) {
 /**
  * @returns {Map.<String, videoObject>}
  */
-let restoreDownloads = function () {
+const restoreDownloads = function () {
 
-    let failedVideos = new Map();
+    const failedVideos = new Map();
 
     for(let video of failedDownloads.values()) {
 

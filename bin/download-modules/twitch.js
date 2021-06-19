@@ -5,9 +5,9 @@ const moduleName = 'twitch';
  * @param videoIdentifier {String}
  * @returns {String}
  */
-const getUrl = function (video, videoIdentifier= undefined) {
+const getUrl = function (video, videoIdentifier= null) {
 
-    let videoId = videoIdentifier === undefined ? video.identifier.substring(7) : videoIdentifier;
+    const videoId = videoIdentifier === null ? video.identifier.substring(7) : videoIdentifier;
     return `https://www.twitch.tv/videos/${videoId}`;
 };
 

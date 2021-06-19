@@ -6,7 +6,7 @@
  * @param valid {Boolean}
  * @constructor
  */
-function ApiToken (name, token, creationDate, expirationDate = undefined, valid = true) {
+function ApiToken (name, token, creationDate, expirationDate = null, valid = true) {
 
     this.name = name;
     this.token = token;

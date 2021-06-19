@@ -37,8 +37,6 @@ if(serverConfiguration.useHttps) {
     LocalTubeServer = http.createServer(localTube);
 }
 
-localTube.use(express.json());
-
 localTube.use('/stylesheets', express.static('./public/stylesheets'));
 localTube.use('/javascript', express.static('./public/javascript'));
 localTube.use('/images', express.static('./public/images'));
@@ -51,18 +49,5 @@ LocalTubeServer.on('listening', function () {
 
     console.log(`Listening to https://${serverConfiguration.domain}:${port}`);
 });
-
-
-//A Feedback-Server. Uncomment to activate
-/*import feedbackServer from './feedback-server/feedback-server.js';
-
-const FeedBackServer = http.createServer(feedbackServer);
-feedbackServer.use('/stylesheets', express.static('./public/stylesheets'));
-
-FeedBackServer.listen(3090);
-FeedBackServer.on('listening', function () {
-
-    console.log('Feedback-Server started');
-});*/
 
 export {localTube}

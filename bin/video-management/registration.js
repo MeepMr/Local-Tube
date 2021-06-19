@@ -11,12 +11,12 @@ import {allDownloadedVideos} from "../fileSystem/dataFiles.js";
  * @param unique {Boolean}
  * @returns {Boolean}
  */
-let registerVideo = function (name, videoId, unique = false) {
+const registerVideo = function (name, videoId, unique = false) {
 
     // Proceed if its not a unique download or, in case of a unique download, proceed if the video is not in the allDownloadedVideos Map
     if(videoId.match(moduleRegEx) && (unique ? allDownloadedVideos.get(videoId) === undefined : true)) {
 
-        let video = new videoObject(name, videoId, new Date());
+        const video = new videoObject(name, videoId, new Date());
 
         if (addVideo(video)) {
 

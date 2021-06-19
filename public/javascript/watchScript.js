@@ -7,14 +7,14 @@ let duration;
 let started = false;
 
 video.addEventListener('playing', Loop);
-video.addEventListener('loadedmetadata', logMetaData);
+video.addEventListener('loadedmetadata', logVideoDuration);
 
 /**
  * @returns {HTMLVideoElement}
  */
 function getVideoElement () {
 
-    let videos = document.getElementsByTagName('video');
+    const videos = document.getElementsByTagName('video');
     return videos.item(0);
 }
 
@@ -57,7 +57,7 @@ async function Loop () {
     }
 }
 
-async function logMetaData() {
+async function logVideoDuration() {
 
     duration = video.duration;
     await fetch(`/watch/duration/${videoId}/${duration}`);

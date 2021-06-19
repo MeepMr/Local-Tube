@@ -1,15 +1,27 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-const localTube = express();
-
-//Exit and Restart-Management
 import {cleanUpAndExit, restoreProgress} from './startup-exit.js';
 import {serverConfiguration} from "../fileSystem/dataFiles.js";
 import {moduleRegEx} from "./module-loader.js";
+import {
+    indexRouter,
+    deleteRouter,
+    downloadRouter,
+    watchRouter,
+    registerRouter,
+    managementRouter,
+    loginRouter,
+    apiRouter
+} from './routerManager.js';
+
+const localTube = express();
+
+//Exit and Restart-Management
 process.on('exit', cleanUpAndExit);
 process.on('uncaughtException', cleanUpAndExit);
 process.on('SIGINT', cleanUpAndExit);
 process.on('SIGTERM', cleanUpAndExit);
+
 restoreProgress().then( () => {
 
     localTube.locals = {
@@ -31,17 +43,6 @@ localTube.use(express.urlencoded({extended: true}));
 localTube.use(cookieParser());
 
 //Manage Routers
-import {
-    indexRouter,
-    deleteRouter,
-    downloadRouter,
-    watchRouter,
-    registerRouter,
-    managementRouter,
-    loginRouter,
-    apiRouter
-} from './routerManager.js';
-
 localTube.use('/', loginRouter);
 localTube.use('/', indexRouter);
 localTube.use('/register', registerRouter);

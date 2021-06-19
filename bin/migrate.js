@@ -22,17 +22,18 @@ if(videoListArray[0].title !== undefined) {
     /** @type {Map.<String, videoObject>} */
     const failedDownloads = new Map();
 
-    for(let video of videoListArray) {
+    let video;
+    for(video of videoListArray) {
 
         videoList.set(video.identifier, video);
     }
 
-    for(let video of newVideosArray) {
+    for(video of newVideosArray) {
 
         newVideos.set(video.identifier, video);
     }
 
-    for(let video of failedDownloadsArray) {
+    for(video of failedDownloadsArray) {
 
         failedDownloads.set(video.identifier, video);
     }

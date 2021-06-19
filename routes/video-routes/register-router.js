@@ -9,7 +9,6 @@ registerRouter.get('/:videoId/:name?/', function (req, res) {
     name = name ? decodeURIComponent(name) : videoId;
 
     registerVideo(name, videoId);
-
     res.redirect(`/#${videoId}`);
 });
 

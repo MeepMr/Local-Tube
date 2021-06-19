@@ -4,7 +4,7 @@ import {addToQueue, tryDownload} from "../download/downloadManager.js";
 import {loadModules} from "./module-loader.js";
 import {saveLists} from "../fileSystem/dataManager.js";
 
-let cleanUpAndExit = function () {
+const cleanUpAndExit = function () {
 
     fs.writeFileSync('./data/videoData.json', JSON.stringify([...videoList]));
     fs.writeFileSync('./data/newVideos.json', JSON.stringify([...newVideos]));
@@ -13,7 +13,7 @@ let cleanUpAndExit = function () {
     process.exit(0);
 };
 
-let restoreProgress = async function () {
+const restoreProgress = async function () {
 
     for(let video of videoList.values()) {
 

@@ -6,8 +6,6 @@ const feedbackServer = express();
 feedbackServer.set('views', './bin/feedback-server');
 feedbackServer.set('view engine', 'ejs');
 
-//feedbackServer.use(express.json());
-//feedbackServer.use(express.urlencoded({extended: true}));
 feedbackServer.use(bodyParser.urlencoded({extended: true}));
 
 //Manage Routers

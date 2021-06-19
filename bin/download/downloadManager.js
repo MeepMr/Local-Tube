@@ -15,7 +15,7 @@ import {cleanUpAndExit} from "../web-server/startup-exit.js";
 let enableDownloads = true;
 
 /** @type {videoObject[]} */
-let queue = [];
+const queue = [];
 
 /** @type {Boolean} */
 let downloading = false;
@@ -26,12 +26,12 @@ let saveShutdown = false;
 /**
  * @param video {videoObject}
  */
-let addToQueue = function (video) {
+const addToQueue = function (video) {
 
     queue.push(video);
 };
 
-let tryDownload = async function () {
+const tryDownload = async function () {
 
     if (!downloading && enableDownloads) {
 
@@ -46,20 +46,21 @@ let tryDownload = async function () {
     }
 };
 
-let startDownload = async function () {
+const startDownload = async function () {
 
     downloading = true;
+    let nextVideo;
 
     while (queue.length > 0) {
 
-        let nextVideo = queue.pop();
-        let {module, identifier} = spliceVideoId(nextVideo.identifier);
+        nextVideo = queue.pop();
+        const {module, identifier} = spliceVideoId(nextVideo.identifier);
 
         let success = await downloadThumbnail(module.getUrl(nextVideo, identifier), module.getOutPut(nextVideo.identifier));
         success = success && await downloadVideo(module.getUrl(nextVideo, identifier), module.getOutPut(nextVideo.identifier));
         if(success) {
             nextVideo.downloaded = true;
-            if(nextVideo.lastDownload !== undefined) {
+            if(nextVideo.lastDownload !== null) {
 
                 nextVideo.date = new Date();
                 addVideoToList(nextVideo, newVideos);
@@ -93,7 +94,7 @@ let startDownload = async function () {
  * @param outPut {String}
  * @returns {Boolean}
  */
-let downloadVideo = async function (url, outPut) {
+const downloadVideo = async function (url, outPut) {
 
     try {
         await Promise.race([youTubeDl(url, `${serverConfiguration.videoDirectory}/${outPut}`, `-f '${formatString}'`),
@@ -111,7 +112,7 @@ let downloadVideo = async function (url, outPut) {
  * @param outPut {String}
  * @returns {Boolean}
  */
-let downloadThumbnail = async function (url, outPut) {
+const downloadThumbnail = async function (url, outPut) {
 
     try {
 
@@ -131,7 +132,7 @@ let downloadThumbnail = async function (url, outPut) {
  * @param [options] {String}
  * @returns {Promise.<String>}
  */
-let youTubeDl = async function (url, output, options = '') {
+const youTubeDl = async function (url, output, options = '') {
 
     console.log(`Downloading ${url}`);
 
@@ -142,7 +143,7 @@ let youTubeDl = async function (url, output, options = '') {
     });
 };
 
-let disableDownloads = function () {
+const disableDownloads = function () {
 
     enableDownloads = false;
 };

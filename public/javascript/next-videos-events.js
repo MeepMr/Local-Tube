@@ -19,7 +19,7 @@ async function nextVideoListener (mouseEvent) {
         mouseEvent.preventDefault();
         const targetLink = mouseEvent.target;
 
-        if((video.currentTime / video.duration) > 0.97) {
+        if((video.currentTime / video.duration) > 0.92) {
             await fetch(`/delete/${videoId}`);
         }
 

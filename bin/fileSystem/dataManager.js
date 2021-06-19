@@ -16,7 +16,7 @@ const formatString = configurationFile.allowEncoding ? `bestvideo[height<=${conf
                                                      : `bestvideo[height<=${configurationFile.videoHeight}][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`;
 
 
-let rsaKey = {privateKey: null, publicKey: null};
+const rsaKey = {privateKey: null, publicKey: null};
 generateRsaKeyPair().then(keyPair => {
 
     rsaKey.publicKey = keyPair.publicKey;
@@ -27,7 +27,7 @@ generateRsaKeyPair().then(keyPair => {
  * @param video {videoObject}
  * @returns {boolean}
  */
-let addVideo = function (video) {
+const addVideo = function (video) {
 
     if (!findVideo(video.identifier)) {
 
@@ -45,7 +45,7 @@ let addVideo = function (video) {
  * @param videoId {String}
  * @returns {videoObject | undefined}
  */
-let getVideo = function (videoId) {
+const getVideo = function (videoId) {
 
     return videoList.get(videoId);
 };
@@ -53,13 +53,13 @@ let getVideo = function (videoId) {
 /**
  * @returns {String}
  */
-let getNewVideosList = function () {
+const getNewVideosList = function () {
 
     let allVideosString = '';
 
     for (let video of newVideos.values()) {
 
-        allVideosString += `<p>${serverConfiguration.domain}/watch/${video.identifier}</p>`;
+        allVideosString.concat(`<p>${serverConfiguration.domain}/watch/${video.identifier}</p>`);
     }
 
     emptyList(newVideos);
@@ -67,7 +67,7 @@ let getNewVideosList = function () {
 };
 
 let saving = false;
-let saveLists = async function () {
+const saveLists = async function () {
 
     if(!saving) {
 
@@ -88,7 +88,7 @@ let saveLists = async function () {
  * @param video {videoObject}
  * @param list {Map.<String, videoObject>}
  */
-let addVideoToList = function (video, list) {
+const addVideoToList = function (video, list) {
 
     list.set(video.identifier, video);
 };
@@ -97,7 +97,7 @@ let addVideoToList = function (video, list) {
  * @param videoId {String}
  * @param list {Map.<String, videoObject>}
  */
-let removeVideoFromList = function (videoId, list) {
+const removeVideoFromList = function (videoId, list) {
 
     list.delete(videoId);
 };
@@ -105,7 +105,7 @@ let removeVideoFromList = function (videoId, list) {
 /**
  * @param list {Map.<String, videoObject>}
  */
-let emptyList = function (list) {
+const emptyList = function (list) {
 
     list.clear();
 };
@@ -114,7 +114,7 @@ let emptyList = function (list) {
  * @param videoId {String}
  * @returns {boolean}
  */
-let findVideo = function (videoId) {
+const findVideo = function (videoId) {
 
     return videoList.get(videoId) !== undefined;
 };
@@ -122,7 +122,7 @@ let findVideo = function (videoId) {
 /**
  * @param videoId {String}
  */
-let deleteVideo = function (videoId) {
+const deleteVideo = function (videoId) {
 
     if (findVideo(videoId)) {
 
@@ -131,7 +131,7 @@ let deleteVideo = function (videoId) {
     }
 };
 
-let deleteAllVideos = function () {
+const deleteAllVideos = function () {
 
     videoList.forEach(video => deleteVideo(video.identifier));
 };
@@ -141,9 +141,9 @@ let deleteAllVideos = function () {
  * @param days {Number} Number of Days
  * @returns {Number} Number of old videos
  */
-let deleteOldVideos = function (interval, days) {
+const deleteOldVideos = function (interval, days) {
 
-    let oldVideoIds = findOldVideos(interval, days);
+    const oldVideoIds = findOldVideos(interval, days);
 
     for(let videoId of oldVideoIds) {
 
@@ -158,9 +158,9 @@ let deleteOldVideos = function (interval, days) {
  * @param days {Number}
  * @returns {Array.<String>}
  */
-let findOldVideos = function (interval, days) {
+const findOldVideos = function (interval, days) {
 
-    let foundOldVideoIds = [];
+    const foundOldVideoIds = [];
 
     for(let video of videoList.values()) {
 

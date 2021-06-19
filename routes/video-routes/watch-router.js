@@ -1,55 +1,27 @@
 import express from 'express';
-const watchRouter = express.Router();
 import {getVideo} from '../../bin/fileSystem/dataManager.js';
 import {videoList} from "../../bin/fileSystem/dataFiles.js";
+
+const watchRouter = express.Router();
 
 watchRouter.get('/:videoId/', function (req, res) {
 
     let {videoId} = req.params;
     videoId = decodeURIComponent(videoId);
 
-    let video = getVideo(videoId);
+    const video = getVideo(videoId);
 
-    if (video === undefined) {
+    if (video === undefined)
+        sendWatchErrorPage(res, videoId, 'Video is not registered');
 
-        res.render('watch', {
-            error: true,
-            errorMessage: 'Video is not registered',
-            video: undefined,
-            videoId: videoId,
-            videoList: videoList
-        });
-    } else if (video.downloaded) {
+    else if (video.downloaded)
+        sendWatchPage(res, video);
 
-        res.render('watch', {
-            error: false,
-            errorMessage: undefined,
-            video: video,
-            videoId: videoId,
-            videoList: videoList
-        });
-    } else {
+    else if(video.failed > 0)
+            sendWatchErrorPage(res, videoId, `Video is in the download-Queue. Download has failed ${video.failed} times`);
 
-        if(video.failed > 0) {
-
-            res.render('watch', {
-                error: true,
-                errorMessage: `Video is in the download-Queue. Download has failed ${video.failed} times`,
-                video: undefined,
-                videoId: videoId,
-                videoList: videoList
-            });
-        } else {
-
-            res.render('watch', {
-                error: true,
-                errorMessage: 'Video is still the download-Queue.',
-                video: undefined,
-                videoId: videoId,
-                videoList: videoList
-            });
-        }
-    }
+    else
+        sendWatchErrorPage(res, videoId, 'Video is still the download-Queue.');
 });
 
 watchRouter.get('/watchedTime/:videoId/:watchedSeconds', function (req, res) {
@@ -83,5 +55,36 @@ watchRouter.get('/watchedTime/:videoId', function (req, res) {
     res.type('application/json');
     res.json({watchedSeconds});
 });
+
+/**
+ * @param res {Response}
+ * @param videoId {String}
+ * @param errorMessage {String}
+ */
+const sendWatchErrorPage = function (res, videoId, errorMessage) {
+
+    res.render('watch', {
+        error: true,
+        errorMessage: errorMessage,
+        video: undefined,
+        videoId: videoId,
+        videoList: videoList
+    });
+};
+
+/**
+ * @param res {Response}
+ * @param video {videoObject}
+ */
+const sendWatchPage = function (res, video) {
+
+    res.render('watch', {
+        error: false,
+        errorMessage: undefined,
+        video: video,
+        videoId: video.identifier,
+        videoList: videoList
+    });
+};
 
 export {watchRouter}
