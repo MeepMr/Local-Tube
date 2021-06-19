@@ -27,8 +27,8 @@ loginRouter.get('/login', function (req, res) {
     const {accountName, token} = req.query;
     if(verifyIdentity(accountName, token)) {
 
-        res.cookie('Account', accountName, {maxAge: 604800000});
-        res.cookie(accountName, token, {maxAge: 604800000});
+        res.cookie('Account', accountName);
+        res.cookie(accountName, token);
         res.redirect('/');
     } else {
 
