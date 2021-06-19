@@ -58,8 +58,9 @@ const showLoginPage = function (res) {
  */
 const setCookies = function (res, accountName, accountToken) {
 
-    res.cookie('Account', accountName, {maxAge: 60*60*1000});
-    res.cookie(accountName, accountToken, {maxAge: 60*60*1000});
+    const maximumMinutesOfInactivity = 60;
+    res.cookie('Account', accountName, {maxAge: maximumMinutesOfInactivity*60*1000});
+    res.cookie(accountName, accountToken, {maxAge: maximumMinutesOfInactivity*60*1000});
 };
 
 export {loginRouter}

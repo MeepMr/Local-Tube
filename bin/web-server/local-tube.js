@@ -1,5 +1,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import bodyParser from "body-parser";
 import {cleanUpAndExit, restoreProgress} from './startup-exit.js';
 import {serverConfiguration} from "../fileSystem/dataFiles.js";
 import {moduleRegEx} from "./module-loader.js";
@@ -11,7 +12,8 @@ import {
     registerRouter,
     managementRouter,
     loginRouter,
-    apiRouter
+    apiRouter,
+    configurationRouter
 } from './routerManager.js';
 
 const localTube = express();
@@ -41,6 +43,7 @@ localTube.set('view engine', 'ejs');
 localTube.use(express.json());
 localTube.use(express.urlencoded({extended: true}));
 localTube.use(cookieParser());
+localTube.use(bodyParser.json());
 
 //Manage Routers
 localTube.use('/', loginRouter);
@@ -51,5 +54,6 @@ localTube.use('/download', downloadRouter);
 localTube.use('/delete', deleteRouter);
 localTube.use('/man', managementRouter);
 localTube.use('/api', apiRouter);
+localTube.use('/configuration', configurationRouter);
 
 export default localTube;

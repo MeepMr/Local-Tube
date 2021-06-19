@@ -6,3 +6,4 @@ export {managementRouter} from '../../routes/management-router.js';
 export {deleteRouter} from '../../routes/video-routes/delete-router.js';
 export {loginRouter} from '../../routes/login-router.js';
 export {apiRouter} from '../../routes/api-router.js'
+export {configurationRouter} from '../../routes/configuration-router.js';

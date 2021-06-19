@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Initial-Setup <%=server.title;%></title>
+    <%- include('html-head.ejs')%>
+    <link rel='stylesheet' href='/stylesheets/server-configuration-style.css'/>
+</head>
+<body>
+<%- include('header.ejs') %>
+<main>
+    <form method="post" action="/configuration/setup/server" id="local-tube-initial-setup-form" autocomplete="on">
+        <label for="server-domain">
+            <span>Server-Domain</span>
+            <input type="text" id="server-domain" name="domain"
+                   autofocus
+                   required
+                   placeholder="Server Domain: e.g. your-domain.info"
+                   value="<%=serverConfig.domain;%>"
+            >
+        </label>
+        <label for="video-directory">
+            <span>Path to Video Directory</span>
+            <input type="text" id="video-directory" name="videoDirectory"
+                   required
+                   placeholder="Video Directory: e.g. /Local-Tube/videos"
+                   value="<%=serverConfig.videoDirectory;%>"
+            >
+        </label>
+        <label for="http-port">
+            <span>HTTP-Port</span>
+            <input type="text" id="http-port" name="httpPort"
+                   required
+                   placeholder="HTTP Port: e.g. 80"
+                   value="<%=serverConfig.httpPort;%>"
+            >
+        </label>
+        <label for="https-port">
+            <span>HTTPS-Port</span>
+            <input type="text" id="https-port" name="httpsPort"
+                   required
+                   placeholder="HTTPS Port: e.g.443"
+                   value="<%=serverConfig.httpsPort;%>"
+            >
+        </label>
+        <label for="website-title">
+            <span>Website Title</span>
+            <input type="text" id="website-title" name="title"
+                   required
+                   placeholder="Website-Title: e.g. Local-Tube"
+                   value="<%=serverConfig.title;%>"
+            >
+        </label>
+        <label for="website-description">
+            <span>Website Title</span>
+            <input type="text" id="website-description" name="description"
+                   required
+                   placeholder="Website-Description: e.g. Hello!"
+                   value="<%=serverConfig.description;%>"
+            >
+        </label>
+        <label for="use-https" id="use-https-label">
+            <input type="checkbox" id="use-https" name="useHttps"
+            <% if(serverConfig.useHttps) { %>
+                   checked
+                    <% } %>
+            >
+            <span>Use HTTPS</span>
+        </label>
+        <button type="submit" class="submit-button" id="local-tube-initial-setup-form-submit-button">Save and Restart Server</button>
+    </form>
+</main>
+<%- include('footer.ejs') %>
+</body>
+</html>
