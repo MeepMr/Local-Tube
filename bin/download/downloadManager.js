@@ -117,7 +117,7 @@ const downloadThumbnails = async function (videoArray) {
     for (let video of videoArray) {
 
         const {module, identifier} = spliceVideoId(video.identifier);
-        await downloadThumbnail(module.getUrl(video, identifier), module.getOutPut(identifier));
+        await downloadThumbnail(module.getUrl(video, identifier), module.getOutPut(video.identifier));
     }
 };
 
