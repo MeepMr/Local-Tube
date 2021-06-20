@@ -1,0 +1,25 @@
+footer {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+
+    background-color: rgba(7,7,7,0.59);
+}
+
+.footer-object {
+
+    height: 20px;
+    margin: 5px 10px;
+}
+
+@media screen and (max-width: 635px) {
+
+    footer {
+        display: none;
+    }
+}
