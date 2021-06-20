@@ -49,12 +49,17 @@ const tryDownload = async function () {
 const startDownload = async function () {
 
     downloading = true;
+
+    /** @type {videoObject[]} */
+    const currentQueue = [];
     let nextVideo;
 
-    await downloadThumbnails(queue);
-    while (queue.length > 0) {
+    getNextVideoBatch(currentQueue);
+    await downloadThumbnails(currentQueue);
 
-        nextVideo = queue.pop();
+    while (currentQueue.length > 0) {
+
+        nextVideo = currentQueue.pop();
         const {module, identifier} = spliceVideoId(nextVideo.identifier);
 
         const success = await downloadVideo(module.getUrl(nextVideo, identifier), module.getOutPut(nextVideo.identifier));
@@ -75,9 +80,15 @@ const startDownload = async function () {
                 addToFailedList(nextVideo);
         }
 
-        if(queue.length === 0 && failedDownloads.length > 0 ) {
+        if(currentQueue.length === 0 && (failedDownloads.length > 0 || queue.length > 0)) {
 
-            getReadyVideos().forEach(addToQueue);
+            if(failedDownloads.length > 0)
+                getReadyVideos().forEach(addToQueue);
+
+            if(queue.length > 0)
+                getNextVideoBatch(currentQueue);
+
+            await downloadThumbnails(currentQueue);
         }
     }
 
@@ -87,6 +98,19 @@ const startDownload = async function () {
     }
 
     downloading = false;
+};
+
+/**
+ * @param batchVideoBuffer {videoObject[]}
+ */
+const getNextVideoBatch = function (batchVideoBuffer) {
+
+    let batchCounter = 5;
+    while (queue.length > 0 && batchCounter > 0) {
+
+        batchVideoBuffer.push(queue.pop());
+        batchCounter--;
+    }
 };
 
 /**
