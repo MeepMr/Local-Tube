@@ -51,13 +51,13 @@ const startDownload = async function () {
     downloading = true;
     let nextVideo;
 
+    await downloadThumbnails(queue);
     while (queue.length > 0) {
 
         nextVideo = queue.pop();
         const {module, identifier} = spliceVideoId(nextVideo.identifier);
 
-        let success = await downloadThumbnail(module.getUrl(nextVideo, identifier), module.getOutPut(nextVideo.identifier));
-        success = success && await downloadVideo(module.getUrl(nextVideo, identifier), module.getOutPut(nextVideo.identifier));
+        const success = await downloadVideo(module.getUrl(nextVideo, identifier), module.getOutPut(nextVideo.identifier));
         if(success) {
             nextVideo.downloaded = true;
             if(nextVideo.lastDownload !== null) {
@@ -97,13 +97,27 @@ const startDownload = async function () {
 const downloadVideo = async function (url, outPut) {
 
     try {
+
+        console.log(`Downloading video: ${url}`);
         await Promise.race([youTubeDl(url, `${serverConfiguration.videoDirectory}/${outPut}`, `-f '${formatString}'`),
-                                    delay(configurationFile.downloadTimeout*60*1000, true, 'Download timed out')]);
+                            delay(configurationFile.downloadTimeout*60*1000, true, 'Video-Download timed out')]);
         return true;
     } catch (error) {
 
         console.log(`Download Errored: ${error}`);
         return false;
+    }
+};
+
+/**
+ * @param videoArray {videoObject[]}
+ */
+const downloadThumbnails = async function (videoArray) {
+
+    for (let video of videoArray) {
+
+        const {module, identifier} = spliceVideoId(video.identifier);
+        await downloadThumbnail(module.getUrl(video, identifier), module.getOutPut(identifier));
     }
 };
 
@@ -116,8 +130,9 @@ const downloadThumbnail = async function (url, outPut) {
 
     try {
 
+        console.log(`Downloading Thumbnail for: ${url}`);
         await Promise.race([youTubeDl(url, `${serverConfiguration.videoDirectory}/${outPut}`, `--write-thumbnail --skip-download -f 'best[ext=webp]/best[ext=jpg]/best'`),
-            delay(configurationFile.downloadTimeout*60*1000, true, 'Download timed out')]);
+                            delay(configurationFile.downloadTimeout*60*1000, true, 'Thumbnail-Download timed out')]);
         return true;
     } catch (error) {
 
@@ -133,8 +148,6 @@ const downloadThumbnail = async function (url, outPut) {
  * @returns {Promise.<String>}
  */
 const youTubeDl = async function (url, output, options = '') {
-
-    console.log(`Downloading ${url}`);
 
     return new Promise( function (resolve, reject) {
 
