@@ -11,24 +11,28 @@
     <% for (let video of videos.values()) { %>
         <div class="videoContainer" id="<%=video.identifier;%>">
             <a class="videoLink" href="/watch/<%=video.identifier;%>"
-                    style="background-image: url('/thumbnails/<%=video.identifier;%>.webp'), url('/thumbnails/<%=video.identifier;%>.jpg');
-                            <%if(!video.downloaded) {%> background-color: var(--neonRed); <%}%>
-            ">
+                    style="background-image: url('/thumbnails/<%=video.identifier;%>.webp'), url('/thumbnails/<%=video.identifier;%>.jpg');">
             </a>
             <div class="video-progress-bar" style=" width: <% if (video.duration > 0) { %> <%=(video.watchedSeconds/video.duration)*100;%>%; <% } else { %>  <%=0%>; <% } %>">
             </div>
             <section class="video-info">
 
                 <div class="video-info-text">
+                <% if(video.downloaded) { %>
                     <%let date = new Date(video.date);%>
                     <p class="center">Downloaded on: <%=date.getDate();%>.<%=date.getMonth()+1;%>.<%=date.getFullYear();%></p>
+                <% } else { %>
+                    <p class="center">Video not downloaded yet!</p>
+                <% } %>
                 </div>
                 <div class="video-management">
+                <% if(video.downloaded) { %>
                     <button class="video-management-container download-button"
                          onclick="window.location.href='/download/<%=video.identifier;%>/<%=video.title;%>';"
                     >
                         Download Video
                     </button>
+                <% } %>
                     <button class="video-management-container delete-button"
                          onclick="window.location.href='/delete/<%=video.identifier;%>';"
                     >
