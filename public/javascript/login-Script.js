@@ -13,10 +13,11 @@ submitButton.addEventListener('click', encryptPassword);
 async function encryptPassword (event) {
     event.preventDefault();
 
+    const plainTextInput = tokenField.value;
     const rsaKey = await importRsaKey(key);
 
     const encoder = new TextEncoder();
-    const token = encoder.encode(tokenField.value);
+    const token = encoder.encode(plainTextInput);
 
     const enc = await crypto.subtle.encrypt({name:'RSA-OAEP', }, rsaKey, token);
 
@@ -24,4 +25,5 @@ async function encryptPassword (event) {
     tokenField.value = btoa(String.fromCharCode(...new Uint8Array(enc)));
 
     form.submit();
+    tokenField.value = plainTextInput;
 }
