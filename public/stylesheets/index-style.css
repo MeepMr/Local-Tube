@@ -29,7 +29,7 @@
     background-repeat: no-repeat;
     background-color: var(--itemBackground);
     background-size: cover;
-    background-blend-mode: darken;
+    background-blend-mode: normal;
     border-radius: 15px 15px 0 0;
 }
 .video-info {
@@ -75,6 +75,31 @@
     bottom: 10px;
     left: 0;
     border-radius: 15px 15px 0 0;
+}
+
+#index-settings-box {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    max-width: 450px;
+    margin-top: 20px;
+}
+
+#index-settings-box:hover {
+
+    cursor: pointer;
+}
+
+#index-settings-box>a {
+
+    flex: 0 1 1000px;
+    height: 30vw;
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
 }
 
 @media screen and (max-width: 635px){

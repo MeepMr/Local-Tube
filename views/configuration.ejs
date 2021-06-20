@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Local-Tube</title>
+    <%- include('html-head.ejs')%>
+    <link rel='stylesheet' href='/stylesheets/configuration-overview-style.css'/>
+</head>
+<body>
+<%- include('header.ejs') %>
+<main id="configuration">
+    <h2>Configuration Files</h2>
+    <section id="config-files">
+        <div class="configuration-container" id="api-configuration-container" onclick="window.location.href='/configuration/setup/api'">
+            <a class="configuration-link" href="/configuration/setup/api" style="background-image: url('/images/api-icon.svg')"></a>
+            <p>Configure API Tokens</p>
+        </div>
+        <div class="configuration-container" id="user-configuration-container" onclick="window.location.href='/configuration/setup/user'">
+            <a class="configuration-link" href="/configuration/setup/user" style="background-image: url('/images/user-icon.svg')"></a>
+            <p>Configure Users</p>
+        </div>
+        <div class="configuration-container" id="config-configuration-container" onclick="window.location.href='/configuration/setup/config'">
+            <a class="configuration-link" href="/configuration/setup/config" style="background-image: url('/images/config-icon.svg')"></a>
+            <p>Change Runtime-Configuration</p>
+        </div>
+        <div class="configuration-container" id="server-configuration-container" onclick="window.location.href='/configuration/setup/server'">
+            <a class="configuration-link" href="/configuration/setup/server" style="background-image: url('/images/server-icon.svg')"></a>
+            <p>Change Server-Configuration</p>
+        </div>
+    </section>
+    <h2>Server Overview</h2>
+    <section id="overview">
+        <h3>API Keys</h3>
+        <div class="configuration-overview-container" id="api-token-list">
+            <% for(let apiToken of apiTokens.values()) { %>
+            <div class="configuration-overview-item">
+                <h3><%=apiToken.name%></h3>
+                <p><%=apiToken.token%></p>
+                <p><%=apiToken.valid%></p>
+            </div>
+            <% } %>
+        </div>
+        <h3>Registered Videos</h3>
+        <div class="configuration-overview-container" id="video-list">
+        <% for(let videoItem of videoList.values()) { %>
+            <div class="configuration-overview-item">
+                <h3><%=videoItem.title%></h3>
+                <%let dat = new Date(videoItem.date);%>
+                <p>Downloaded on: <%=dat.getUTCDate()%>.<%=dat.getUTCMonth()+1%>.<%=dat.getFullYear()%></p>
+                <p>Currently Downloaded: <%=videoItem.downloaded%></p>
+                <p><%=videoItem.watchedSeconds%></p>
+            </div>
+        <% } %>
+        </div>
+        <h3>New Videos</h3>
+        <div class="configuration-overview-container" id="new-videos-list">
+        <% for(let videoItem of newVideos.values()) { %>
+            <div class="configuration-overview-item">
+                <h3><%=videoItem.title%></h3>
+                <p>Currently Downloaded: <%=videoItem.downloaded%></p>
+            </div>
+        <% } %>
+        </div>
+        <h3>Known Videos</h3>
+        <div class="configuration-overview-container" id="known-videos-list">
+            <% for(let videoItem of knownVideos.keys()) { %>
+            <div class="configuration-overview-item">
+                <h3><%=videoItem%></h3>
+                <p>Downloaded: <%=knownVideos.get(videoItem)%></p>
+            </div>
+            <% } %>
+        </div>
+    </section>
+</main>
+<%- include('footer.ejs') %>
+</body>
+</html>
