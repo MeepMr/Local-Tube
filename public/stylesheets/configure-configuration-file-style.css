@@ -56,7 +56,7 @@ form>* {
     margin: unset;
 }
 
-#use-https-label {
+.checkbox-label {
 
     display: flex;
     flex-direction: row;

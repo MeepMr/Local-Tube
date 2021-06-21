@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Initial-Setup <%=server.title;%></title>
+    <%- include('html-head.ejs')%>
+    <link rel='stylesheet' href='/stylesheets/configure-configuration-file-style.css'/>
+</head>
+<body>
+<%- include('header.ejs') %>
+<main>
+    <form method="post" action="/configuration/setup/config" id="local-tube-config-setup-form" autocomplete="on">
+        <label for="video-height">
+            <span>Maximum of vertical Pixels</span>
+            <input type="text" id="video-height" name="videoHeight"
+                   autofocus
+                   required
+                   placeholder="Maximum of vertical Pixels: e.g. 1080"
+                   value="<%=configFile.videoHeight;%>"
+            >
+        </label>
+        <label for="temporary-duration">
+            <span>Minutes until temporary downloads are deleted</span>
+            <input type="text" id="temporary-duration" name="temporaryDuration"
+                   required
+                   placeholder="Temporary duration: e.g. 120"
+                   value="<%=configFile.temporaryDuration;%>"
+            >
+        </label>
+        <label for="download-timeout">
+            <span>Maximum duration of downloads</span>
+            <input type="text" id="download-timeout" name="downloadTimeout"
+                   required
+                   placeholder="Download Timeout: e.g. 120"
+                   value="<%=configFile.downloadTimeout;%>"
+            >
+        </label>
+        <label for="bitrate-limit">
+            <span>Bitrate Limit</span>
+            <input type="text" id="bitrate-limit" name="bitrate"
+                   required
+                   placeholder="Bitrate Limit: e.g. 4.6M"
+                   value="<%=configFile.bitrate;%>"
+            >
+        </label>
+        <label for="allow-encoding" id="allow-encoding-label" class="checkbox-label">
+            <input type="checkbox" id="allow-encoding" name="allowEncoding"
+            <% if(configFile.allowEncoding) { %>
+                   checked
+            <% } %>
+            >
+            <span>Allow Re-Encoding of videos</span>
+        </label>
+        <button type="submit" class="submit-button" id="local-tube-config-setup-form-submit-button">Save Configuration</button>
+    </form>
+</main>
+<%- include('footer.ejs') %>
+</body>
+</html>

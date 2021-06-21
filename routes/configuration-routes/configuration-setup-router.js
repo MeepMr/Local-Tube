@@ -1,5 +1,5 @@
 import express from "express";
-import {serverConfiguration} from "../../bin/fileSystem/dataFiles.js";
+import {configurationFile, serverConfiguration} from "../../bin/fileSystem/dataFiles.js";
 import fs from "fs";
 
 const configurationSetupRouter = express.Router();
@@ -20,8 +20,36 @@ configurationSetupRouter.post('/server', function (req, res) {
     serverConfiguration.title = body.title;
     serverConfiguration.description = body.description;
 
-    fs.writeFileSync('./data/serverConfiguration.json', JSON.stringify(serverConfiguration));
+    saveConfig('serverConfiguration.json', serverConfiguration);
     res.redirect('/man/exit');
 });
+
+configurationSetupRouter.get('/config', function (req, res) {
+
+    res.render('configuration-setup', {configFile: configurationFile});
+});
+
+configurationSetupRouter.post('/config', function (req, res) {
+
+    const body = req.body;
+
+    configurationFile.videoHeight = body.videoHeight;
+    configurationFile.temporaryDuration = body.temporaryDuration;
+    configurationFile.allowEncoding = body.allowEncoding === 'on';
+    configurationFile.downloadTimeout = body.downloadTimeout;
+    configurationFile.bitrate = body.bitrate;
+
+    saveConfig('configuration.json', configurationFile);
+    res.redirect('/configuration');
+});
+
+/**
+ * @param fileName {String}
+ * @param config
+ */
+const saveConfig = function (fileName, config) {
+
+    fs.writeFileSync(`./data/${fileName}`, JSON.stringify(config));
+};
 
 export {configurationSetupRouter}

@@ -3,12 +3,12 @@
 <head>
     <title>Initial-Setup <%=server.title;%></title>
     <%- include('html-head.ejs')%>
-    <link rel='stylesheet' href='/stylesheets/server-configuration-style.css'/>
+    <link rel='stylesheet' href='/stylesheets/configure-configuration-file-style.css'/>
 </head>
 <body>
 <%- include('header.ejs') %>
 <main>
-    <form method="post" action="/configuration/setup/server" id="local-tube-initial-setup-form" autocomplete="on">
+    <form method="post" action="/configuration/setup/server" id="local-tube-server-setup-form" autocomplete="on">
         <label for="server-domain">
             <span>Server-Domain</span>
             <input type="text" id="server-domain" name="domain"
@@ -58,11 +58,11 @@
                    value="<%=serverConfig.description;%>"
             >
         </label>
-        <label for="use-https" id="use-https-label">
+        <label for="use-https" id="use-https-label" class="checkbox-label">
             <input type="checkbox" id="use-https" name="useHttps"
             <% if(serverConfig.useHttps) { %>
                    checked
-                    <% } %>
+            <% } %>
             >
             <span>Use HTTPS</span>
         </label>
