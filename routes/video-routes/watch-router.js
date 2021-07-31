@@ -1,6 +1,7 @@
 import express from 'express';
 import {getVideo} from '../../bin/fileSystem/dataManager.js';
 import {videoList} from "../../bin/fileSystem/dataFiles.js";
+import {spliceVideoId} from "../../bin/web-server/module-loader.js";
 
 const watchRouter = express.Router();
 
@@ -68,7 +69,9 @@ const sendWatchErrorPage = function (res, videoId, errorMessage) {
         errorMessage: errorMessage,
         video: undefined,
         videoId: videoId,
-        videoList: videoList
+        videoList: videoList,
+        videoUrl: undefined,
+        moduleName: undefined
     });
 };
 
@@ -78,12 +81,16 @@ const sendWatchErrorPage = function (res, videoId, errorMessage) {
  */
 const sendWatchPage = function (res, video) {
 
+    const {module} = spliceVideoId(video.identifier);
+
     res.render('watch', {
         error: false,
         errorMessage: undefined,
         video: video,
         videoId: video.identifier,
-        videoList: videoList
+        videoList: videoList,
+        videoUrl: module.getUrl(video),
+        moduleName: module.moduleName
     });
 };
 

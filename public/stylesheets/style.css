@@ -37,16 +37,17 @@ h1 #title {
   color: var(--neonRed);
 }
 
-.download-button {
-
-  background-color: rgba(48, 125, 220, 0.33);
-}
-
 button {
 
   border: none;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   color: var(--textColor);
+  margin: 2px;
+}
+
+.download-button {
+
+  background-color: rgba(48, 125, 220, 0.33);
 }
 
 .download-button:hover {
@@ -63,6 +64,17 @@ button {
 .delete-button:hover {
 
   background-color: rgba(220, 48, 48, 0.7);
+  cursor: pointer;
+}
+
+.view-on-site-button {
+
+  background-color: rgba(220, 157, 48, 0.33);
+}
+
+.view-on-site-button:hover {
+
+  background-color: rgba(220, 157, 48, 0.7);
   cursor: pointer;
 }
 

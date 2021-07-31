@@ -33,6 +33,12 @@
                     Delete Video
                 </button>
             </div>
+        <div class="video-management">
+            <button class="video-management-container view-on-site-button full-width-button"
+                    onclick="window.location.href='<%=videoUrl;%>';">
+                Watch on <%=moduleName%>
+            </button>
+        </div>
         </main>
         <% if(videoList.size > 1) { %>
         <aside id="aside-video-list">
