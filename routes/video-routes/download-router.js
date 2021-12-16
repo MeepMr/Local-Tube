@@ -1,11 +1,11 @@
 import express from 'express';
 const downloadRouter = express.Router();
 
-import {youTubeDl} from '../bin/download/downloadManager.js';
-import {configurationFile, findVideo, serverConfiguration} from '../bin/fileSysem/dataManager.js';
+import {youTubeDl} from '../../bin/download/downloadManager.js';
+import {configurationFile, findVideo, serverConfiguration} from '../../bin/fileSystem/dataManager.js';
 import fs from 'fs'
-import {spliceVideoId} from "../bin/web-server/module-loader.js";
-import {videoObject} from "../models/Video.js";
+import {spliceVideoId} from "../../bin/web-server/module-loader.js";
+import {videoObject} from "../../models/Video.js";
 
 downloadRouter.get('/:videoId/:name?/', async function (req, res) {
 
@@ -13,10 +13,9 @@ downloadRouter.get('/:videoId/:name?/', async function (req, res) {
     videoId = decodeURIComponent(videoId);
     name = name ? decodeURIComponent(name) : videoId;
 
-    if (findVideo(videoId) !== -1) {
+    if (findVideo(videoId)) {
 
         sendDownloadedVideo(res, videoId, name, true);
-
     } else {
 
         res.render('download', {
@@ -26,8 +25,8 @@ downloadRouter.get('/:videoId/:name?/', async function (req, res) {
             name: name,
         });
 
-        let video = new videoObject(name, videoId, new Date());
-        let {module, identifier} = spliceVideoId(videoId);
+        const video = new videoObject(name, videoId, new Date());
+        const {module, identifier} = spliceVideoId(videoId);
 
         await youTubeDl(module.getUrl(video, identifier), `${serverConfiguration.videoDirectory}/temp/${module.getOutPut(videoId)}`).catch(error => `YouTube-Dl errored with ${error}`);
 

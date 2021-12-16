@@ -1,16 +1,22 @@
 <header>
-    <div id="header-div">
-        <h1 id="title"><a href="/"><%=server.title;%></a></h1>
-        <p><%=server.description;%></p>
-    </div>
+    <a id="header-anchor"
+        href="/">
+        <div id="header-image-div"
+            style="background-image: url('/favicons/android-chrome-512x512.png');">
+        </div>
+        <div id="header-text-div">
+            <h1 id="title"><%=server.title;%></h1>
+            <p><%=server.description;%></p>
+        </div>
+    </a>
     <div id="register-form">
         <div class="register-form-element register-text">
             <label>
                 <input type="text" id="register-text" placeholder="Register Video: service-VideoId">
             </label>
         </div>
-        <div class="submit-button register-form-element" id="register-button">
-            <p class="center">Register Video</p>
-        </div>
+        <button class="submit-button register-form-element" id="register-button">
+            Register Video
+        </button>
     </div>
 </header>

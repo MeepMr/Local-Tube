@@ -1,11 +1,15 @@
 .videoContainer {
 
-    height: 300px;
-    width: 500px;
-    margin-right: 20px;
-    margin-bottom: 20px;
     background-color: var(--itemBackground);
     border-radius: 15px;
+    flex: 1 1 450px;
+}
+
+.videoContainer:before {
+
+    content: "";
+    float: left;
+    padding-top: 60%;
 }
 
 #index {
@@ -13,42 +17,44 @@
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
+    row-gap: 20px;
+    column-gap: 20px;
 }
 
 .videoLink {
 
     display: flex;
-    height: 80%;
+    height: calc(100% - 60px);
     width: 100%;
     background-repeat: no-repeat;
     background-color: var(--itemBackground);
     background-size: cover;
-    background-blend-mode: darken;
-    border-radius: 15px;
+    background-blend-mode: normal;
+    border-radius: 15px 15px 0 0;
 }
 .video-info {
 
-    height: 20%;
+    height: 60px;
     width: 100%;
     display: flex;
     flex-direction: row;
+    margin-top: -10px;
 }
 
 .video-info-text {
 
     display: flex;
-    height: 50px;
+    height: 100%;
     width: 140px;
-    margin: 5px;
 }
 
 .video-management {
 
     display: flex;
-
     height: 50px;
-    width: 340px;
-    margin: 5px;
+    justify-content: flex-end;
+    align-self: center;
+    flex: 1 1 200px;
 }
 
 .video-management-container {
@@ -56,7 +62,53 @@
     border-radius: 20px;
     border-collapse: separate;
     height: 100%;
-    width: 340px;
+    width: 140px;
     margin-right: 5px;
     margin-left: 5px;
+}
+
+.video-progress-bar {
+
+    height: 10px;
+    background-color: var(--neonRed);
+    position: relative;
+    bottom: 10px;
+    left: 0;
+    border-radius: 15px 15px 0 0;
+}
+
+#index-settings-box {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    max-width: 450px;
+    margin-top: 20px;
+}
+
+#index-settings-box:hover {
+
+    cursor: pointer;
+}
+
+#index-settings-box>a {
+
+    flex: 0 1 1000px;
+    height: 30vw;
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+}
+
+@media screen and (max-width: 635px){
+
+    .videoContainer {
+        width: 100%;
+
+    }
+
+    .video-info-text {display: none;}
+    .video-management-container {width: 49%;}
 }

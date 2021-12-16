@@ -5,9 +5,9 @@ const moduleName = 'youtube';
  * @param videoIdentifier {String}
  * @returns {String}
  */
-const getUrl = function (video, videoIdentifier = undefined) {
+const getUrl = function (video, videoIdentifier = null) {
 
-    let videoId = videoIdentifier === undefined ? video.identifier.substring(8) : videoIdentifier;
+    const videoId = videoIdentifier === null ? video.identifier.substring(8) : videoIdentifier;
     return `https://www.youtube.com/watch?v=${videoId}`;
 };
 

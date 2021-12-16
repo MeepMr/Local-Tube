@@ -4,11 +4,21 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node bin/server.js"
+    "start": "node ./bin/server.js",
+    "migrate": "node ./bin/migrate.js",
+    "test": "jest"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.5",
     "ejs": "~2.6.1",
     "express": "~4.16.1"
+  },
+  "devDependencies": {
+    "jest": "^27.0.4"
+  },
+  "jest": {
+    "transform": {},
+    "testEnvironment": "jest-environment-node"
   }
 }

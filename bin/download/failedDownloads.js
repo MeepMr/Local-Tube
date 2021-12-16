@@ -1,77 +1,65 @@
 /** @type {Array.<videoObject>} */
-import {removeVideoFromList} from "../fileSysem/dataManager.js";
-
-import {failedDownloads} from '../fileSysem/dataFiles.js';
+import {removeVideoFromList} from "../fileSystem/dataManager.js";
+import {failedDownloads} from '../fileSystem/dataFiles.js';
 import {daysSinceDate, weeksSinceDate} from '../meep-utils.js';
 
 
 /**
- * @returns {Array.<videoObject>}
+ * @returns {Map.<String, videoObject>}
  */
-let getReadyVideos = function () {
+const getReadyVideos = function () {
 
-    let readyVideos = [];
-    let index = 0;
+    const readyVideos = new Map();
 
-    for(let video of failedDownloads) {
+    for(let video of failedDownloads.values()) {
 
-        let weeks = weeksSinceDate(video.date);
-        let day = daysSinceDate(video.lastDownload) % 7;
+        const weeks = weeksSinceDate(video.date);
+        const day = daysSinceDate(video.lastDownload) % 7;
 
         if (day > 0) {
 
-            if (weeks < 1 && video.failed < 17 || video.identifier.startsWith('twitch')) {
+            if (weeks < 1 && video.failed < 17 || video.identifier.startsWith('twitch'))
+                readyUpVideo(readyVideos, video);
 
-                readyUpVideo(readyVideos, video, index);
-            } else if (weeks < 2 && video.failed < 21 && day > 7) {
+            else if (weeks < 2 && video.failed < 21 && day > 7)
+                readyUpVideo(readyVideos, video);
 
-                readyUpVideo(readyVideos, video, index);
-            } else {
-
-                index++;
-            }
-        } else if(video.identifier.startsWith('twitch') && video.failed < 50) {
-
-            readyUpVideo(readyVideos, video, index);
-        } else {
-
-            index++;
-        }
+        } else if(video.identifier.startsWith('twitch') && video.failed < 50)
+            readyUpVideo(readyVideos, video);
     }
 
     return readyVideos;
 };
 
 /**
- * @param readyVideos {Array.<videoObject>}
+ * @param readyVideos {Map.<String, videoObject>}
  * @param video {videoObject}
- * @param index {Number}
  */
-let readyUpVideo = function (readyVideos, video, index) {
+const readyUpVideo = function (readyVideos, video) {
 
-    removeVideoFromList(index, failedDownloads);
-    readyVideos.push(video);
+    removeVideoFromList(video.identifier, failedDownloads);
+    readyVideos.set(video.identifier, video);
 };
 
 /**
  * @param video {videoObject}
  */
-let addToFailedList = function (video) {
+const addToFailedList = function (video) {
 
     video.lastDownload = new Date();
-    failedDownloads.push(video);
+    failedDownloads.set(video.identifier, video);
 };
 
 /**
- * @returns {Array.<videoObject>}
+ * @returns {Map.<String, videoObject>}
  */
-let restoreDownloads = function () {
+const restoreDownloads = function () {
 
-    let failedVideos = [];
+    const failedVideos = new Map();
 
-    for(let video of failedDownloads) {
+    for(let video of failedDownloads.values()) {
 
-        readyUpVideo(failedVideos, video, 0);
+        readyUpVideo(failedVideos, video);
         video.failed = 0;
     }
 

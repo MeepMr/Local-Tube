@@ -1,117 +1,73 @@
+// noinspection JSUnresolvedFunction
+
 const video = getVideoElement();
+const nextVideoLink = getNextVideo();
 const videoId = video.id;
 let duration;
-let seconds;
 let started = false;
-let pip = false;
-let fullscreen = false;
 
-video.addEventListener('playing', TenSecondLoop);
-video.addEventListener('enterpictureinpicture', () => {pip = true;});
-video.addEventListener('leavepictureinpicture', () => {pip = false;});
-document.addEventListener('webkitfullscreenchange', () => {fullscreen = !fullscreen;});
-document.addEventListener('fullscreenchange', () => {fullscreen = !fullscreen;});
+video.addEventListener('playing', Loop);
+video.addEventListener('loadedmetadata', logVideoDuration);
 
+/**
+ * @returns {HTMLVideoElement}
+ */
 function getVideoElement () {
 
-    let videos = document.getElementsByTagName('video');
+    const videos = document.getElementsByTagName('video');
     return videos.item(0);
 }
 
-window.addEventListener('keypress', async function (key) {
+/**
+ * @returns {HTMLLinkElement | Boolean}
+ */
+function getNextVideo () {
 
-    let keySymbol = key.key.toUpperCase();
+    try {
+        const videoElementCollection = document.getElementById('aside-video-list').children;
+        if (videoElementCollection.length > 0)
+            return false;
 
-    if (keySymbol === 'M')
-        video.muted = !video.muted;
-    else if (keySymbol === ' '){
+        const firstVideoElement = videoElementCollection.item(0);
+        return firstVideoElement.children.item(0);
+    } catch (e) {
 
-        key.preventDefault();
-        if (video.paused)
-            await video.play();
-        else
-            await video.pause();
-    } else if (keySymbol === 'F') {
-
-        await toggleFullscreen();
-    } else if(keySymbol === 'P') {
-
-        await togglePip();
+        return false;
     }
-});
-
-window.addEventListener('keydown', function (key) {
-
-    if (key.code === 'ArrowLeft') { // Left-Arrow
-
-        video.currentTime = video.currentTime-10;
-    } else if (key.code === 'ArrowRight') { // Right-Arrow
-
-        video.currentTime = video.currentTime+10;
-    }
-});
+}
 
 async function logSecondsWatched () {
 
-    seconds = video.currentTime;
-    await fetch(`/watch/watchedTime/${videoId}/${seconds}`);
+    await fetch(`/watch/watchedTime/${videoId}/${video.currentTime}`);
 }
 
-async function TenSecondLoop () {
+async function Loop () {
 
     if(!started) {
 
         started = true;
 
-        let response = await fetch(`/watch/watchedTime/${videoId}`);
-        let responseJSON = await response.json();
-        video.currentTime = seconds = responseJSON.watchedSeconds;
-
-        await delay(30*1000);
-        duration = video.duration;
-        await fetch(`/watch/duration/${videoId}/${duration}`);
-
         while (!video.paused) {
-
-            await logSecondsWatched();
             await delay(30*1000);
+            await logSecondsWatched();
         }
 
-        await logSecondsWatched();
         started = false;
+        await logSecondsWatched();
     }
 }
 
- function delay (delay) {
+async function logVideoDuration() {
+
+    duration = video.duration;
+    await fetch(`/watch/duration/${videoId}/${duration}`);
+}
+
+function delay (delay) {
 
     return new Promise( function (resolve) {
 
         setTimeout(resolve, delay);
     });
 
-}
-
-async function toggleFullscreen () {
-
-    if (video.requestFullscreen) {
-        if(fullscreen)
-            await video.exitFullscreen();
-        else
-            await video.requestFullscreen();
-    } else {
-
-        /* Safari */
-        if (fullscreen)
-            await video.webkitExitFullscreen();
-        else
-            await video.webkitRequestFullscreen();
-    }
-}
-
-async function togglePip () {
-
-    if(pip)
-        await document.exitPictureInPicture();
-    else
-        await video.requestPictureInPicture();
 }

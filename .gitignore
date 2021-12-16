@@ -1,3 +1,6 @@
 # Project exclude paths
 /node_modules/
 /.idea
+/public/videos/
+/data/certificates/LocalTube.crt
+/data/certificates/LocalTube.key

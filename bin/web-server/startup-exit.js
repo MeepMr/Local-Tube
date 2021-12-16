@@ -1,22 +1,23 @@
 import fs from "fs";
-import {failedDownloads, newVideos, serverConfiguration, videoList} from "../fileSysem/dataFiles.js";
+import {apiTokens, failedDownloads, newVideos, videoList} from "../fileSystem/dataFiles.js";
 import {addToQueue, tryDownload} from "../download/downloadManager.js";
-import {loadModules, moduleRegEx} from "./module-loader.js";
-import localTube from "./local-tube.js";
+import {loadModules} from "./module-loader.js";
+import {saveLists} from "../fileSystem/dataManager.js";
 
-let cleanUpAndExit = function () {
+const cleanUpAndExit = function () {
 
-    fs.writeFileSync('./data/videoData.json', JSON.stringify(videoList));
-    fs.writeFileSync('./data/newVideos.json', JSON.stringify(newVideos));
-    fs.writeFileSync('./data/failedDownloads.json', JSON.stringify(failedDownloads));
+    fs.writeFileSync('./data/videoData.json', JSON.stringify([...videoList]));
+    fs.writeFileSync('./data/newVideos.json', JSON.stringify([...newVideos]));
+    fs.writeFileSync('./data/failedDownloads.json', JSON.stringify([...failedDownloads]));
+    fs.writeFileSync('./data/apiKeys.json', JSON.stringify([...apiTokens]));
     process.exit(0);
 };
 
-let restoreProgress = async function () {
+const restoreProgress = async function () {
 
-    for(let video of videoList) {
+    for(let video of videoList.values()) {
 
-        if(!video.downloaded) {
+        if(!video.downloaded && !failedDownloads.has(video.identifier)) {
 
             addToQueue(video);
         }
@@ -25,15 +26,7 @@ let restoreProgress = async function () {
     await loadModules();
 
     tryDownload().catch();
-
-    localTube.locals = {
-        server: {
-            title: serverConfiguration.title,
-            description: serverConfiguration.description
-        },
-        author: serverConfiguration.author,
-        moduleRegularExpression: moduleRegEx
-    };
+    saveLists().catch();
 };
 
 export {restoreProgress, cleanUpAndExit}

@@ -1,0 +1,67 @@
+#register-form {
+
+    display: none;
+}
+
+main {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+form {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    row-gap: 20px;
+    column-gap: 20px;
+    margin-top: 10px;
+}
+
+form>label {
+
+    display: flex;
+    flex: 1 1 500px;
+    flex-direction: column;
+    column-gap: 40px;
+    text-align: left;
+    color: white;
+    font-size: large;
+}
+
+form>label>input {
+
+    background-color: var(--inputBackground);
+    border-radius: 20px;
+    border: 5px #342424;
+    height: 40px;
+    padding-left: 20px;
+    color: white;
+    font-size: large;
+    margin-top: 5px;
+}
+
+form>* {
+
+    width: 100%;
+}
+
+.submit-button {
+
+    width: 100%;
+    margin: unset;
+}
+
+.checkbox-label {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 10px;
+    height: 20px;
+    margin-left: 15px;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <title>Login <%=server.title;%></title>
+        <%- include('html-head.ejs')%>
+        <link rel='stylesheet' href='/stylesheets/login-style.css'/>
+    </head>
+    <body>
+    <%- include('header.ejs') %>
+    <main>
+        <form method="get" action="/login" id="local-tube-login-form" autocomplete="on">
+            <label for="account-name">
+            <input type="text" id="account-name" name="accountName"
+                   autofocus
+                   required
+                   autocomplete="username"
+                   placeholder="Username">
+            </label>
+            <label for="account-token">
+            <input type="password" id="account-token" name="token"
+                   autocomplete="current-password"
+                   required
+                   placeholder="Login-Token">
+            <input type="hidden" id="rsa-key" value="<%= publicKey; %>">
+            </label>
+            <button type="submit" class="submit-button" id="local-tube-login-form-submit-button">Login</button>
+        </form>
+    </main>
+    <%- include('footer.ejs') %>
+    <script src="/javascript/login-Script.js"></script>
+    </body>
+</html>

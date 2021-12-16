@@ -4,17 +4,17 @@ import {moduleScheme} from "../../models/moduleScheme.js";
 /**
  * @type {Map.<String, moduleScheme>}>}
  */
-let moduleMap = new Map();
+const moduleMap = new Map();
 let moduleRegEx = '';
 
-let loadModules = async function () {
+const loadModules = async function () {
 
-    let moduleFiles = fs.readdirSync('./bin/download-modules');
+    const moduleFiles = fs.readdirSync('./bin/download-modules');
 
     for (let moduleFile of moduleFiles) {
 
-        let {moduleName, getUrl, getOutPut} = await import(`../download-modules/${moduleFile}`);
-        let module = new moduleScheme(moduleName,getUrl,getOutPut);
+        const {moduleName, getUrl, getOutPut} = await import(`../download-modules/${moduleFile}`);
+        const module = new moduleScheme(moduleName,getUrl,getOutPut);
         moduleMap.set(moduleName, module);
 
         if(moduleRegEx === '')
@@ -24,7 +24,8 @@ let loadModules = async function () {
     }
 
     console.log('Loaded Modules:');
-    console.log(moduleMap);
+    for(let module of moduleMap.values())
+        console.log(module.moduleName);
 
 };
 
@@ -32,12 +33,13 @@ let loadModules = async function () {
  * @param videoId {String}
  * @returns {{identifier: string, module: moduleScheme}}
  */
-let spliceVideoId = function (videoId) {
+const spliceVideoId = function (videoId) {
 
-    let moduleSplitIndex = videoId.indexOf('-');
-    let moduleName = videoId.substring(0, moduleSplitIndex);
-    let module = moduleMap.get(moduleName);
-    let identifier = videoId.substring(moduleSplitIndex+1);
+    const moduleSplitIndex = videoId.indexOf('-');
+    const moduleName = videoId.substring(0, moduleSplitIndex);
+
+    const module = moduleMap.get(moduleName);
+    const identifier = videoId.substring(moduleSplitIndex+1);
     return {module, identifier};
 };
 

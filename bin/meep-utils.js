@@ -4,7 +4,7 @@
  * @param val {String}
  * @returns {Promise.<String>}
  */
-let delay = function (delay, error = false, val = 'Timer') {
+const delay = function (delay, error = false, val = 'Timer') {
 
     return new Promise( function (resolve, reject) {
 
@@ -20,20 +20,29 @@ let delay = function (delay, error = false, val = 'Timer') {
  * @param date {Date}
  * @returns {Number}
  */
-let weeksSinceDate = function (date) {
+const weeksSinceDate = function (date) {
 
-    let millisecondsSinceDate = Date.now() - new Date(date);
-    return Math.floor(millisecondsSinceDate / 604800000);
+    return millisecondIntervalsSinceDate(604800000, date);
 };
 
 /**
  * @param date {Date}
  * @returns {Number}
  */
-let daysSinceDate = function (date) {
+const daysSinceDate = function (date) {
 
-    let millisecondsSinceDate = Date.now() - new Date(date);
-    return Math.floor(millisecondsSinceDate / 86400000);
+    return millisecondIntervalsSinceDate(86400000, date);
+};
+
+/**
+ * @param milliseconds {Number}
+ * @param date {Date}
+ * @returns {number}
+ */
+const millisecondIntervalsSinceDate = function (milliseconds, date) {
+
+    const millisecondsSinceDate = Date.now() - new Date(date);
+    return Math.floor(millisecondsSinceDate / milliseconds);
 };
 
 export {daysSinceDate, weeksSinceDate, delay}

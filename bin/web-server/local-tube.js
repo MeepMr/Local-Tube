@@ -1,13 +1,40 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
+import bodyParser from "body-parser";
+import {cleanUpAndExit, restoreProgress} from './startup-exit.js';
+import {serverConfiguration} from "../fileSystem/dataFiles.js";
+import {moduleRegEx} from "./module-loader.js";
+import {
+    indexRouter,
+    deleteRouter,
+    downloadRouter,
+    watchRouter,
+    registerRouter,
+    managementRouter,
+    loginRouter,
+    apiRouter,
+    configurationRouter
+} from './routerManager.js';
+
 const localTube = express();
 
 //Exit and Restart-Management
-import {cleanUpAndExit, restoreProgress} from './startup-exit.js';
 process.on('exit', cleanUpAndExit);
 process.on('uncaughtException', cleanUpAndExit);
 process.on('SIGINT', cleanUpAndExit);
 process.on('SIGTERM', cleanUpAndExit);
-restoreProgress().catch();
+
+restoreProgress().then( () => {
+
+    localTube.locals = {
+        server: {
+            title: serverConfiguration.title,
+            description: serverConfiguration.description
+        },
+        author: serverConfiguration.author,
+        moduleRegularExpression: moduleRegEx
+    };
+});
 
 // view engine setup
 localTube.set('views', './views');
@@ -15,14 +42,18 @@ localTube.set('view engine', 'ejs');
 
 localTube.use(express.json());
 localTube.use(express.urlencoded({extended: true}));
+localTube.use(cookieParser());
+localTube.use(bodyParser.json());
 
 //Manage Routers
-import {indexRouter, deleteRouter, downloadRouter, watchRouter, registerRouter, managementRouter} from './routerManager.js';
+localTube.use('/', loginRouter);
 localTube.use('/', indexRouter);
 localTube.use('/register', registerRouter);
 localTube.use('/watch', watchRouter);
 localTube.use('/download', downloadRouter);
 localTube.use('/delete', deleteRouter);
 localTube.use('/man', managementRouter);
+localTube.use('/api', apiRouter);
+localTube.use('/configuration', configurationRouter);
 
 export default localTube;

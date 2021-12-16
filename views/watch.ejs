@@ -2,11 +2,12 @@
 <html lang="de">
     <head>
         <title>Watch <%=videoId;%></title>
-        <link rel='stylesheet' href='/stylesheets/style.css'/>
+        <%- include('html-head.ejs')%>
         <link rel='stylesheet' href='/stylesheets/watch-style.css'/>
     </head>
     <body>
     <%- include('header.ejs') %>
+    <div id="content-div">
     <main id="watch">
         <%if(error) { %>
             <p class="error"> <%=errorMessage;%></p>
@@ -14,25 +15,55 @@
             <div class="videoContainer">
                 <video class="video-object"
                        id="<%=video.identifier;%>"
+                       poster="/thumbnails/<%=video.identifier;%>.png"
                        controls
-                       poster="/thumbnails/<%=video.identifier;%>.jpg"
+                       preload="auto"
                 >
-                    <source src="/videos/<%=video.identifier;%>.mp4" type="video/mp4">
+                    <source src="/videos/<%=video.identifier;%>.mp4#t=<%=video.watchedSeconds;%>" type="video/mp4">
                 </video>
             </div>
             <div class="video-management">
-                <div class="video-management-container download-button"
-                     onclick="window.location.href='/download/<%=video.identifier;%>/<%=video.title;%>';">
-                    <p class="center">Download Video</p>
-                </div>
-                <div class="video-management-container delete-button"
+                <button class="video-management-container download-button"
+                     onclick="window.location.href='/download/<%=video.identifier;%>/<%=video.title;%>';"
+                >
+                    Download Video
+                </button>
+                <button class="video-management-container delete-button"
                      onclick="window.location.href='/delete/<%=video.identifier;%>';">
-                    <p class="center">Delete Video</p>
-                </div>
+                    Delete Video
+                </button>
             </div>
+        <div class="video-management">
+            <button class="video-management-container view-on-site-button full-width-button"
+                    onclick="window.location.href='<%=videoUrl;%>';">
+                Watch on <%=moduleName%>
+            </button>
+        </div>
+        </main>
+        <% if(videoList.size > 1) { %>
+        <aside id="aside-video-list">
+            <% let counter = 0; for (let videoItem of videoList.values()) { %>
+                <% if(counter < 6 && videoItem.identifier !== video.identifier) { %>
+                    <div class="video-list-container">
+                        <a class="videoLink" href="/watch/<%=videoItem.identifier;%>"
+                           style="background-image: url('/thumbnails/<%=videoItem.identifier;%>.webp'), url('/thumbnails/<%=videoItem.identifier;%>.jpg');
+                           <%if(!videoItem.downloaded) {%> background-color: var(--neonRed); <%}%>
+                                   ">
+                        </a>
+                        <div class="video-progress-bar"
+                             style="width: <% if (videoItem.duration > 0) { %> <%=(videoItem.watchedSeconds/videoItem.duration)*100;%>%; <% } else { %> <%= 0 %>; <% } %>">
+                        </div>
+                    </div>
+                <% counter++; } %>
+            <% } %>
+        </aside>
         <% } %>
-    </main>
+        <% } %>
+
+    </div>
     <%- include('footer.ejs') %>
     <script src="/javascript/watchScript.js"></script>
+    <script src="/javascript/video-key-controls.js"></script>
+    <script src="/javascript/next-videos-events.js"></script>
     </body>
 </html>

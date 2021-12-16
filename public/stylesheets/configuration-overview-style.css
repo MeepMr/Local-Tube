@@ -1,0 +1,55 @@
+.configuration-overview-item {
+
+    background-color: var(--itemBackground);
+    border-radius: 15px;
+    flex: 0 0 400px;
+    padding: 10px;
+}
+
+.configuration-overview-container {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 20px;
+    row-gap: 20px;
+}
+
+#config-files {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 20px;
+    column-gap: 20px;
+}
+
+.configuration-container {
+
+    background-color: var(--itemBackground);
+    border-radius: 15px;
+    flex: 0 1 400px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.configuration-container:hover {
+
+    cursor: pointer;
+}
+
+.configuration-link {
+
+    flex: 0 1 1000px;
+    height: 14vw;
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+}
+
+.configuration-container>p {
+
+    text-align: center;
+    font-size: large;
+}

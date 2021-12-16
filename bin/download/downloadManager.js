@@ -2,21 +2,20 @@ import {exec} from 'child_process';
 import {delay} from '../meep-utils.js';
 import {
     addVideoToList,
-    cleanUpAndExit,
     configurationFile,
     formatString,
-    saveLists,
     serverConfiguration
-} from '../fileSysem/dataManager.js';
+} from '../fileSystem/dataManager.js';
 import {addToFailedList, getReadyVideos} from "./failedDownloads.js";
-import {failedDownloads, newVideos} from "../fileSysem/dataFiles.js";
+import {failedDownloads, newVideos} from "../fileSystem/dataFiles.js";
 import {spliceVideoId} from "../web-server/module-loader.js";
+import {cleanUpAndExit} from "../web-server/startup-exit.js";
 
 /** @type {Boolean} disable Downloads for development reasons*/
-const enableDownloads = true;
+let enableDownloads = true;
 
 /** @type {videoObject[]} */
-let queue = [];
+const queue = [];
 
 /** @type {Boolean} */
 let downloading = false;
@@ -27,39 +26,46 @@ let saveShutdown = false;
 /**
  * @param video {videoObject}
  */
-let addToQueue = function (video) {
+const addToQueue = function (video) {
 
     queue.push(video);
 };
 
-let tryDownload = async function () {
+const tryDownload = async function () {
 
     if (!downloading && enableDownloads) {
 
         await startDownload();
     } else if(!enableDownloads) {
 
-        //Simulate a download of 30 Seconds
+        //Simulate a download of 10 Seconds
         console.log('Download Started');
-        await delay(30*1000);
+        queue.pop();
+        await delay(10*1000);
         console.log('Download Completed');
     }
 };
 
-let startDownload = async function () {
+const startDownload = async function () {
 
     downloading = true;
 
-    while (queue.length > 0) {
+    /** @type {videoObject[]} */
+    const currentQueue = [];
+    let nextVideo;
 
-        let nextVideo = queue.pop();
-        let {module, identifier} = spliceVideoId(nextVideo.identifier);
+    getNextVideoBatch(currentQueue);
+    await downloadThumbnails(currentQueue);
 
-        let success = await downloadThumbnail(module.getUrl(nextVideo, identifier), module.getOutPut(nextVideo.identifier));
-        success = success && await downloadVideo(module.getUrl(nextVideo, identifier), module.getOutPut(nextVideo.identifier));
+    while (currentQueue.length > 0) {
+
+        nextVideo = currentQueue.pop();
+        const {module, identifier} = spliceVideoId(nextVideo.identifier);
+
+        const success = await downloadVideo(module.getUrl(nextVideo, identifier), module.getOutPut(nextVideo.identifier));
         if(success) {
             nextVideo.downloaded = true;
-            if(nextVideo.lastDownload !== undefined) {
+            if(nextVideo.lastDownload !== null) {
 
                 nextVideo.date = new Date();
                 addVideoToList(nextVideo, newVideos);
@@ -73,14 +79,16 @@ let startDownload = async function () {
              else
                 addToFailedList(nextVideo);
         }
-        saveLists();
 
-        if(queue.length === 0 && failedDownloads.length > 0 ) {
+        if(currentQueue.length === 0 && (failedDownloads.length > 0 || queue.length > 0)) {
 
-            for(let video of getReadyVideos()) {
+            if(failedDownloads.length > 0)
+                getReadyVideos().forEach(addToQueue);
 
-                queue.push(video);
-            }
+            if(queue.length > 0)
+                getNextVideoBatch(currentQueue);
+
+            await downloadThumbnails(currentQueue);
         }
     }
 
@@ -93,15 +101,30 @@ let startDownload = async function () {
 };
 
 /**
+ * @param batchVideoBuffer {videoObject[]}
+ */
+const getNextVideoBatch = function (batchVideoBuffer) {
+
+    let batchCounter = 5;
+    while (queue.length > 0 && batchCounter > 0) {
+
+        batchVideoBuffer.push(queue.pop());
+        batchCounter--;
+    }
+};
+
+/**
  * @param url {String}
  * @param outPut {String}
  * @returns {Boolean}
  */
-let downloadVideo = async function (url, outPut) {
+const downloadVideo = async function (url, outPut) {
 
     try {
+
+        console.log(`Downloading video: ${url}`);
         await Promise.race([youTubeDl(url, `${serverConfiguration.videoDirectory}/${outPut}`, `-f '${formatString}'`),
-                                    delay(configurationFile.downloadTimeout*60*1000, true, 'Download timed out')]);
+                            delay(configurationFile.downloadTimeout*60*1000, true, 'Video-Download timed out')]);
         return true;
     } catch (error) {
 
@@ -111,16 +134,29 @@ let downloadVideo = async function (url, outPut) {
 };
 
 /**
+ * @param videoArray {videoObject[]}
+ */
+const downloadThumbnails = async function (videoArray) {
+
+    for (let video of videoArray) {
+
+        const {module, identifier} = spliceVideoId(video.identifier);
+        await downloadThumbnail(module.getUrl(video, identifier), module.getOutPut(video.identifier));
+    }
+};
+
+/**
  * @param url {String}
  * @param outPut {String}
  * @returns {Boolean}
  */
-let downloadThumbnail = async function (url, outPut) {
+const downloadThumbnail = async function (url, outPut) {
 
     try {
 
-        await Promise.race([youTubeDl(url, `${serverConfiguration.videoDirectory}/${outPut}`, `--write-thumbnail --skip-download -f 'best[ext=jpg]/best[ext=webp]/best'`),
-            delay(configurationFile.downloadTimeout*60*1000, true, 'Download timed out')]);
+        console.log(`Downloading Thumbnail for: ${url}`);
+        await Promise.race([youTubeDl(url, `${serverConfiguration.videoDirectory}/${outPut}`, `--write-thumbnail --skip-download -f 'best[ext=webp]/best[ext=jpg]/best'`),
+                            delay(configurationFile.downloadTimeout*60*1000, true, 'Thumbnail-Download timed out')]);
         return true;
     } catch (error) {
 
@@ -135,9 +171,7 @@ let downloadThumbnail = async function (url, outPut) {
  * @param [options] {String}
  * @returns {Promise.<String>}
  */
-let youTubeDl = async function (url, output, options = '') {
-
-    console.log(`Downloading ${url}`);
+const youTubeDl = async function (url, output, options = '') {
 
     return new Promise( function (resolve, reject) {
 
@@ -146,5 +180,10 @@ let youTubeDl = async function (url, output, options = '') {
     });
 };
 
-export {queue, saveShutdown}
+const disableDownloads = function () {
+
+    enableDownloads = false;
+};
+
+export {queue, saveShutdown, disableDownloads}
 export {tryDownload, addToQueue, youTubeDl}
